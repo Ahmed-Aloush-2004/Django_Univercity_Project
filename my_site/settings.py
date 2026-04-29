@@ -63,7 +63,8 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     
     # أضف السطر الخاص بك هنا (مسار_التطبيق.ملف_الميدلوير.اسم_الكلاس)
-    'my_site.middlewares.GlobalExceptionHandlerMiddleware',    
+    'my_site.middlewares.GlobalExceptionHandlerMiddleware', 
+    # 'my_site.middlewares.RequestCounterMiddleware',   
     ]
 
 
@@ -100,10 +101,9 @@ DATABASES = {
         "PASSWORD": os.environ.get("POSTGRES_PASSWORD", "postgres"),
         "HOST": os.environ.get("POSTGRES_HOST", "localhost"),
         "PORT": os.environ.get("POSTGRES_PORT", "5432"), 
-        # "max_connections": 300,
         
-        'CONN_MAX_AGE': 60,  # إعادة استخدام الاتصال لمدة 60 ثانية بدلاً من إغلاقه فوراً 
         # 'CONN_MAX_AGE': 0,  
+        'CONN_MAX_AGE': 60, # بدلاً من 0
         } 
 }
 
@@ -190,12 +190,12 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 
+ 
 
-
-# إعدادات Celery
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'UTC' # أو التوقيت المحلي الخاص بك
+# # إعدادات Celery
+# CELERY_BROKER_URL = 'redis://localhost:6379/0'
+# CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+# CELERY_ACCEPT_CONTENT = ['json']
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_RESULT_SERIALIZER = 'json'
+# CELERY_TIMEZONE = 'UTC' # أو التوقيت المحلي الخاص بك
