@@ -61,8 +61,10 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "django.middleware.GlobalExceptionHandlerMiddleware"
-]
+    
+    # أضف السطر الخاص بك هنا (مسار_التطبيق.ملف_الميدلوير.اسم_الكلاس)
+    'my_site.middlewares.GlobalExceptionHandlerMiddleware',    
+    ]
 
 
 
