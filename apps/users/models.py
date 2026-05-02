@@ -5,6 +5,7 @@ class User(AbstractUser):
     # We use email as the primary identifier (username)
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=150, unique=True, blank=True, null=False)
+    wallet_balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']

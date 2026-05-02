@@ -4,8 +4,8 @@ from django.shortcuts import get_object_or_404
 from .models.order import Order, OrderItem
 from apps.products.services import ProductService
 from apps.products.models import Product
-# from celery import shared_task
-
+from apps.users.models import User
+from .tasks import send_order_confirmation_email # استيراد المهمة
 
 
 
@@ -20,7 +20,7 @@ class OrderService:
 
     @staticmethod
     @transaction.atomic
-    def update_order_items(order_id, new_products_data,new_order_price):
+    def update_order_items(order_id, customer_name,new_products_data,new_order_price):
         """
         Updates products in an order:
         - Adjusts stock for modified quantities.
@@ -28,7 +28,8 @@ class OrderService:
         - Adds new products (deducts stock).
         """
         order = get_object_or_404(Order, id=order_id)
-        
+        user = User.objects.filter(username=customer_name).first()
+
         if order.status != 'pending':
             raise ValueError("Only pending orders can be updated.")
 
@@ -73,6 +74,9 @@ class OrderService:
         if(new_order_price != total_calculated_price):
             raise ValueError("السعر الإجمالي المقدم لا يتطابق مع السعر المحسوب بناءً على المنتجات والكميات.")
 
+        if(user.wallet_balance < total_calculated_price):
+            raise ValueError("رصيد المحفظة غير كافي لتنفيذ هذا الطلب.")
+
         # 4. Update total price and finalize
         order.order_price = total_calculated_price
         order.save()
@@ -103,6 +107,7 @@ class OrderService:
     def _execute_order_creation(customer_name, products_data, order_price):
         # Create order with dummy price first
         order = Order.objects.create(customer_name=customer_name, order_price=0)
+        user = User.objects.filter(username=customer_name).first()
         total_calculated_price = 0
 
         for item in products_data:
@@ -119,8 +124,23 @@ class OrderService:
         if float(order_price) != float(total_calculated_price):
             raise ValueError(f"Price mismatch! Calculated: {total_calculated_price}, Provided: {order_price}")
 
+        if(user.wallet_balance < total_calculated_price):
+            raise ValueError("رصيد المحفظة غير كافي لتنفيذ هذا الطلب.")
+
         order.order_price = total_calculated_price
         order.save()
+        
+        
+        # التحقق من وجود إيميل للمستخدم قبل الإرسال
+        if user and user.email:
+            # استخدام transaction.on_commit لضمان إرسال الإيميل فقط إذا تم حفظ الطلب في DB
+            transaction.on_commit(lambda: send_order_confirmation_email.delay(
+                order_id=order.id,
+                customer_email=user.email,
+                customer_name=user.username,
+                total_price=float(order.order_price)
+            ))
+            
         return order
 
     @staticmethod

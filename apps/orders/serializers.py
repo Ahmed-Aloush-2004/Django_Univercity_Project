@@ -58,10 +58,12 @@ class OrderSerializer(serializers.ModelSerializer):
         # 1. Handle Product/Price updates if "products" is in the request
         products_data = validated_data.pop('products', None)
         new_order_price = validated_data.get('order_price', instance.order_price)
+        customer_name = validated_data.get('customer_name')
 
         if products_data is not None:
             OrderService.update_order_items(
                 order_id=instance.id, 
+                customer_name=customer_name,
                 new_products_data=products_data, 
                 new_order_price=new_order_price
             )
