@@ -1,12 +1,14 @@
 import time
 from django.db import transaction, DatabaseError
 from django.shortcuts import get_object_or_404
+
+from apps.carts.models import Cart
 from .models.order import Order, OrderItem
 from apps.products.services import ProductService
 from apps.products.models import Product
 from apps.users.models import User
 from .tasks import send_order_confirmation_email # استيراد المهمة
-
+from django.db.models import F
 
 
 class OrderService:
@@ -102,38 +104,100 @@ class OrderService:
                 
 
     
+    # @staticmethod
+    # @transaction.atomic
+    # def _execute_order_creation(customer_name, products_data, order_price):
+    #     # Create order with dummy price first
+    #     order = Order.objects.create(customer_name=customer_name, order_price=0)
+    #     user = User.objects.filter(username=customer_name).first()
+    #     total_calculated_price = 0
+
+    #     for item in products_data:
+    #         p_id = item['id']
+    #         qty = item['quantity']
+    #         product = get_object_or_404(Product, id=p_id)
+            
+    #         # Stock check and deduction
+    #         ProductService.update_stock_safely(p_id, qty, update_type='decrease')
+    #         OrderItem.objects.create(order=order, product=product, quantity=qty)
+    #         total_calculated_price += (product.price * qty)
+
+    #     # Integrity Check: Does the calculated price match the user's provided price?
+    #     if float(order_price) != float(total_calculated_price):
+    #         raise ValueError(f"Price mismatch! Calculated: {total_calculated_price}, Provided: {order_price}")
+
+    #     if(user.wallet_balance < total_calculated_price):
+    #         raise ValueError("رصيد المحفظة غير كافي لتنفيذ هذا الطلب.")
+
+    #     order.order_price = total_calculated_price
+    #     order.save()
+        
+        
+    #     # التحقق من وجود إيميل للمستخدم قبل الإرسال
+    #     if user and user.email:
+    #         # استخدام transaction.on_commit لضمان إرسال الإيميل فقط إذا تم حفظ الطلب في DB
+    #         transaction.on_commit(lambda: send_order_confirmation_email.delay(
+    #             order_id=order.id,
+    #             customer_email=user.email,
+    #             customer_name=user.username,
+    #             total_price=float(order.order_price)
+    #         ))
+            
+    #     return order
+
+
+    ## Pessimistic Locking
     @staticmethod
     @transaction.atomic
     def _execute_order_creation(customer_name, products_data, order_price):
-        # Create order with dummy price first
+        # 1. قفل سطر المستخدم فوراً لمنع تغير الرصيد أثناء العملية
+        user = User.objects.select_for_update().filter(username=customer_name).first()
+        if not user:
+            raise ValueError("المستخدم غير موجود")
+
         order = Order.objects.create(customer_name=customer_name, order_price=0)
-        user = User.objects.filter(username=customer_name).first()
         total_calculated_price = 0
 
         for item in products_data:
             p_id = item['id']
             qty = item['quantity']
-            product = get_object_or_404(Product, id=p_id)
             
-            # Stock check and deduction
-            ProductService.update_stock_safely(p_id, qty, update_type='decrease')
+            # 2. قفل سطر المنتج (Pessimistic Lock) لضمان عدم تغير المخزون من طلب آخر
+            try:
+                product = Product.objects.select_for_update().get(id=p_id)
+            except Product.DoesNotExist:
+                raise ValueError(f"المنتج {p_id} غير موجود")
+
+            # 3. التحقق المباشر من المخزون
+            if product.stock < qty:
+                raise ValueError(f"المخزون غير كافٍ للمنتج {product.name}")
+
+            # 4. التحديث الذري للمخزون
+            product.stock = F('stock') - qty
+            product.save()
+
             OrderItem.objects.create(order=order, product=product, quantity=qty)
             total_calculated_price += (product.price * qty)
 
-        # Integrity Check: Does the calculated price match the user's provided price?
+        # 5. التحقق من سلامة البيانات والرصيد
         if float(order_price) != float(total_calculated_price):
-            raise ValueError(f"Price mismatch! Calculated: {total_calculated_price}, Provided: {order_price}")
+            raise ValueError("خطأ في مطابقة السعر")
 
-        if(user.wallet_balance < total_calculated_price):
-            raise ValueError("رصيد المحفظة غير كافي لتنفيذ هذا الطلب.")
+        if user.wallet_balance < total_calculated_price:
+            raise ValueError("رصيد المحفظة غير كافي")
+
+        # 6. خصم الرصيد فعلياً
+        user.wallet_balance = F('wallet_balance') - total_calculated_price
+        user.save()
 
         order.order_price = total_calculated_price
         order.save()
         
-        
-        # التحقق من وجود إيميل للمستخدم قبل الإرسال
-        if user and user.email:
-            # استخدام transaction.on_commit لضمان إرسال الإيميل فقط إذا تم حفظ الطلب في DB
+        # [إضافة جديدة] 7. حذف سلة المستخدم بعد نجاح الطلب
+        # نقوم بالبحث عن السلة الخاصة بالمستخدم وحذفها هي وجميع محتوياتها (CartItems)
+        Cart.objects.filter(user=user).delete()
+
+        if user.email:
             transaction.on_commit(lambda: send_order_confirmation_email.delay(
                 order_id=order.id,
                 customer_email=user.email,
@@ -142,6 +206,8 @@ class OrderService:
             ))
             
         return order
+
+
 
     @staticmethod
     @transaction.atomic

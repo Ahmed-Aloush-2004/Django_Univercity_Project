@@ -30,7 +30,7 @@ urlpatterns = [
     path('api/products/', include('apps.products.urls')), # ربط تطبيق المنتجات
     path('api/orders/', include('apps.orders.urls')), # ربط تطبيق الطلبات
     path('api/users/', include('apps.users.urls')), # This handles register, login, logout, refresh
-    
+    path('api/carts/', include('apps.carts.urls')),
     
     
 ]

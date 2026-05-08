@@ -66,7 +66,7 @@ class ProductService:
 
         if update_type not in ['decrease', 'increase']:
             raise ValueError("نوع التحديث غير مسموح به")
-
+        
         # نجهز الاستعلام
         queryset = Product.objects.filter(id=product_id)
 

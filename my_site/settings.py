@@ -254,6 +254,7 @@ INSTALLED_APPS = [
     'apps.products',
     'apps.orders',
     'apps.users',
+    'apps.carts',
 ]
 
 MIDDLEWARE = [
@@ -299,7 +300,7 @@ DATABASES = {
         "PASSWORD": os.getenv("POSTGRES_PASSWORD", "postgres"),
         "HOST": os.getenv("POSTGRES_HOST", "localhost"),
         "PORT": os.getenv("POSTGRES_PORT", "5432"),
-        "CONN_MAX_AGE": 60,  # Keep connections for up to 60 seconds
+        "CONN_MAX_AGE": 0,  # Keep connections for up to 60 seconds
     }
 }
 
@@ -380,13 +381,12 @@ CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672//'# CELERY_BROKER_URL = '
 # If using django-celery-results:
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_CACHE_BACKEND = 'django-cache'
-# CELERY_BROKER_URL = 'amqp://guest:guest@localhost//'
 
 
-# # Celery configuration (if you want to enable it later)
-# CELERY_BROKER_URL = 'redis://localhost:6379/0'
-# CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
-# CELERY_ACCEPT_CONTENT = ['json']
-# CELERY_TASK_SERIALIZER = 'json'
-# CELERY_RESULT_SERIALIZER = 'json'
-# CELERY_TIMEZONE = 'UTC'  # or your local timezone
+# # # إعدادات Celery لتقليل الاتصالات
+# CELERY_WORKER_MAX_TASKS_PER_CHILD = 100  # إعادة تشغيل الـ worker بعد 100 مهمة لتنظيف الذاكرة والاتصالات
+# CELERY_TASK_CLEANUP_TIMEOUT = 10
+
+
+
+
