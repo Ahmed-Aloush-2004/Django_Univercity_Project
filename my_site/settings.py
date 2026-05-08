@@ -375,18 +375,35 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'  # Collect static files in this folder fo
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-# Celery Configuration Options
-CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672//'# CELERY_BROKER_URL = 'amqp://localhost'
+# # Celery Configuration Options
+# CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672//'# CELERY_BROKER_URL = 'amqp://localhost'
 
-# If using django-celery-results:
-CELERY_RESULT_BACKEND = 'django-db'
-CELERY_CACHE_BACKEND = 'django-cache'
+# # If using django-celery-results:
+# CELERY_RESULT_BACKEND = 'django-db'
+# CELERY_CACHE_BACKEND = 'django-cache'
 
 
-# # # إعدادات Celery لتقليل الاتصالات
-# CELERY_WORKER_MAX_TASKS_PER_CHILD = 100  # إعادة تشغيل الـ worker بعد 100 مهمة لتنظيف الذاكرة والاتصالات
-# CELERY_TASK_CLEANUP_TIMEOUT = 10
+# # # # إعدادات Celery لتقليل الاتصالات
+# # CELERY_WORKER_MAX_TASKS_PER_CHILD = 100  # إعادة تشغيل الـ worker بعد 100 مهمة لتنظيف الذاكرة والاتصالات
+# # CELERY_TASK_CLEANUP_TIMEOUT = 10
 
+
+
+
+# # إعدادات Redis
+# CELERY_BROKER_URL = 'redis://localhost:6379/0'
+# CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+
+# استخدم IP الصريح 127.0.0.1 بدلاً من كلمة localhost
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
+
+
+# إعدادات إضافية اختيارية
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC' # أو التوقيت المحلي الخاص بك
 
 
 

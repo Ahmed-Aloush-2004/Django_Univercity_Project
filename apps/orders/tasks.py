@@ -6,6 +6,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 @shared_task(bind=True, max_retries=3)
+# @shared_task()
 def send_order_confirmation_email(self, order_id, customer_email, customer_name, total_price):
     """
     مهمة خلفية لإرسال بريد تأكيد الطلب.
