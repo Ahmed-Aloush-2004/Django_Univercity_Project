@@ -12,6 +12,14 @@ class ProductViewSet(viewsets.ModelViewSet):
     
     
     
+    
+    # تعديل عرض القائمة لاستخدام الكاش
+    def list(self, request, *args, **kwargs):
+        products = ProductService.get_all_products()
+        serializer = self.get_serializer(products, many=True)
+        return Response(serializer.data)
+    
+    
     @action(detail=True, methods=['post'])
     def purchase(self, request, pk=None):
         quantity = int(request.data.get('quantity', 1))
@@ -27,3 +35,8 @@ class ProductViewSet(viewsets.ModelViewSet):
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except Exception:
             return Response({"error": "حدث تضارب في البيانات، حاول مرة أخرى"}, status=status.HTTP_409_CONFLICT)
+        
+        
+        
+        
+        
