@@ -219,6 +219,7 @@ import os
 from pathlib import Path
 from datetime import timedelta
 from dotenv import load_dotenv
+from celery.schedules import crontab
 
 # Load environment variables from .env file
 load_dotenv()
@@ -314,6 +315,19 @@ CACHES = {
         }
     }
 }
+
+
+CELERY_BEAT_SCHEDULE = {
+    'weekly-full-report': {
+        'task': 'apps.orders.tasks.generate_full_weekly_report',
+        'schedule': crontab(minute='*'),
+        # 'schedule': crontab(day_of_week=0, hour=0, minute=0),
+    }, 
+}
+
+
+EMAIL_HOST_USER='ahmed09887766554@gmail.com'
+
 
 # Custom User model
 AUTH_USER_MODEL = 'users.User'
