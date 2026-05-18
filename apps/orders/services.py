@@ -82,11 +82,21 @@ class OrderService:
         if float(new_order_price) != float(total_calculated_price):
             raise ValueError("السعر الإجمالي المقدم لا يتطابق مع السعر المحسوب في السيرفر.")
 
-        if user.wallet_balance < total_calculated_price:
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+        
+        locked_user = User.objects.select_for_update().get(id=user.id)
+
+        if locked_user.wallet_balance < total_calculated_price:
             raise ValueError("رصيد المحفظة غير كافٍ لتغطية التعديلات الجديدة.")
 
-        user.wallet_balance = F('wallet_balance') - total_calculated_price
-        user.save()
+        locked_user.wallet_balance = F('wallet_balance') - total_calculated_price
+        locked_user.save()
+        
+        locked_user.refresh_from_db()
+        
+        user.wallet_balance = locked_user.wallet_balance
+        
     """
     ============================================================
     """

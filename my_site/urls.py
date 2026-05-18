@@ -27,10 +27,8 @@ from rest_framework_simplejwt.views import (
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/products/', include('apps.products.urls')), # ربط تطبيق المنتجات
-    path('api/orders/', include('apps.orders.urls')), # ربط تطبيق الطلبات
-    path('api/users/', include('apps.users.urls')), # This handles register, login, logout, refresh
-    path('api/carts/', include('apps.carts.urls')),
-    
-    
+    path('api/products/', include('apps.products.urls')), 
+    path('api/orders/', include('apps.orders.urls')), 
+    path('api/users/', include('apps.users.urls')),    
+    path('api/cart/', include('apps.carts.urls')),
 ]

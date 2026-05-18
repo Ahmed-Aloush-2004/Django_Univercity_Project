@@ -3,21 +3,22 @@ from rest_framework.response import Response
 from rest_framework import status, permissions
 from .serializers import CartSerializer
 from .services import CartService
-from .models import Cart
+from .models import Cart, CartItem
+from django.core.exceptions import ValidationError
 
 class CartDetailView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
-        # التحسين هنا: استخدام prefetch_related لجلب المنتجات في استعلام واحد فقط
-        # هذا يمنع مشكلة الـ N+1 ويجعل استجابة الـ API سريعة جداً
         cart = Cart.objects.prefetch_related('items__product').filter(user=request.user).first()
-        
         if not cart:
             cart = CartService.get_or_create_cart(request.user)
-            
+            cart._prefetched_objects_cache = {'items': CartItem.objects.none()}
         serializer = CartSerializer(cart)
         return Response(serializer.data)
+"""
+============================================================
+"""
 
 class AddToCartView(APIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -29,12 +30,12 @@ class AddToCartView(APIView):
         if not product_id:
             return Response({"error": "Product ID required"}, status=status.HTTP_400_BAD_REQUEST)
         
-        try:
-            CartService.add_to_cart(request.user, product_id, quantity)
-            return Response({"message": "Item added to cart"}, status=status.HTTP_201_CREATED)
-        except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
+        CartService.add_to_cart(request.user, product_id, quantity)
+        return Response({"message": "Item added to cart"}, status=status.HTTP_201_CREATED)
+        
+"""
+============================================================
+"""
 class UpdateCartItemView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 

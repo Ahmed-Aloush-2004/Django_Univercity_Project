@@ -96,6 +96,9 @@ CACHES = {
         "LOCATION": "redis://127.0.0.1:6379/1", # تأكد أن سيرفر Redis يعمل على هذا المنفذ
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            'IGNORE_EXCEPTIONS': True,
+            'SOCKET_CONNECT_TIMEOUT': 2, 
+            'SOCKET_TIMEOUT': 2,
         }
     }
 }
@@ -187,11 +190,13 @@ CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
 CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
 
 
-# إعدادات إضافية اختيارية
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'UTC' # أو التوقيت المحلي الخاص بك
-
+CELERY_TIMEZONE = 'UTC' 
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_WORKER_CONCURRENCY = 4 
+CELERY_WORKER_PREFETCH_MULTIPLIER = 1
+CELERY_TASK_TRACK_STARTED = True
 
 

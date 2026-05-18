@@ -6,7 +6,7 @@ from .models import Product
 from .serializers import ProductSerializer
 from .services import ProductService
 from ..users.permissions import IsAdminOrReadOnlyOrPurchase
-from ...my_site.pagination import ProductsPagination
+from my_site.pagination import ProductsPagination
 from django.core.cache import cache 
 
 class ProductViewSet(viewsets.ModelViewSet):
