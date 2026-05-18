@@ -19,7 +19,6 @@ class OrderViewSet(viewsets.ModelViewSet):
         
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        
         products_data = serializer.validated_data.get('products_data') # تأكدي من اسم الحقل بالسيريالايزر عندك
         order_price = serializer.validated_data.get('order_price')
         customer_name = request.user.username  # حماية أمنية: جلب الاسم من التوكن وليس من الـ JSON المرسل

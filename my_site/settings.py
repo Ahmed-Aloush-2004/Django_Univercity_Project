@@ -32,7 +32,7 @@ INSTALLED_APPS = [
     # External libraries
     'rest_framework',
     'rest_framework_simplejwt',
-    'rest_framework_simplejwt.token_blacklist',  # <--- MUST BE HERE
+    'rest_framework_simplejwt.token_blacklist',  
     
     'django_celery_results',
     
@@ -90,29 +90,6 @@ DATABASES = {
     }
 }
 
-
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1", # تأكد أن سيرفر Redis يعمل على هذا المنفذ
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            'IGNORE_EXCEPTIONS': True,
-            'SOCKET_CONNECT_TIMEOUT': 2, 
-            'SOCKET_TIMEOUT': 2,
-        }
-    }
-}
-
-
-CELERY_BEAT_SCHEDULE = {
-    'weekly-full-report': {
-        'task': 'apps.orders.tasks.generate_full_weekly_report',
-        'schedule': crontab(minute='*'),
-        # 'schedule': crontab(day_of_week=0, hour=0, minute=0),
-    }, 
-}
-
 # Custom User model
 AUTH_USER_MODEL = 'users.User'
 
@@ -144,14 +121,14 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
 
-    # 'DEFAULT_THROTTLE_CLASSES': [
-    #     'rest_framework.throttling.AnonRateThrottle',
-    #     'rest_framework.throttling.UserRateThrottle'
-    # ],
-    # 'DEFAULT_THROTTLE_RATES': {
-    #         'anon': '100/day',
-    #         'user': '1000/day'
-    # }
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+            'anon': '100/day',
+            'user': '1000/day'
+    }
 }
 
 SIMPLE_JWT = {
@@ -185,12 +162,9 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'  # Collect static files in this folder fo
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-
 # استخدم IP الصريح 127.0.0.1 بدلاً من كلمة localhost
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
 CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
-
-
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
@@ -199,5 +173,27 @@ CELERY_RESULT_BACKEND = 'django-db'
 CELERY_WORKER_CONCURRENCY = 4 
 CELERY_WORKER_PREFETCH_MULTIPLIER = 1
 CELERY_TASK_TRACK_STARTED = True
+CELERY_BEAT_SCHEDULE = {
+    'generate-weekly-report-task': {
+        'task': 'batchTasks.generate_full_weekly_report',
+        'schedule': crontab(day_of_week='saturday', hour=23, minute=59), # كل سبت نهاية اليوم
+    },
+    'daily-sales-processing-task': {
+        'task': 'batchTasks.daily_sales_chunk_processing',
+        'schedule': crontab(hour=23, minute=30), # يومياً الساعة 11:30 ليلاً
+    },
+}
 
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1", # تأكد أن سيرفر Redis يعمل على هذا المنفذ
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            'IGNORE_EXCEPTIONS': True,
+            'SOCKET_CONNECT_TIMEOUT': 2, 
+            'SOCKET_TIMEOUT': 2,
+        }
+    }
+}
 

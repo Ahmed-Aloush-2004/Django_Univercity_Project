@@ -7,7 +7,7 @@ from .models import Order, OrderItem
 from apps.products.services import ProductService
 from apps.products.models import Product
 from apps.users.models import User
-from .tasks import send_order_confirmation_email 
+from my_site.tasks import send_order_confirmation_email 
 from django.db.models import F
 
 

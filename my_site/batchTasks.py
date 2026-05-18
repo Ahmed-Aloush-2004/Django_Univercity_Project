@@ -5,7 +5,7 @@ import logging
 from django.utils import timezone
 from datetime import timedelta
 from django.db.models import Sum, F
-from .models import Order ,OrderItem
+from apps.orders.models import Order ,OrderItem
 from apps.products.models import Product
 import io
 import csv
@@ -14,21 +14,22 @@ import matplotlib.pyplot as plt
 
 logger = logging.getLogger(__name__)
 
-@shared_task(bind=True, max_retries=3)
-def send_order_confirmation_email(self, order_id, customer_email, customer_name, total_price):
-    
-    subject = f'تأكيد الطلب رقم #{order_id}'
-    message = f'أهلاً {customer_name}،\n\nتم استلام طلبك بنجاح!\nإجمالي المبلغ: {total_price}$\n\nشكرًا لتسوقك معنا.'
-    email_from = settings.EMAIL_HOST_USER
-    recipient_list = [customer_email]
 
-    try:
-        send_mail(subject, message, email_from, recipient_list, fail_silently=False)
-        return f"Email sent to {customer_email} for order {order_id}"
-    except Exception as exc:
-        # محاولة مرة اخرى بعد 60 ثانية
-        logger.error(f"Error sending email: {exc}")
-        raise self.retry(exc=exc, countdown=60)
+@shared_task(name="apps.orders.tasks.daily_sales_chunk_processing")
+def daily_sales_chunk_processing():
+
+    today = timezone.now().date()
+    logger.info(f"بدء جرد ومعالجة مبيعات يوم {today} على دفعات...")
+
+    result = Order.objects.filter(
+        created_at__date=today, 
+        status='completed'
+    ).aggregate(total_revenue=Sum('order_price'))
+
+    total_daily_processed_revenue = result['total_revenue'] or 0
+        
+    logger.info(f"تم الانتهاء من الجرد اليومي. إجمالي مبيعات اليوم المحسوبة: {total_daily_processed_revenue}$")
+    return f"Successfully processed daily sales for date {today}. Total: {total_daily_processed_revenue}$"
     
 """
 ============================================================
@@ -121,7 +122,6 @@ def _generate_sales_csv(start_date, end_date):
 """
 ============================================================
 """
-
 def _generate_top_products_chart(start_date, end_date):
    
     top_selling_items = (
@@ -164,22 +164,3 @@ def _generate_top_products_chart(start_date, end_date):
     
     return img_buffer, len(names)
 
-"""
-============================================================
-"""
-
-@shared_task(name="apps.orders.tasks.daily_sales_chunk_processing")
-def daily_sales_chunk_processing():
-
-    today = timezone.now().date()
-    logger.info(f"بدء جرد ومعالجة مبيعات يوم {today} على دفعات...")
-
-    result = Order.objects.filter(
-        created_at__date=today, 
-        status='completed'
-    ).aggregate(total_revenue=Sum('order_price'))
-
-    total_daily_processed_revenue = result['total_revenue'] or 0
-        
-    logger.info(f"تم الانتهاء من الجرد اليومي. إجمالي مبيعات اليوم المحسوبة: {total_daily_processed_revenue}$")
-    return f"Successfully processed daily sales for date {today}. Total: {total_daily_processed_revenue}$"
