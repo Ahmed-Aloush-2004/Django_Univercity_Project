@@ -102,7 +102,7 @@ class OrderService:
     """
     @staticmethod
     @transaction.atomic
-    def create_order_with_stock(customer_name, products_data, order_price):
+    def create_order_with_stock(customer_name, products_data, order_price, stock_strategy='pessimistic'):
 
         user = User.objects.select_for_update().filter(username=customer_name).first()
         if not user:
@@ -119,9 +119,19 @@ class OrderService:
             order_price=total_calculated_price)
 
         for item in sorted_products:
-            product = ProductService.update_stock_pessimistic(product_id=item['id'], quantity=item['quantity'])
+            # الفحص بناءً على الباراميتر القادم من الـ View
+            if stock_strategy == 'atomic':
+                ProductService.update_stock_Atomic(item['id'], item['quantity'], update_type='decrease')
+                product = Product.objects.get(id=item['id'])
+            elif stock_strategy == 'optimistic':
+                ProductService.update_stock_optimistic(item['id'], item['quantity'])
+                product = Product.objects.get(id=item['id'])
+            else: # pessimistic
+                product = ProductService.update_stock_pessimistic(item['id'], item['quantity'])
+                
             OrderItem.objects.create(order=order, product=product, quantity=item['quantity'])
 
+            
         Cart.objects.filter(user=user).delete()
         if user.email:
             transaction.on_commit(lambda: send_order_confirmation_email.delay(

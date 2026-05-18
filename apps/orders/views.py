@@ -15,19 +15,44 @@ class OrderViewSet(viewsets.ModelViewSet):
     pagination_class = OrderPagination
     throttle_classes = [UserRateThrottle]
 
+
+    def list(self, request, *args, **kwargs):
+        if not request.user.is_staff and not request.user.is_superuser:
+            return Response(
+                {"error": "ليس لديك الصلاحية لعرض كافة طلبات النظام."}, 
+                status=status.HTTP_403_FORBIDDEN
+            )
+        page = self.paginate_queryset(self.queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(self.queryset, many=True)
+        return Response(serializer.data)
+    
+    """
+    ============================================================
+    """
+
     def create(self, request, *args, **kwargs):
         
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        products_data = serializer.validated_data.get('products_data') # تأكدي من اسم الحقل بالسيريالايزر عندك
+        products_data = serializer.validated_data.get('products_data') 
         order_price = serializer.validated_data.get('order_price')
-        customer_name = request.user.username  # حماية أمنية: جلب الاسم من التوكن وليس من الـ JSON المرسل
-        
+        customer_name = request.user.username  
+        strategy = request.query_params.get('strategy', 'pessimistic')
+        if strategy not in ['atomic', 'optimistic', 'pessimistic']:
+            return Response(
+                {"error": "الاستراتيجية المطلوبة غير مدعومة. اختر: atomic, optimistic, أو pessimistic."}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
         try:
             order = OrderService.create_order_with_stock(
                 customer_name=customer_name,
                 products_data=products_data,
-                order_price=order_price
+                order_price=order_price,
+                stock_strategy=strategy
             )
             response_serializer = self.get_serializer(order)
             return Response(response_serializer.data, status=status.HTTP_201_CREATED)
@@ -93,11 +118,14 @@ class OrderViewSet(viewsets.ModelViewSet):
         if not new_status:
             return Response({"error": "Status field is required"}, status=status.HTTP_400_BAD_REQUEST)
 
+        if not request.user.is_staff and new_status != 'cancelled':
+            return Response(
+                {"error": "كمستخدم عادي، يمكنك فقط إلغاء الطلب (cancelled). الحالات الأخرى للمشرفين فقط."}, 
+                status=status.HTTP_403_FORBIDDEN
+            )
         try:
-            # 2. Only pass the status to the service
             order = OrderService.update_order_status(pk, new_status)
             
-            # Return the updated order
             return Response(self.get_serializer(order).data)
         except ValueError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)    

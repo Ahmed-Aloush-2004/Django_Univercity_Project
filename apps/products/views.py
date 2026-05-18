@@ -55,28 +55,28 @@ class ProductViewSet(viewsets.ModelViewSet):
     """
     =============================================================
     """
-    @action(detail=True, methods=['post'])
-    def purchase(self, request, pk=None):
-        strategy = request.query_params.get('strategy', 'atomic')
-        quantity = int(request.data.get('quantity', 1))
-        try:
+    # @action(detail=True, methods=['post'])
+    # def purchase(self, request, pk=None):
+    #     strategy = request.query_params.get('strategy', 'atomic')
+    #     quantity = int(request.data.get('quantity', 1))
+    #     try:
             
-            if strategy == 'atomic':
-                ProductService.update_stock_Atomic(pk, quantity)
+    #         if strategy == 'atomic':
+    #             ProductService.update_stock_Atomic(pk, quantity)
                 
-            elif strategy == 'optimistic':
-                ProductService.update_stock_optimistic(pk, quantity)
+    #         elif strategy == 'optimistic':
+    #             ProductService.update_stock_optimistic(pk, quantity)
                 
-            elif strategy == 'pessimistic':
-                ProductService.update_stock_pessimistic(pk, quantity)
+    #         elif strategy == 'pessimistic':
+    #             ProductService.update_stock_pessimistic(pk, quantity)
                 
-            else:
-                return Response({"error":"الاستراتيجية المطلوبة غير مدعومة." }, status=status.HTTP_400_BAD_REQUEST)
+    #         else:
+    #             return Response({"error":"الاستراتيجية المطلوبة غير مدعومة." }, status=status.HTTP_400_BAD_REQUEST)
                 
-            return Response({"message": f"تم الشراء بنجاح باستخدام استراتيجية: {strategy}"}, status=status.HTTP_200_OK)
+    #         return Response({"message": f"تم الشراء بنجاح باستخدام استراتيجية: {strategy}"}, status=status.HTTP_200_OK)
         
-        except (ValueError, DatabaseError) as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    #     except (ValueError, DatabaseError) as e:
+    #         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         
         
         
