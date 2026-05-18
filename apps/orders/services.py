@@ -80,7 +80,7 @@ class OrderService:
     def _process_wallet_payment(user, new_order_price, total_calculated_price):
         """تابع مستقل: مخصص حصرياً للرقابة المالية وخصم الرصيد من المحفظة"""
         if float(new_order_price) != float(total_calculated_price):
-            raise ValueError("السعر الإجمالي المقدم لا يتطابق مع السعر المحسوب في السيرفر.")
+            raise ValueError("السعر الإجمالي المقدم لا يتطابق مع السعر .")
 
         from django.contrib.auth import get_user_model
         User = get_user_model()

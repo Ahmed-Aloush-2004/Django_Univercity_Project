@@ -38,7 +38,7 @@ class OrderViewSet(viewsets.ModelViewSet):
         
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        products_data = serializer.validated_data.get('products_data') 
+        products_data = serializer.validated_data.get('products') 
         order_price = serializer.validated_data.get('order_price')
         customer_name = request.user.username  
         strategy = request.query_params.get('strategy', 'pessimistic')
