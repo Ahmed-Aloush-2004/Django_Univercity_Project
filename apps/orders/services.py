@@ -3,200 +3,116 @@ from django.db import transaction, DatabaseError
 from django.shortcuts import get_object_or_404
 
 from apps.carts.models import Cart
-from .models.order import Order, OrderItem
+from .models import Order, OrderItem
 from apps.products.services import ProductService
 from apps.products.models import Product
 from apps.users.models import User
-from .tasks import send_order_confirmation_email # استيراد المهمة
+from .tasks import send_order_confirmation_email 
 from django.db.models import F
 
 
 class OrderService:
-    
+
+
     @staticmethod
     def get_user_orders(customer_name):
         """Retrieve all orders for a specific customer name."""
         return Order.objects.filter(customer_name=customer_name, status='pending').order_by('-id').prefetch_related('items__product')
+    
+    """
+    ============================================================
+    """
+    @staticmethod
+    def _calculate_total_price(products_data):
 
+        product_ids = [item['id'] for item in products_data]
+        products = Product.objects.filter(id__in=product_ids)
+        
+        products_map = {prod.id: prod for prod in products}
+        total_price = 0
+        
+        for item in products_data:
+            p_id = item['id']
+            if p_id not in products_map:
+                raise ValueError(f"المنتج ذو المعرف {p_id} غير موجود.")
+            
+            product = products_map[p_id]
+            total_price += (product.price * item['quantity'])
+            
+        return total_price
 
+    """
+    ============================================================
+    """
+    @staticmethod
+    def _adjust_product_stock(old_item, new_qty):
+        """تعديل كمية منتج موجود مسبقاً"""
+        diff = new_qty - old_item.quantity
+        if diff > 0:
+            ProductService.update_stock_Atomic(old_item.product_id, diff, update_type='decrease')
+        elif diff < 0:
+            ProductService.update_stock_Atomic(old_item.product_id, abs(diff), update_type='increase')
+        
+        old_item.quantity = new_qty
+        old_item.save()
+    """
+    ============================================================
+    """
+    @staticmethod
+    def _add_new_product_to_order(order, product, qty):
+        """تابع مستقل: مخصص لإضافة منتج جديد تماماً للطلب وخصم مخزونه"""
+        ProductService.update_stock_Atomic(product.id, qty, update_type='decrease')
+        OrderItem.objects.create(order=order, product=product, quantity=qty)
+    
 
+    """
+    ============================================================
+    """
+    @staticmethod
+    def _deleted_item_stock(existing_item):
+        """تابع مستقل: مخصص لإلغاء منتج تماماً وإعادة كميته بالكامل للمستودع"""
+        ProductService.update_stock_Atomic(existing_item.product_id, existing_item.quantity, update_type='increase')
+        existing_item.delete()
+    """
+    ============================================================
+    """
+    @staticmethod
+    def _process_wallet_payment(user, new_order_price, total_calculated_price):
+        """تابع مستقل: مخصص حصرياً للرقابة المالية وخصم الرصيد من المحفظة"""
+        if float(new_order_price) != float(total_calculated_price):
+            raise ValueError("السعر الإجمالي المقدم لا يتطابق مع السعر المحسوب في السيرفر.")
+
+        if user.wallet_balance < total_calculated_price:
+            raise ValueError("رصيد المحفظة غير كافٍ لتغطية التعديلات الجديدة.")
+
+        user.wallet_balance = F('wallet_balance') - total_calculated_price
+        user.save()
+    """
+    ============================================================
+    """
     @staticmethod
     @transaction.atomic
-    def update_order_items(order_id, customer_name,new_products_data,new_order_price):
-        """
-        Updates products in an order:
-        - Adjusts stock for modified quantities.
-        - Removes products no longer in the list (restores stock).
-        - Adds new products (deducts stock).
-        """
-        order = get_object_or_404(Order, id=order_id)
-        user = User.objects.filter(username=customer_name).first()
-
-        if order.status != 'pending':
-            raise ValueError("Only pending orders can be updated.")
-
-        # 1. Map existing items for easy comparison {product_id: OrderItem_object}
-        existing_items = {item.product_id: item for item in order.items.all()}
-        new_product_ids = [item['id'] for item in new_products_data]
-        
-        total_calculated_price = 0
-
-        # 2. Process: Add or Update
-        for item_data in new_products_data:
-            p_id = item_data['id']
-            new_qty = item_data['quantity']
-            product = get_object_or_404(Product, id=p_id)
-
-            if p_id in existing_items:
-                # RECONCILE QUANTITY
-                old_item = existing_items[p_id]
-                diff = new_qty - old_item.quantity
-                
-                if diff > 0: # Need more stock
-                    ProductService.update_stock_safely(p_id, diff, update_type='decrease')
-                elif diff < 0: # Return excess to stock
-                    ProductService.update_stock_safely(p_id, abs(diff), update_type='increase')
-                
-                old_item.quantity = new_qty
-                old_item.save()
-            else:
-                # ADD NEW PRODUCT
-                ProductService.update_stock_safely(p_id, new_qty, update_type='decrease')
-                OrderItem.objects.create(order=order, product=product, quantity=new_qty)
-            
-            total_calculated_price += (product.price * new_qty)
-
-        # 3. Process: Delete (Items in DB but not in the new request)
-        for p_id, existing_item in existing_items.items():
-            if p_id not in new_product_ids:
-                # Return all stock for this deleted item
-                ProductService.update_stock_safely(p_id, existing_item.quantity, update_type='increase')
-                existing_item.delete()
-
-        if(new_order_price != total_calculated_price):
-            raise ValueError("السعر الإجمالي المقدم لا يتطابق مع السعر المحسوب بناءً على المنتجات والكميات.")
-
-        if(user.wallet_balance < total_calculated_price):
-            raise ValueError("رصيد المحفظة غير كافي لتنفيذ هذا الطلب.")
-
-        # 4. Update total price and finalize
-        order.order_price = total_calculated_price
-        order.save()
-        return order
-
-    # --- Previous methods below ---
-    
-    @staticmethod
     def create_order_with_stock(customer_name, products_data, order_price):
-        
-        return OrderService._execute_order_creation(customer_name, products_data, order_price)
-                
-       
-       
-        # # max_retries = 3
-        # # for attempt in range(max_retries):
-        #     try:
-        #         print('this is the time Now!!!!! : ',time.time())
-        #         return OrderService._execute_order_creation(customer_name, products_data, order_price)
-        #     except DatabaseError:
-        #             if attempt == max_retries - 1: raise 
-        #             time.sleep(0.1)
-                
 
-    
-    # @staticmethod
-    # @transaction.atomic
-    # def _execute_order_creation(customer_name, products_data, order_price):
-    #     # Create order with dummy price first
-    #     order = Order.objects.create(customer_name=customer_name, order_price=0)
-    #     user = User.objects.filter(username=customer_name).first()
-    #     total_calculated_price = 0
-
-    #     for item in products_data:
-    #         p_id = item['id']
-    #         qty = item['quantity']
-    #         product = get_object_or_404(Product, id=p_id)
-            
-    #         # Stock check and deduction
-    #         ProductService.update_stock_safely(p_id, qty, update_type='decrease')
-    #         OrderItem.objects.create(order=order, product=product, quantity=qty)
-    #         total_calculated_price += (product.price * qty)
-
-    #     # Integrity Check: Does the calculated price match the user's provided price?
-    #     if float(order_price) != float(total_calculated_price):
-    #         raise ValueError(f"Price mismatch! Calculated: {total_calculated_price}, Provided: {order_price}")
-
-    #     if(user.wallet_balance < total_calculated_price):
-    #         raise ValueError("رصيد المحفظة غير كافي لتنفيذ هذا الطلب.")
-
-    #     order.order_price = total_calculated_price
-    #     order.save()
-        
-        
-    #     # التحقق من وجود إيميل للمستخدم قبل الإرسال
-    #     if user and user.email:
-    #         # استخدام transaction.on_commit لضمان إرسال الإيميل فقط إذا تم حفظ الطلب في DB
-    #         transaction.on_commit(lambda: send_order_confirmation_email.delay(
-    #             order_id=order.id,
-    #             customer_email=user.email,
-    #             customer_name=user.username,
-    #             total_price=float(order.order_price)
-    #         ))
-            
-    #     return order
-
-
-    ## Pessimistic Locking
-    @staticmethod
-    @transaction.atomic
-    def _execute_order_creation(customer_name, products_data, order_price):
-        # 1. قفل سطر المستخدم فوراً لمنع تغير الرصيد أثناء العملية
         user = User.objects.select_for_update().filter(username=customer_name).first()
         if not user:
             raise ValueError("المستخدم غير موجود")
-
-        order = Order.objects.create(customer_name=customer_name, order_price=0)
-        total_calculated_price = 0
-
-        for item in products_data:
-            p_id = item['id']
-            qty = item['quantity']
-            
-            # 2. قفل سطر المنتج (Pessimistic Lock) لضمان عدم تغير المخزون من طلب آخر
-            try:
-                product = Product.objects.select_for_update().get(id=p_id)
-            except Product.DoesNotExist:
-                raise ValueError(f"المنتج {p_id} غير موجود")
-
-            # 3. التحقق المباشر من المخزون
-            if product.stock < qty:
-                raise ValueError(f"المخزون غير كافٍ للمنتج {product.name}")
-
-            # 4. التحديث الذري للمخزون
-            product.stock = F('stock') - qty
-            product.save()
-
-            OrderItem.objects.create(order=order, product=product, quantity=qty)
-            total_calculated_price += (product.price * qty)
-
-        # 5. التحقق من سلامة البيانات والرصيد
-        if float(order_price) != float(total_calculated_price):
-            raise ValueError("خطأ في مطابقة السعر")
-
-        if user.wallet_balance < total_calculated_price:
-            raise ValueError("رصيد المحفظة غير كافي")
-
-        # 6. خصم الرصيد فعلياً
-        user.wallet_balance = F('wallet_balance') - total_calculated_price
-        user.save()
-
-        order.order_price = total_calculated_price
-        order.save()
         
-        # [إضافة جديدة] 7. حذف سلة المستخدم بعد نجاح الطلب
-        # نقوم بالبحث عن السلة الخاصة بالمستخدم وحذفها هي وجميع محتوياتها (CartItems)
-        Cart.objects.filter(user=user).delete()
+        sorted_products = sorted(products_data, key=lambda x: x['id'])
 
+        total_calculated_price = OrderService._calculate_total_price(sorted_products)
+
+        OrderService._process_wallet_payment(user, order_price, total_calculated_price)
+
+        order = Order.objects.create(
+            customer_name=customer_name,
+            order_price=total_calculated_price)
+
+        for item in sorted_products:
+            product = ProductService.update_stock_pessimistic(product_id=item['id'], quantity=item['quantity'])
+            OrderItem.objects.create(order=order, product=product, quantity=item['quantity'])
+
+        Cart.objects.filter(user=user).delete()
         if user.email:
             transaction.on_commit(lambda: send_order_confirmation_email.delay(
                 order_id=order.id,
@@ -206,15 +122,62 @@ class OrderService:
             ))
             
         return order
+    """
+    ============================================================
+    """
+    @transaction.atomic
+    def update_order_items(order_id, customer_name, new_products_data, new_order_price):
+       
+        order = get_object_or_404(Order, id=order_id)
+        if order.status != 'pending':
+            raise ValueError("Only pending orders can be updated.")
 
+        user = User.objects.select_for_update().filter(username=customer_name).first()
+        if not user:
+            raise ValueError("المستخدم غير موجود.")
+        
+        #  ترتيب المنتجات لمنع  Deadlock 
+        sorted_new_products = sorted(new_products_data, key=lambda x: x['id'])
+        new_product_ids = [item['id'] for item in sorted_new_products]
 
+        # بناء خارطة المنتجات القديمة للمقارنة
+        existing_items = {item.product_id: item for item in order.items.all()}
+        total_calculated_price = 0
 
+        #اضافة او تعديل 
+        for item_data in sorted_new_products:
+            p_id = item_data['id']
+            new_qty = item_data['quantity']
+            product = get_object_or_404(Product, id=p_id)
+
+            if p_id in existing_items:
+                OrderService._adjust_product_stock(existing_items[p_id], new_qty)
+            else:
+                OrderService._add_new_product_to_order(order, product, new_qty)
+
+            total_calculated_price += (product.price * new_qty)
+
+        # حذف منيج من الطلب 
+        for p_id in sorted(list(existing_items.keys())):
+            existing_item = existing_items[p_id]
+            if p_id not in new_product_ids:
+                OrderService._deleted_item_stock(existing_item)
+
+        OrderService._process_wallet_payment(user, new_order_price, total_calculated_price)
+        order.order_price = total_calculated_price
+        order.save()
+                
+        return order
+
+    
+    """
+    ============================================================
+    """
     @staticmethod
     @transaction.atomic
     def update_order_status(order_id, new_status):
         order = get_object_or_404(Order, id=order_id)
         
-        # Validation: Check if the new_status is in the allowed list
         valid_statuses = [choice[0] for choice in Order.STATUS_CHOICES]
         if new_status not in valid_statuses:
             raise ValueError(f"Invalid status. Must be one of: {', '.join(valid_statuses)}")
@@ -222,12 +185,10 @@ class OrderService:
         if new_status == order.status: 
             return order
 
-        # Handle stock restoration if cancelled
         if new_status == 'cancelled' and order.status != 'cancelled':
             for item in order.items.all():
-                ProductService.update_stock_safely(item.product.id, item.quantity, update_type='increase')
+                ProductService.update_stock_Atomic(item.product.id, item.quantity, update_type='increase')
         
-        # Prevent re-activating a cancelled order if that's your business rule
         if order.status == 'cancelled' and new_status != 'cancelled':
             raise ValueError("Cannot move an order out of 'cancelled' status.")
 
@@ -235,7 +196,8 @@ class OrderService:
         order.save()
         return order
     
-    
-    
+    """
+    ============================================================
+    """
     
     

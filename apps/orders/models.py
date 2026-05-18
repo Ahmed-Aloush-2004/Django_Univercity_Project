@@ -9,7 +9,6 @@ class Order(models.Model):
     ]
     
     customer_name = models.CharField(max_length=255)
-    # Using 'through' to store quantity
     products = models.ManyToManyField(Product, through='OrderItem', related_name='orders')
     order_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')

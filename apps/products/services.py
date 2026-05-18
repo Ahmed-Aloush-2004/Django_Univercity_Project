@@ -1,161 +1,128 @@
-# from concurrent.futures import wait
-
-# from django.db.models import F
-# from django.db import transaction, DatabaseError
-# from .models import Product
-# import time
-
-
-# class ProductService:
-#     @staticmethod
-#     def get_all_products():
-#         return Product.objects.all()
-
-#     @staticmethod
-#     def create_product(data):
-#         return Product.objects.create(**data)
-
-#     # this is the Optimistic Locking implementation, but it has a problem that if there are many concurrent updates, it will cause many retries and can lead to performance issues. 
-#     # @staticmethod
-#     # def update_stock_safely(product_id, quantity, update_type='decrease'):
-#     #     """
-#     #     Optimistic Locking implementation.
-#     #     """
-
-#     #     product = Product.objects.get(id=product_id)
-#     #     current_version = product.version
-
-#     #     if update_type not in ['decrease', 'increase']:
-#     #         raise ValueError("نوع التحديث غير مسموح به") 
-
-#     #     # Calculate new stock value before updating
-#     #     if update_type == 'decrease':
-#     #         if product.stock < quantity:
-#     #             raise ValueError(f"المخزون غير كافٍ للمنتج: {product.name}")
-#     #         new_stock = product.stock - quantity
-#     #     else:
-#     #         new_stock = product.stock + quantity
-
-#     #     # # --- أضف هذا السطر مؤقتاً للاختبار ---
-#     #     # print(f"قيد المعالجة للإصدار: {current_version}... انتظر 10 ثوانٍ")
-#     #     # time.sleep(10)
-        
-        
-#     #     # Perform the update only if version matches
-#     #     updated_count = Product.objects.filter(
-#     #         id=product_id, 
-#     #         version=current_version
-#     #     ).update(
-#     #         stock=new_stock,
-#     #         version=current_version + 1
-#     #     )
-#     #     print('this is the update count : ',updated_count)
-
-#     #     if updated_count == 0:
-#     #         # This triggers the retry logic in the OrderService
-#     #         raise DatabaseError("Race condition detected: Product was modified by another user.")
-        
-#     #     return True
-    
-    
-#     @staticmethod
-#     def update_stock_safely(product_id, quantity, update_type='decrease'):
-#         """
-#         Atomic Update implementation (The best for E-commerce stock).
-#         """
-
-#         if update_type not in ['decrease', 'increase']:
-#             raise ValueError("نوع التحديث غير مسموح به")
-        
-#         # نجهز الاستعلام
-#         queryset = Product.objects.filter(id=product_id)
-
-#         if update_type == 'decrease':
-#             # الشرط الأهم: نقص المخزون فقط إذا كان أكبر من أو يساوي الكمية المطلوبة
-#             # هذا يمنع حدوث Race Condition ويضمن عدم وجود مخزون سالب
-#             queryset = queryset.filter(stock__gte=quantity)
-            
-#             # التحديث الذري باستخدام F expression
-#             updated_count = queryset.update(stock=F('stock') - quantity)
-#         else:
-#             # في حالة الزيادة، لا نحتاج لشرط الفحص
-#             updated_count = queryset.update(stock=F('stock') + quantity)
-
-#         # التحقق مما إذا تم التحديث
-#         if updated_count == 0:
-#             # إذا كان الـ count صفر، فهذا يعني إما المنتج غير موجود 
-#             # أو أن المخزون غير كافٍ (في حالة الـ decrease)
-#             raise DatabaseError(f"فشلت العملية: المخزون غير كافٍ أو المنتج غير موجود (ID: {product_id})")
-
-#         return True
-
-
-
-
-from django.core.cache import cache  # استيراد نظام الكاش
+import random
+from django.core.cache import cache 
 from .models import Product
 from django.db.models import F
-from django.db import DatabaseError
+from django.db import DatabaseError,transaction
+import time
+from .serializers import ProductSerializer
 
 class ProductService:
-    CACHE_KEY = 'all_products_list'
-
+    
     @staticmethod
-    def get_all_products():
-        # 1. محاولة جلب البيانات من الكاش
-        products = cache.get(ProductService.CACHE_KEY)
+    def get_product_by_id(product_id):
+        """
+        جلب منتج واحد: إذا موجود بالكاش بنجيبه، إذا لاء بنقرأه من الداتابيز وبنكشه
+        """
+        cache_key = f"product:{product_id}"
+        product = cache.get(cache_key)
         
-        if products is None:
-            # 2. إذا لم تكن موجودة، اجلبها من قاعدة البيانات
-            print("Fetching from Database...") # للتحقق فقط
-            products = list(Product.objects.all())
-            # 3. تخزينها في الكاش لمدة 15 دقيقة (900 ثانية)
-            cache.set(ProductService.CACHE_KEY, products, 900)
-        
-        return products
-
+        if product is None:
+            try:
+                product = Product.objects.get(id=product_id)
+                product_data = ProductSerializer(product).data
+                cache.set(cache_key, product_data, 900)
+            except Product.DoesNotExist:
+                return None
+        return product
+    """
+    =============================================================
+    """
     @staticmethod
     def create_product(data):
         product = Product.objects.create(**data)
-        # تفريغ الكاش لأن هناك منتج جديد أضيف
-        cache.delete(ProductService.CACHE_KEY)
+        cache_key = f"product:{product.id}"
+        cache.set(cache_key, product, 900)
         return product
 
-
-
-    
-    
-    
+    """
+    =============================================================
+    """
     @staticmethod
-    def update_stock_safely(product_id, quantity, update_type='decrease'):
+    def update_stock_Atomic(product_id, quantity, update_type='decrease'):
         """
-        Atomic Update implementation (The best for E-commerce stock).
+        Atomic Update implementation 
         """
 
         if update_type not in ['decrease', 'increase']:
             raise ValueError("نوع التحديث غير مسموح به")
-        
-        # نجهز الاستعلام
+
         queryset = Product.objects.filter(id=product_id)
 
         if update_type == 'decrease':
-            # الشرط الأهم: نقص المخزون فقط إذا كان أكبر من أو يساوي الكمية المطلوبة
-            # هذا يمنع حدوث Race Condition ويضمن عدم وجود مخزون سالب
             queryset = queryset.filter(stock__gte=quantity)
             
-            # التحديث الذري باستخدام F expression
             updated_count = queryset.update(stock=F('stock') - quantity)
         else:
-            # في حالة الزيادة، لا نحتاج لشرط الفحص
             updated_count = queryset.update(stock=F('stock') + quantity)
 
         # التحقق مما إذا تم التحديث
         if updated_count == 0:
-            # إذا كان الـ count صفر، فهذا يعني إما المنتج غير موجود 
-            # أو أن المخزون غير كافٍ (في حالة الـ decrease)
             raise DatabaseError(f"فشلت العملية: المخزون غير كافٍ أو المنتج غير موجود (ID: {product_id})")
 
-        # بعد نجاح التحديث، نفرغ الكاش ليظهر المخزون الجديد للمستخدمين
-        cache.delete(ProductService.CACHE_KEY)
-        return True    
+        cache.delete(f"product:{product_id}")
+        return True   
     
+    """
+    =============================================================
+    """
+
+    @staticmethod
+    def update_stock_optimistic(product_id, quantity, max_retries=3):
+        """
+        تطبيق القفل التفاؤلي
+        """
+        for attempt in range(max_retries):
+            try:
+                product = Product.objects.get(id=product_id)
+                current_version = product.version
+
+                if product.stock < quantity:
+                    raise ValueError(f"المخزون غير كافٍ للمنتج: {product.name}")
+
+                new_stock = product.stock - quantity
+                updated_count = Product.objects.filter(
+                    id=product_id, 
+                    version=current_version
+                ).update(
+                    stock=new_stock,
+                    version=current_version + 1 
+                )
+                
+                if updated_count > 0:
+                    cache.delete(f"product:{product_id}")
+                    return True
+                
+                time.sleep(random.uniform(0.01, 0.03))
+            except Product.DoesNotExist:
+                raise DatabaseError("المنتج غير موجود")
+                
+        raise DatabaseError("فشلت العملية بسبب ضغط التعديلات المتزامنة (Race Condition).")
+        
+    """
+        =============================================================
+    """    
+
+    @staticmethod
+    @transaction.atomic #القفل التشاؤمي 
+    def update_stock_pessimistic(product_id, quantity):
+        """
+        تطبيق القفل التشاؤمي 
+        """
+        try:
+            #  تقوم بقفل السطر في قاعدة البيانات فوراً وتمنع أي خيط آخر من تعديله
+            product = Product.objects.select_for_update().get(id=product_id)
+            
+            if product.stock < quantity:
+                raise ValueError(f"المخزون غير كافٍ للمنتج: {product.name}")
+            
+            product.stock -= quantity
+
+            product.save()
+            cache.delete(f"product:{product_id}")
+            return product
+        except Product.DoesNotExist:
+            raise DatabaseError("المنتج غير موجود")
+        
+    """
+    =============================================================
+    """
