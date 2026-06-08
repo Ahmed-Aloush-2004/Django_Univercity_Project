@@ -1,223 +1,290 @@
-import time
 from django.db import transaction, DatabaseError
 from django.shortcuts import get_object_or_404
-
-from apps.carts.models import Cart
-from .models import Order, OrderItem
-from apps.products.services import ProductService
-from apps.products.models import Product
-from apps.users.models import User
-from my_site.tasks import send_order_confirmation_email 
 from django.db.models import F
 
+from apps.carts.models import Cart
+from apps.products.models import Product
+from apps.products.services import ProductService
+from apps.users.models import User
+from apps.orders.models import Order, OrderItem
+# from mysite.tasks import send_order_confirmation_email
+from my_site.tasks import send_order_confirmation_email
 
 class OrderService:
+    """
+    Handles order lifecycle: creation, item updates, and status changes.
 
+    Every multi-step operation (stock deduction + wallet deduction + order row
+    insertion) runs inside a single @transaction.atomic block so that the whole
+    compound action either commits or rolls back — satisfying the ACID requirement.
+
+    Deadlock prevention: products are always processed in ascending ID order so
+    that concurrent transactions acquire row locks in a consistent sequence.
+    """
+
+    # ------------------------------------------------------------------ #
+    #  Private helpers                                                     #
+    # ------------------------------------------------------------------ #
 
     @staticmethod
-    def get_user_orders(customer_name):
-        """Retrieve all orders for a specific customer name."""
-        return Order.objects.filter(customer_name=customer_name, status='pending').order_by('-id').prefetch_related('items__product')
-    
-    """
-    ============================================================
-    """
-    @staticmethod
-    def _calculate_total_price(products_data):
+    def _calculate_total_price(products_data: list) -> float:
+        """
+        Fetch all involved products in one query and calculate the total.
+        Raises ValueError if any product ID does not exist.
+        """
+        ids = [item['id'] for item in products_data]
+        products_map = {p.id: p for p in Product.objects.filter(id__in=ids)}
 
-        product_ids = [item['id'] for item in products_data]
-        products = Product.objects.filter(id__in=product_ids)
-        
-        products_map = {prod.id: prod for prod in products}
-        total_price = 0
-        
+        total = 0
         for item in products_data:
-            p_id = item['id']
-            if p_id not in products_map:
-                raise ValueError(f"المنتج ذو المعرف {p_id} غير موجود.")
-            
-            product = products_map[p_id]
-            total_price += (product.price * item['quantity'])
-            
-        return total_price
+            product = products_map.get(item['id'])
+            if product is None:
+                raise ValueError(f"Product with ID {item['id']} does not exist.")
+            total += product.price * item['quantity']
 
-    """
-    ============================================================
-    """
+        return total
+
+
     @staticmethod
-    def _adjust_product_stock(old_item, new_qty):
-        """تعديل كمية منتج موجود مسبقاً"""
-        diff = new_qty - old_item.quantity
+    def _deduct_wallet(user: User, expected_price: float, calculated_price: float) -> None:
+        """
+        Validate price integrity then atomically deduct from the wallet.
+
+        WHY NOT select_for_update() here?
+        ----------------------------------
+        select_for_update() acquires a row-level lock that is held for the
+        entire surrounding @transaction.atomic block — which includes all the
+        stock deduction steps. Under high load this means one slow stock update
+        keeps the user row locked unnecessarily long, reducing throughput.
+
+        BETTER APPROACH — atomic conditional UPDATE:
+        --------------------------------------------
+        We issue a single SQL UPDATE with a WHERE wallet_balance >= price guard,
+        exactly like the Atomic stock strategy. The DB engine evaluates the
+        condition and performs the deduction in one indivisible operation.
+
+        If two orders from the same user arrive simultaneously:
+          - Both read wallet_balance = 100 in Python.
+          - Both issue:  UPDATE ... SET wallet_balance = wallet_balance - 80
+                         WHERE id = X AND wallet_balance >= 80
+          - The first UPDATE succeeds (rows_updated = 1).
+          - By the time the second UPDATE runs, wallet_balance = 20 < 80,
+            so the WHERE clause fails (rows_updated = 0) → ValueError raised.
+
+        No lock held between the check and the write — the atomicity is
+        guaranteed entirely by the DB engine's single-statement execution.
+
+        Synchronization point: atomic SQL UPDATE with conditional WHERE clause.
+        """
+        if float(expected_price) != float(calculated_price):
+            raise ValueError(
+                "Price mismatch: the submitted total does not match the server-calculated total."
+            )
+
+        rows_updated = (
+            User.objects
+            .filter(id=user.id, wallet_balance__gte=calculated_price)
+            .update(wallet_balance=F('wallet_balance') - calculated_price)
+        )
+
+        if rows_updated == 0:
+            # Either the user doesn't exist or the balance was insufficient.
+            # Re-read to give a precise error message (no lock needed here).
+            current = User.objects.filter(id=user.id).values('wallet_balance').first()
+            if current is None:
+                raise ValueError("User not found.")
+            raise ValueError(
+                f"Insufficient wallet balance. "
+                f"Available: ${current['wallet_balance']:.2f}, "
+                f"Required: ${calculated_price:.2f}."
+            )
+
+        # Sync the in-memory object so the caller sees the updated balance
+        user.wallet_balance = User.objects.filter(id=user.id).values_list('wallet_balance', flat=True).first()
+
+
+
+
+
+    @staticmethod
+    def _adjust_item_stock(existing_item: OrderItem, new_qty: int) -> None:
+        """Reconcile stock for a product whose quantity changed in an order update."""
+        diff = new_qty - existing_item.quantity
         if diff > 0:
-            ProductService.update_stock_Atomic(old_item.product_id, diff, update_type='decrease')
+            ProductService.update_stock_Atomic(existing_item.product_id, diff, update_type='decrease')
         elif diff < 0:
-            ProductService.update_stock_Atomic(old_item.product_id, abs(diff), update_type='increase')
-        
-        old_item.quantity = new_qty
-        old_item.save()
-    """
-    ============================================================
-    """
+            ProductService.update_stock_Atomic(existing_item.product_id, abs(diff), update_type='increase')
+        existing_item.quantity = new_qty
+        existing_item.save()
+
     @staticmethod
-    def _add_new_product_to_order(order, product, qty):
-        """تابع مستقل: مخصص لإضافة منتج جديد تماماً للطلب وخصم مخزونه"""
+    def _add_item(order: Order, product: Product, qty: int) -> None:
+        """Deduct stock and create a new OrderItem row."""
         ProductService.update_stock_Atomic(product.id, qty, update_type='decrease')
         OrderItem.objects.create(order=order, product=product, quantity=qty)
-    
 
-    """
-    ============================================================
-    """
     @staticmethod
-    def _deleted_item_stock(existing_item):
-        """تابع مستقل: مخصص لإلغاء منتج تماماً وإعادة كميته بالكامل للمستودع"""
-        ProductService.update_stock_Atomic(existing_item.product_id, existing_item.quantity, update_type='increase')
-        existing_item.delete()
-    """
-    ============================================================
-    """
+    def _remove_item(item: OrderItem) -> None:
+        """Return stock to inventory and delete the OrderItem row."""
+        ProductService.update_stock_Atomic(item.product_id, item.quantity, update_type='increase')
+        item.delete()
+
+    # ------------------------------------------------------------------ #
+    #  Public API                                                          #
+    # ------------------------------------------------------------------ #
+
     @staticmethod
-    def _process_wallet_payment(user, new_order_price, total_calculated_price):
-        """تابع مستقل: مخصص حصرياً للرقابة المالية وخصم الرصيد من المحفظة"""
-        if float(new_order_price) != float(total_calculated_price):
-            raise ValueError("السعر الإجمالي المقدم لا يتطابق مع السعر .")
+    def get_user_orders(username: str):
+        return (
+            Order.objects
+            .filter(customer_name=username, status='pending')
+            .order_by('-id')
+            .prefetch_related('items__product')
+        )
 
-        from django.contrib.auth import get_user_model
-        User = get_user_model()
-        
-        locked_user = User.objects.select_for_update().get(id=user.id)
-
-        if locked_user.wallet_balance < total_calculated_price:
-            raise ValueError("رصيد المحفظة غير كافٍ لتغطية التعديلات الجديدة.")
-
-        locked_user.wallet_balance = F('wallet_balance') - total_calculated_price
-        locked_user.save()
-        
-        locked_user.refresh_from_db()
-        
-        user.wallet_balance = locked_user.wallet_balance
-        
-    """
-    ============================================================
-    """
     @staticmethod
     @transaction.atomic
-    def create_order_with_stock(customer_name, products_data, order_price, stock_strategy='pessimistic'):
+    def create_order_with_stock(
+        customer_name: str,
+        products_data: list,
+        order_price: float,
+        stock_strategy: str = 'pessimistic',
+    ) -> Order:
+        """
+        Create a new order as a single atomic transaction:
+          1. Lock the user row (prevents concurrent wallet overdrafts).
+          2. Calculate and validate the total price.
+          3. Deduct wallet balance.
+          4. Deduct stock for each product (strategy-dependent).
+          5. Create Order + OrderItem rows.
+          6. Clear the user's cart.
+          7. Enqueue the confirmation email after commit.
+
+        Products are sorted by ID before processing to guarantee a consistent
+        lock-acquisition order and prevent deadlocks under concurrent load.
+
+        Synchronization points:
+          - User row locked via SELECT FOR UPDATE (wallet protection).
+          - Stock locked via the chosen stock_strategy.
+          - All DB writes wrapped in @transaction.atomic (ACID guarantee).
+        """
+        if stock_strategy not in ('atomic', 'optimistic', 'pessimistic'):
+            raise ValueError("stock_strategy must be 'atomic', 'optimistic', or 'pessimistic'.")
 
         user = User.objects.select_for_update().filter(username=customer_name).first()
         if not user:
-            raise ValueError("المستخدم غير موجود")
-        
-        sorted_products = sorted(products_data, key=lambda x: x['id'])
+            raise ValueError("User not found.")
 
-        total_calculated_price = OrderService._calculate_total_price(sorted_products)
+        # Sort by ID → consistent lock order → no deadlocks
+        sorted_items = sorted(products_data, key=lambda x: x['id'])
 
-        OrderService._process_wallet_payment(user, order_price, total_calculated_price)
+        total = OrderService._calculate_total_price(sorted_items)
+        OrderService._deduct_wallet(user, order_price, total)
 
-        order = Order.objects.create(
-            customer_name=customer_name,
-            order_price=total_calculated_price)
+        order = Order.objects.create(customer_name=customer_name, order_price=total)
 
-        for item in sorted_products:
-            # الفحص بناءً على الباراميتر القادم من الـ View
+        for item in sorted_items:
             if stock_strategy == 'atomic':
                 ProductService.update_stock_Atomic(item['id'], item['quantity'], update_type='decrease')
                 product = Product.objects.get(id=item['id'])
             elif stock_strategy == 'optimistic':
                 ProductService.update_stock_optimistic(item['id'], item['quantity'])
                 product = Product.objects.get(id=item['id'])
-            else: # pessimistic
+            else:  # pessimistic (default)
                 product = ProductService.update_stock_pessimistic(item['id'], item['quantity'])
-                
+
             OrderItem.objects.create(order=order, product=product, quantity=item['quantity'])
 
-            
         Cart.objects.filter(user=user).delete()
+
+        # on_commit ensures the email is only sent after the transaction commits,
+        # so the worker will always find the order in the DB when it processes the task.
         if user.email:
-            transaction.on_commit(lambda: send_order_confirmation_email.delay(
-                order_id=order.id,
-                customer_email=user.email,
-                customer_name=user.username,
-                total_price=float(order.order_price)
-            ))
-            
+            transaction.on_commit(
+                lambda: send_order_confirmation_email.delay(
+                    order_id=order.id,
+                    customer_email=user.email,
+                    customer_name=user.username,
+                    total_price=float(order.order_price),
+                )
+            )
+
         return order
-    """
-    ============================================================
-    """
+
+    @staticmethod
     @transaction.atomic
-    def update_order_items(order_id, customer_name, new_products_data, new_order_price):
-       
+    def update_order_items(
+        order_id: int,
+        customer_name: str,
+        new_products_data: list,
+        new_order_price: float,
+    ) -> Order:
+        """
+        Update an existing pending order's items atomically.
+
+        Synchronization points:
+          - User row locked via SELECT FOR UPDATE.
+          - Products processed in ascending ID order (deadlock prevention).
+          - Entire operation in @transaction.atomic.
+        """
         order = get_object_or_404(Order, id=order_id)
+
         if order.status != 'pending':
             raise ValueError("Only pending orders can be updated.")
 
         user = User.objects.select_for_update().filter(username=customer_name).first()
         if not user:
-            raise ValueError("المستخدم غير موجود.")
-        
-        #  ترتيب المنتجات لمنع  Deadlock 
-        sorted_new_products = sorted(new_products_data, key=lambda x: x['id'])
-        new_product_ids = [item['id'] for item in sorted_new_products]
+            raise ValueError("User not found.")
 
-        # بناء خارطة المنتجات القديمة للمقارنة
-        existing_items = {item.product_id: item for item in order.items.all()}
-        total_calculated_price = 0
+        # Sort incoming items by ID for consistent lock ordering
+        sorted_new = sorted(new_products_data, key=lambda x: x['id'])
+        new_ids = {item['id'] for item in sorted_new}
 
-        #اضافة او تعديل 
-        for item_data in sorted_new_products:
+        existing_map = {item.product_id: item for item in order.items.all()}
+        total = 0
+
+        # Add or update items
+        for item_data in sorted_new:
             p_id = item_data['id']
             new_qty = item_data['quantity']
             product = get_object_or_404(Product, id=p_id)
 
-            if p_id in existing_items:
-                OrderService._adjust_product_stock(existing_items[p_id], new_qty)
+            if p_id in existing_map:
+                OrderService._adjust_item_stock(existing_map[p_id], new_qty)
             else:
-                OrderService._add_new_product_to_order(order, product, new_qty)
+                OrderService._add_item(order, product, new_qty)
 
-            total_calculated_price += (product.price * new_qty)
+            total += product.price * new_qty
 
-        # حذف منيج من الطلب 
-        for p_id in sorted(list(existing_items.keys())):
-            existing_item = existing_items[p_id]
-            if p_id not in new_product_ids:
-                OrderService._deleted_item_stock(existing_item)
+        # Remove items no longer in the list (also sorted for consistent lock order)
+        for p_id in sorted(existing_map.keys()):
+            if p_id not in new_ids:
+                OrderService._remove_item(existing_map[p_id])
 
-        OrderService._process_wallet_payment(user, new_order_price, total_calculated_price)
-        order.order_price = total_calculated_price
+        OrderService._deduct_wallet(user, new_order_price, total)
+        order.order_price = total
         order.save()
-                
         return order
 
-    
-    """
-    ============================================================
-    """
     @staticmethod
     @transaction.atomic
-    def update_order_status(order_id, new_status):
+    def update_order_status(order_id: int, new_status: str) -> Order:
         order = get_object_or_404(Order, id=order_id)
-        
-        valid_statuses = [choice[0] for choice in Order.STATUS_CHOICES]
-        if new_status not in valid_statuses:
-            raise ValueError(f"Invalid status. Must be one of: {', '.join(valid_statuses)}")
 
-        if new_status == order.status: 
+        valid = [choice[0] for choice in Order.STATUS_CHOICES]
+        if new_status not in valid:
+            raise ValueError(f"Invalid status. Valid choices: {', '.join(valid)}")
+
+        if new_status == order.status:
             return order
 
+        # When cancelling, restore all product stock
         if new_status == 'cancelled' and order.status != 'cancelled':
-            for item in order.items.all():
-                ProductService.update_stock_Atomic(item.product.id, item.quantity, update_type='increase')
-        
-        if order.status == 'cancelled' and new_status != 'cancelled':
-            raise ValueError("Cannot move an order out of 'cancelled' status.")
+            for item in order.items.select_related('product').all():
+                ProductService.update_stock_Atomic(
+                    item.product_id, item.quantity, update_type='increase'
+                )
 
         order.status = new_status
         order.save()
         return order
-    
-    """
-    ============================================================
-    """
-    
-    
