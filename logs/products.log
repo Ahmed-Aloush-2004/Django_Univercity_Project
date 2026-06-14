@@ -6273,3 +6273,4 @@
 [2026-06-14 15:46:16,317] INFO apps.products Most-viewed products served from cache
 [2026-06-14 15:46:16,317] INFO apps.products Most-viewed products endpoint called
 [2026-06-14 15:46:16,317] INFO apps.products Most-viewed products endpoint called
+[2026-06-14 16:00:05,010] INFO apps.products ProductViewSet initialized
