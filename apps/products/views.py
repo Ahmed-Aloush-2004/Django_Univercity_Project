@@ -68,6 +68,71 @@ class ProductViewSet(viewsets.ModelViewSet):
     """
     =============================================================
     """
+
+    def retrieve(self, request, *args, **kwargs):
+        """
+        Single product lookup.
+
+        Served through ProductService.get_product_by_id(), which is a
+        Redis cache-aside read (Requirement 6 — Distributed Caching):
+        cache hit -> no DB query at all; cache miss -> one DB query,
+        then the result is cached for PRODUCT_CACHE_TTL.
+
+        Every successful lookup also increments that product's view
+        counter (track_product_view), which feeds the /most_viewed/
+        ranking below.
+        """
+        product_id = kwargs.get('pk')
+        data = ProductService.get_product_by_id(product_id)
+
+        if data is None:
+            return Response(
+                {"error": "المنتج غير موجود."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        print(f"Product retrieved: {data['name']} (ID: {product_id})")
+        ProductService.track_product_view(product_id)
+        return Response(data)
+
+    """
+    =============================================================
+    """
+
+    @action(detail=False, methods=['get'])
+    def trending(self, request):
+        """
+        Requirement 6a — Trending / best-selling products.
+
+        Returns the top products by units sold over the last 7 days
+        (completed orders only). The ranking is computed once and cached
+        in Redis for TRENDING_CACHE_TTL, so repeated hits to this endpoint
+        don't repeatedly run the underlying GROUP BY / SUM query.
+        """
+        data = ProductService.get_trending_products()
+        logger.info("Trending products endpoint called")
+        return Response(data)
+
+    """
+    =============================================================
+    """
+
+    @action(detail=False, methods=['get'])
+    def most_viewed(self, request):
+        """
+        Requirement 6b — Most-viewed products.
+
+        Returns the top products by view count, where each view is
+        tracked via an atomic Redis counter (see retrieve() above) and
+        the ranked list itself is cached for MOST_VIEWED_CACHE_TTL.
+        """
+        data = ProductService.get_most_viewed_products()
+        logger.info("Most-viewed products endpoint called")
+        return Response(data)
+
+    """
+    =============================================================
+    """
+
     # @action(detail=True, methods=['post'])
     # def purchase(self, request, pk=None):
     #     strategy = request.query_params.get('strategy', 'atomic')

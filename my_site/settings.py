@@ -3,7 +3,9 @@ from pathlib import Path
 from datetime import timedelta
 from dotenv import load_dotenv
 from celery.schedules import crontab
-
+import django.utils.translation
+django.utils.translation.ugettext_lazy = django.utils.translation.gettext_lazy
+django.utils.translation.ugettext = django.utils.translation.gettext
 
 load_dotenv()
 
@@ -32,32 +34,118 @@ sentry_sdk.init(
 
 
 
-LOG_DIR = os.path.join(BASE_DIR, "logs")
+# LOG_DIR = os.path.join(BASE_DIR, "logs")
 
+# os.makedirs(LOG_DIR, exist_ok=True)
+
+# LOGGING = {
+#     "version": 1,
+#     "disable_existing_loggers": False,
+
+#     "formatters": {
+#         "verbose": {
+#             "format": (
+#                 "[{asctime}] "
+#                 "{levelname} "
+#                 "{name} "
+#                 "{message}"
+#             ),
+#             "style": "{",
+#         },
+#     },
+
+#     "handlers": {
+#         "products_file": {
+#             "class": "logging.FileHandler",
+#             "filename": os.path.join(LOG_DIR, "products.log"),
+#             "formatter": "verbose",
+#         },
+#         "middleware_file": {
+#             "class": "logging.FileHandler",
+#             "filename": os.path.join(LOG_DIR, "middleware.log"),
+#             "formatter": "verbose",
+#         },
+
+#         "orders_file": {
+#             "class": "logging.FileHandler",
+#             "filename": os.path.join(LOG_DIR, "orders.log"),
+#             "formatter": "verbose",
+#         },
+
+#         "carts_file": {
+#             "class": "logging.FileHandler",
+#             "filename": os.path.join(LOG_DIR, "carts.log"),
+#             "formatter": "verbose",
+#         },
+
+#         "users_file": {
+#             "class": "logging.FileHandler",
+#             "filename": os.path.join(LOG_DIR, "users.log"),
+#             "formatter": "verbose",
+#         },
+
+#         "errors_file": {
+#             "class": "logging.FileHandler",
+#             "filename": os.path.join(LOG_DIR, "errors.log"),
+#             "formatter": "verbose",
+#             "level": "ERROR",
+#         },
+#     },
+
+#     "loggers": {
+#         "apps.products": {
+#             "handlers": ["products_file", "errors_file"],
+#             "level": "DEBUG",
+#             "propagate": False,
+#         },
+        
+#         "apps.middleware": {
+#             "handlers": ["middleware_file", "errors_file"],
+#             "level": "DEBUG",
+#             "propagate": False,
+#         },
+
+#         "apps.orders": {
+#             "handlers": ["orders_file", "errors_file"],
+#             "level": "DEBUG",
+#             "propagate": False,
+#         },
+
+#         "apps.carts": {
+#             "handlers": ["carts_file", "errors_file"],
+#             "level": "DEBUG",
+#             "propagate": False,
+#         },
+
+#         "apps.users": {
+#             "handlers": ["users_file", "errors_file"],
+#             "level": "DEBUG",
+#             "propagate": False,
+#         },
+#     },
+# }
+
+
+
+LOG_DIR = os.path.join(BASE_DIR, "logs")
 os.makedirs(LOG_DIR, exist_ok=True)
 
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
-
     "formatters": {
         "verbose": {
-            "format": (
-                "[{asctime}] "
-                "{levelname} "
-                "{name} "
-                "{message}"
-            ),
+            "format": "[{asctime}] {levelname} {name} {message}",
             "style": "{",
         },
     },
-
     "handlers": {
-        'file': {
-            'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': 'performance.log', # الملف الذي سيحوي السجلات
+        # هذا الجزء مسؤول عن الطباعة على الشاشة (الـ Terminal)
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
         },
+        # هذه الأجزاء مسؤولة عن الكتابة داخل الملفات
         "products_file": {
             "class": "logging.FileHandler",
             "filename": os.path.join(LOG_DIR, "products.log"),
@@ -68,25 +156,21 @@ LOGGING = {
             "filename": os.path.join(LOG_DIR, "middleware.log"),
             "formatter": "verbose",
         },
-
         "orders_file": {
             "class": "logging.FileHandler",
             "filename": os.path.join(LOG_DIR, "orders.log"),
             "formatter": "verbose",
         },
-
         "carts_file": {
             "class": "logging.FileHandler",
             "filename": os.path.join(LOG_DIR, "carts.log"),
             "formatter": "verbose",
         },
-
         "users_file": {
             "class": "logging.FileHandler",
             "filename": os.path.join(LOG_DIR, "users.log"),
             "formatter": "verbose",
         },
-
         "errors_file": {
             "class": "logging.FileHandler",
             "filename": os.path.join(LOG_DIR, "errors.log"),
@@ -94,46 +178,40 @@ LOGGING = {
             "level": "ERROR",
         },
     },
-
     "loggers": {
-        
-        'performance_logger': {
-            'handlers': ['file'],
-            'level': 'INFO',
-            'propagate': True,
-        },
-        
         "apps.products": {
-            "handlers": ["products_file", "errors_file"],
+            # لاحظ أننا أضفنا "console" هنا لتعمل على الشاشة والملف معاً
+            "handlers": ["console", "products_file", "errors_file"],
             "level": "DEBUG",
             "propagate": False,
         },
-        
         "apps.middleware": {
-            "handlers": ["middleware_file", "errors_file"],
+            "handlers": ["console", "middleware_file", "errors_file"],
             "level": "DEBUG",
             "propagate": False,
         },
-
         "apps.orders": {
-            "handlers": ["orders_file", "errors_file"],
+            "handlers": ["console", "orders_file", "errors_file"],
             "level": "DEBUG",
             "propagate": False,
         },
-
         "apps.carts": {
-            "handlers": ["carts_file", "errors_file"],
+            "handlers": ["console", "carts_file", "errors_file"],
             "level": "DEBUG",
             "propagate": False,
         },
-
         "apps.users": {
-            "handlers": ["users_file", "errors_file"],
+            "handlers": ["console", "users_file", "errors_file"],
             "level": "DEBUG",
             "propagate": False,
         },
     },
 }
+
+
+
+
+
 
 
 # ------------------------------------------------------------------ #

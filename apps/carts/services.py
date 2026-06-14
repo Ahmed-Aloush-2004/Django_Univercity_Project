@@ -21,6 +21,7 @@ class CartService:
         cart = CartService.get_or_create_cart(user)
         qty = int(quantity)
         if qty <= 0:
+            logger.warning("Add-to-cart rejected for user=%s: non-positive quantity %s", user.username, quantity)
             raise ValidationError("الكمية يجب أن تكون أكبر من صفر")
 
         try:
@@ -34,9 +35,17 @@ class CartService:
                 quantity=current_quantity
             ).update(quantity=new_quantity)
             if not updated:
+                logger.warning(
+                    "Optimistic lock conflict adding product=%s to cart for user=%s",
+                    product_id, user.username,
+                )
                 raise ValidationError("فشلت العملية بسبب تحديث متزامن للسلة، يرجى إعادة المحاولة.")
             
             item.quantity = new_quantity
+            logger.info(
+                "Cart item updated: user=%s product=%s qty=%d -> %d",
+                user.username, product_id, current_quantity, new_quantity,
+            )
             return item
 
         except CartItem.DoesNotExist:
@@ -50,8 +59,10 @@ class CartService:
                     # إذا كانت موجودة فجأة بسبب خيط آخر، نقوم بتحديثها
                     CartItem.objects.filter(id=item.id).update(quantity=models.F('quantity') + qty)
                     item.refresh_from_db()
+                logger.info("Product %s added to cart for user=%s (qty=%d)", product_id, user.username, qty)
                 return item
             except IntegrityError:
+                logger.error("IntegrityError adding product=%s to cart for user=%s", product_id, user.username)
                 raise ValidationError("حدث تعارض أثناء إضافة المنتج، يرجى المحاولة مجدداً.")
             
 
@@ -67,12 +78,15 @@ class CartService:
             cart__user=user
         ).first()
         if not item:
+            logger.warning("Cart-item update failed: item=%s not found for user=%s", item_id, user.username)
             raise ValidationError("هذا العنصر غير موجود أو لا تملك صلاحية تعديله.")
         qty = int(quantity)
         if qty <= 0:
+            logger.info("Cart item %s removed for user=%s (quantity set to %s)", item_id, user.username, quantity)
             item.delete()
             return None
             
         item.quantity = qty
         item.save()
+        logger.info("Cart item %s updated to qty=%d for user=%s", item_id, qty, user.username)
         return item

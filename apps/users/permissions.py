@@ -3,7 +3,7 @@ from rest_framework import permissions
 class IsAdminOrReadOnlyOrPurchase(permissions.BasePermission):
     def has_permission(self, request, view):
         #  إذا كان الطلب مجرد قراءة 
-        if view.action in ['list', 'retrieve']:
+        if view.action in ['list', 'retrieve', 'trending', 'most_viewed']:
             return True 
             
         # 2. إذا كان الطلب عملية شراء

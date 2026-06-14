@@ -17,6 +17,7 @@ class RegisterView(APIView):
             user = AuthService.register_user(serializer.validated_data)
             tokens = AuthService.get_tokens_for_user(user)
             return Response({"user": UserSerializer(user).data, "tokens": tokens}, status=status.HTTP_201_CREATED)
+        logger.warning("Registration validation failed: %s", serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LoginView(APIView):
@@ -28,7 +29,9 @@ class LoginView(APIView):
         tokens = AuthService.login_user(email, password)
         
         if tokens:
+            logger.info("User logged in: %s", email)
             return Response(tokens, status=status.HTTP_200_OK)
+        logger.warning("Failed login attempt for email: %s", email)
         return Response({"error": "Invalid Credentials"}, status=status.HTTP_401_UNAUTHORIZED)
 
 class LogoutView(APIView):
@@ -41,8 +44,7 @@ class LogoutView(APIView):
             AuthService.logout_user(refresh_token)
             return Response({"message": "Successfully logged out"}, status=status.HTTP_205_RESET_CONTENT)  
         except Exception as e:
-            # This will print the actual error (e.g., "Token is blacklisted") to your console
-            print(f"Logout Error: {str(e)}") 
+            logger.error("Logout error: %s", e)
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         
 class ResetPassword(APIView):
@@ -57,7 +59,9 @@ class ResetPassword(APIView):
 
             # Use the user attached to the token automatically
             AuthService.reset_password(request.user, new_password)
+            logger.info("Password reset for user: %s", request.user.email)
 
             return Response({"message": "Password reset successfully"}, status=status.HTTP_200_OK)
         except Exception as e:
+            logger.error("Password reset error for user=%s: %s", request.user.email, e)
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)

@@ -22,6 +22,9 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         if not request.user.is_staff and not request.user.is_superuser:
+            logger.warning(
+                "Forbidden order-list attempt by user=%s", request.user.username
+            )
             return Response(
                 {"error": "ليس لديك الصلاحية لعرض كافة طلبات النظام."}, 
                 status=status.HTTP_403_FORBIDDEN
@@ -29,6 +32,7 @@ class OrderViewSet(viewsets.ModelViewSet):
         page = self.paginate_queryset(self.queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
+            logger.info("Order list returned for admin user=%s", request.user.username)
             return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(self.queryset, many=True)
@@ -47,6 +51,7 @@ class OrderViewSet(viewsets.ModelViewSet):
         customer_name = request.user.username  
         strategy = request.query_params.get('strategy', 'pessimistic')
         if strategy not in ['atomic', 'optimistic', 'pessimistic']:
+            logger.warning("Order create rejected: unsupported strategy '%s'", strategy)
             return Response(
                 {"error": "الاستراتيجية المطلوبة غير مدعومة. اختر: atomic, optimistic, أو pessimistic."}, 
                 status=status.HTTP_400_BAD_REQUEST
@@ -62,8 +67,10 @@ class OrderViewSet(viewsets.ModelViewSet):
             return Response(response_serializer.data, status=status.HTTP_201_CREATED)
             
         except ValueError as e:
+            logger.warning("Order create failed for user=%s: %s", customer_name, e)
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except DatabaseError as e:
+            logger.error("Order create DB conflict for user=%s: %s", customer_name, e)
             return Response({"error": "فشلت العملية بسبب ضغط متزامن، يرجى المحاولة مجدداً."}, status=status.HTTP_409_CONFLICT)
         
     """
@@ -74,7 +81,8 @@ class OrderViewSet(viewsets.ModelViewSet):
     def get_by_user(self, request):
         customer_name = request.user.username
         orders = OrderService.get_user_orders(customer_name)
-        
+        logger.info("Fetching pending orders for user=%s", customer_name)
+
         page = self.paginate_queryset(orders)
         if page is not None:
             serializer = self.get_serializer(page, many=True) 
@@ -103,8 +111,10 @@ class OrderViewSet(viewsets.ModelViewSet):
             )
             return Response(self.get_serializer(order).data, status=status.HTTP_200_OK)
         except ValueError as e:
+            logger.warning("Order #%s items-update failed for user=%s: %s", pk, customer_name, e)
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except DatabaseError as e:
+            logger.error("Order #%s items-update DB conflict for user=%s: %s", pk, customer_name, e)
             return Response({"error": "تعذر تعديل الطلب بسبب تعارض متزامن. أعد المحاولة."}, status=status.HTTP_409_CONFLICT)
     """
     ============================================================
@@ -123,6 +133,10 @@ class OrderViewSet(viewsets.ModelViewSet):
             return Response({"error": "Status field is required"}, status=status.HTTP_400_BAD_REQUEST)
 
         if not request.user.is_staff and new_status != 'cancelled':
+            logger.warning(
+                "Forbidden status-update attempt by user=%s on order #%s to '%s'",
+                request.user.username, pk, new_status,
+            )
             return Response(
                 {"error": "كمستخدم عادي، يمكنك فقط إلغاء الطلب (cancelled). الحالات الأخرى للمشرفين فقط."}, 
                 status=status.HTTP_403_FORBIDDEN
@@ -132,12 +146,34 @@ class OrderViewSet(viewsets.ModelViewSet):
             
             return Response(self.get_serializer(order).data)
         except ValueError as e:
+            logger.warning("Order #%s status-update failed: %s", pk, e)
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)    
         except DatabaseError as e:
+            logger.error("Order #%s status-update DB conflict: %s", pk, e)
             return Response({"error": "خطأ في تحديث الحالة تزامناً مع عمليات أخرى."}, status=status.HTTP_409_CONFLICT)
     """
     ============================================================
     """
+
+    @action(detail=False, methods=['get'])
+    def stats(self, request):
+        """
+        Requirement 6c — Sales-stats dashboard (admin only).
+
+        Returns total completed orders, total revenue, and average order
+        value. The aggregation is cached by OrderService.get_sales_stats()
+        and invalidated automatically whenever an order's status changes
+        to/from 'completed'.
+        """
+        if not request.user.is_staff and not request.user.is_superuser:
+            logger.warning("Forbidden sales-stats attempt by user=%s", request.user.username)
+            return Response(
+                {"error": "هذه البيانات متاحة للمشرفين فقط."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        data = OrderService.get_sales_stats()
+        return Response(data)
     def update(self, request, *args, **kwargs):
         """تعطيل التعديل الشامل الافتراضي (PUT)"""
         return Response(
