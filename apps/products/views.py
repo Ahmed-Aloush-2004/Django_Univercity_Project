@@ -8,12 +8,22 @@ from .services import ProductService
 from ..users.permissions import IsAdminOrReadOnlyOrPurchase
 from my_site.pagination import ProductsPagination
 from django.core.cache import cache 
+import logging
+
+
+logger = logging.getLogger("apps.products")
+
+
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all().order_by('id')
     serializer_class = ProductSerializer
     permission_classes = [IsAdminOrReadOnlyOrPurchase]
     pagination_class = ProductsPagination
+    
+    logger.info("ProductViewSet initialized")
+    # logger.warning("Invalid password")
+    # logger.error("Database error")
     
     def list(self, request, *args, **kwargs):
         page = self.paginate_queryset(self.queryset)
@@ -41,10 +51,13 @@ class ProductViewSet(viewsets.ModelViewSet):
                 cache.set_many(products_to_cache, timeout=900)
                 
             serializer = self.get_serializer(paginated_products, many=True)
+            logger.info("Returning paginated product list with caching")
             return self.get_paginated_response(serializer.data)
         
         queryset = self.queryset[:100]
         serializer = self.get_serializer(queryset, many=True)
+        logger.error("Pagination failed, returning first 100 products without pagination")
+    
         return Response(
             {
                 "message": "Pagination failed",

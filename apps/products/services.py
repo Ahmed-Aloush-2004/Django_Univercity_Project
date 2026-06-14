@@ -5,9 +5,11 @@ from django.db import DatabaseError, transaction
 from django.db.models import F
 from apps.products.models import Product
 from apps.products.serializers import ProductSerializer
+import logging
 
 PRODUCT_CACHE_TTL = 900  # 15 minutes
 
+logger = logging.getLogger("apps.products")
 
 class ProductService:
     """
@@ -43,6 +45,7 @@ class ProductService:
     def get_product_by_id(product_id: int):
         """Return serialized product data; served from Redis when available."""
         key = ProductService._cache_key(product_id)
+        logger.info(f"Fetching product: {product_id}")
         cached = cache.get(key)
         if cached is not None:
             return cached
@@ -50,8 +53,10 @@ class ProductService:
             product = Product.objects.get(id=product_id)
             data = ProductSerializer(product).data
             cache.set(key, data, PRODUCT_CACHE_TTL)
+            logger.info(f"Product fetched and cached: {product_id}")
             return data
         except Product.DoesNotExist:
+            logger.warning(f"Product not found: {product_id}")
             return None
 
     # ------------------------------------------------------------------ #
@@ -63,6 +68,7 @@ class ProductService:
         product = Product.objects.create(**data)
         key = ProductService._cache_key(product.id)
         cache.set(key, ProductSerializer(product).data, PRODUCT_CACHE_TTL)
+        logger.info(f"Product created and cached: {product.id}")
         return product
 
     # ------------------------------------------------------------------ #
@@ -101,6 +107,7 @@ class ProductService:
             )
 
         ProductService._invalidate(product_id)
+        logger.info(f"Stock updated for product: {product_id}")
         return True
 
     # ------------------------------------------------------------------ #
@@ -137,6 +144,7 @@ class ProductService:
                 )
 
                 if updated_count > 0:
+                    logger.info(f"Stock updated for product: {product_id}")
                     ProductService._invalidate(product_id)
                     return True
 
@@ -144,6 +152,7 @@ class ProductService:
                 time.sleep(random.uniform(0.01, 0.05))
 
             except Product.DoesNotExist:
+                logger.warning(f"Product not found: {product_id}")
                 raise DatabaseError("Product not found")
 
         raise DatabaseError(
@@ -177,8 +186,10 @@ class ProductService:
             product.stock -= quantity
             product.save()
 
+            logger.info(f"Stock updated for product: {product_id}")
             ProductService._invalidate(product_id)
             return product
 
         except Product.DoesNotExist:
+            logger.warning(f"Product not found: {product_id}")
             raise DatabaseError("Product not found")

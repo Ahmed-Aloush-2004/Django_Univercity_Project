@@ -3,6 +3,10 @@ from django.db import models, transaction, IntegrityError
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
 
+import logging
+
+logger = logging.getLogger("apps.carts")
+
 class CartService:
     @staticmethod
     def get_or_create_cart(user):

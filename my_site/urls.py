@@ -22,8 +22,11 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView,
 )
+from health_check.views import HealthCheckView
 
 
+def trigger_error(request):
+    division_by_zero = 1 / 0
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,4 +34,20 @@ urlpatterns = [
     path('api/orders/', include('apps.orders.urls')), 
     path('api/users/', include('apps.users.urls')),    
     path('api/cart/', include('apps.carts.urls')),
+    
+    # Prometheus metrics endpoint
+    path('prometheus/', include('django_prometheus.urls')),   
+    path('', include('django_prometheus.urls')),
+   
+    path('sentry-debug/', trigger_error),
+    
+    path('health/', HealthCheckView.as_view(
+        checks=[
+            "health_check.Database",
+            "health_check.Cache",
+            "health_check.Storage",
+        ]
+    )),     
+    
+
 ]

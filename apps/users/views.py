@@ -3,6 +3,10 @@ from rest_framework.response import Response
 from rest_framework import status, permissions
 from .services import AuthService
 from .serializers import UserSerializer
+import logging
+
+logger = logging.getLogger("apps.users")
+
 
 class RegisterView(APIView):
     permission_classes = [permissions.AllowAny]

@@ -1,0 +1,1636 @@
+[2026-06-14 10:47:27,285] INFO apps.products ProductViewSet initialized
+[2026-06-14 10:59:24,034] INFO apps.products ProductViewSet initialized
+[2026-06-14 11:03:58,290] INFO apps.products ProductViewSet initialized
+[2026-06-14 11:03:58,290] INFO apps.products ProductViewSet initialized
+[2026-06-14 11:03:58,290] INFO apps.products ProductViewSet initialized
+[2026-06-14 11:03:59,109] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,141] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,158] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,177] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,192] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,209] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,231] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,243] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,269] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,292] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,309] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,321] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,338] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,348] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,363] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,377] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,385] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,395] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,417] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,426] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,441] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,451] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,459] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,475] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,484] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,502] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,512] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,526] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,539] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,555] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,567] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,579] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,588] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,605] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,625] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,636] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,657] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,676] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,688] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,705] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,730] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,754] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,775] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,790] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,801] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,815] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,834] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,852] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,861] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,875] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,884] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,894] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,914] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,930] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,944] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,960] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,969] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,978] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:03:59,985] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,000] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,012] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,021] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,029] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,038] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,050] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,059] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,140] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,160] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,170] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,181] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,193] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,206] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,224] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,235] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,248] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,257] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,273] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,284] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,296] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,305] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,318] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,328] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,339] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,354] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,365] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,380] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,388] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,405] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,424] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,434] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,450] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,459] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,480] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,495] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,512] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,529] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,544] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,559] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,566] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,577] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,594] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,613] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,634] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,650] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,664] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,673] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,682] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,693] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,703] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,718] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,727] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,737] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,748] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,758] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,775] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,785] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,795] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,806] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,815] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,827] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,839] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:00,844] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,852] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:00,862] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,866] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:00,873] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,879] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:00,884] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,897] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:00,906] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,915] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:00,915] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,924] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,935] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:00,937] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:00,942] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,952] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,955] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:00,958] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:00,972] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:00,979] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:00,982] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:00,995] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,004] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,004] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,021] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,021] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,039] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,044] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,044] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,057] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,059] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,064] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,070] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,082] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,082] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,084] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,095] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,102] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,102] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,114] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,122] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,123] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,132] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,141] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,142] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,143] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,159] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,159] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,163] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,176] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,177] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,179] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,189] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,192] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,205] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,214] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,223] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,231] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,244] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,303] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,320] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,329] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,337] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,352] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,361] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,373] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,388] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,396] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,410] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,423] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,437] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,446] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,457] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,473] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,484] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,496] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,505] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,514] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,529] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,543] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,550] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,565] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,574] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,590] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,607] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,622] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,641] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,658] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,674] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,690] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,705] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,722] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,738] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,754] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,767] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,776] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,786] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,800] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,815] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,825] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,835] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,842] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,846] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,846] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,864] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,869] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,873] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,877] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,882] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,895] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,895] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,898] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,895] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,916] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,919] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,919] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,920] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,934] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,942] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,944] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,949] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,960] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,970] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,970] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,983] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:01,987] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:01,992] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,000] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,005] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:02,012] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,015] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,013] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,024] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,030] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:02,031] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,036] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,039] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,042] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,043] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,051] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,059] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,067] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,072] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,072] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,078] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:04:02,083] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,083] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,083] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,087] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,095] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,096] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,101] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,103] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,120] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,129] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,131] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,136] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,147] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,155] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,158] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,162] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,178] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,184] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,191] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,194] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,206] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,214] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,217] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,224] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,236] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,244] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,247] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,251] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,263] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,269] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,282] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,282] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,292] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:04:02,295] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:09,786] INFO apps.products ProductViewSet initialized
+[2026-06-14 11:15:32,168] INFO apps.products ProductViewSet initialized
+[2026-06-14 11:15:32,169] INFO apps.products ProductViewSet initialized
+[2026-06-14 11:15:32,169] INFO apps.products ProductViewSet initialized
+[2026-06-14 11:15:32,807] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:32,831] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:32,847] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:32,862] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:32,880] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:32,894] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:32,910] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:32,947] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:32,980] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,043] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,067] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,132] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,142] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,154] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,174] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,185] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,201] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,210] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,218] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,234] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,251] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,262] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,272] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,281] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,293] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,303] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,320] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,332] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,340] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,350] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,359] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,374] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,383] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,396] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,404] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,412] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,423] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,432] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,441] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,452] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,473] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,484] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,507] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,523] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,560] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,583] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,592] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,603] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,616] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,630] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,645] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,652] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,660] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,668] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,675] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,684] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,691] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,699] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,706] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,715] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,722] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,731] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,737] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,746] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,753] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,761] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,774] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,782] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,791] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,803] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,815] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,822] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,831] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,839] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,853] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,866] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,874] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,884] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,891] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,901] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,908] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,918] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,932] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,942] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,951] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,959] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,968] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,975] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,989] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:33,996] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,004] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,014] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,067] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,075] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,085] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,097] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,108] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,121] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,138] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,156] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,166] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,179] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,194] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,203] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,216] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,227] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,234] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,242] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,253] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,262] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,272] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,282] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,291] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,298] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,307] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,315] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,324] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,341] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,356] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,365] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,373] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,388] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,404] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,413] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,422] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,432] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,440] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,448] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,460] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,466] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,527] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,535] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,548] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,557] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,570] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,584] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,592] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,599] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,611] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,625] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,633] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,640] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,649] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,656] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,668] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,676] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,685] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,697] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,705] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,712] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,721] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,724] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,730] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,736] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,743] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,744] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,756] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,758] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,759] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,771] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,774] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,775] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,785] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,792] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,796] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,801] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,805] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,810] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,811] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,813] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,821] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,827] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,829] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,836] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,842] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,845] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,850] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,851] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,850] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,859] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,868] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,869] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,872] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,876] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,888] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,888] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,889] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,889] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,907] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,909] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,912] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,917] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,920] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,927] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,937] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,940] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,940] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,949] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,952] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,952] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,960] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,967] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,969] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,971] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,979] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,980] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:34,979] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:34,993] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:35,001] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:35,010] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:35,022] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:35,030] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:35,040] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:35,052] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:35,060] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:35,071] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:35,083] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:35,097] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:35,110] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:35,118] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:35,127] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:35,140] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:35,155] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:35,171] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:35,185] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:35,198] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:35,212] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:35,219] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,220] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:35,234] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:35,236] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,237] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,259] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,259] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,267] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:35,271] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,283] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,284] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:35,283] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,298] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:35,302] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,304] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,310] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,316] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,319] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:35,323] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,330] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,333] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,337] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,340] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,346] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,350] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:15:35,351] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,352] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,358] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,359] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,364] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,368] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,368] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,376] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,377] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,382] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,386] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,389] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,393] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,396] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,402] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,403] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,404] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,406] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,407] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,416] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,419] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,422] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,426] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,430] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,427] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,434] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,436] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,445] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,448] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,450] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,456] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,456] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,459] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,461] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,466] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,468] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,476] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,484] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,485] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,495] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,502] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,504] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,506] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,518] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,527] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,530] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,532] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:15:35,538] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:13,140] INFO apps.products ProductViewSet initialized
+[2026-06-14 11:23:48,622] INFO apps.products ProductViewSet initialized
+[2026-06-14 11:23:48,624] INFO apps.products ProductViewSet initialized
+[2026-06-14 11:23:48,624] INFO apps.products ProductViewSet initialized
+[2026-06-14 11:23:49,237] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,253] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,268] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,284] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,301] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,315] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,333] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,349] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,373] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,387] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,401] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,418] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,446] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,475] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,502] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,529] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,541] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,553] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,571] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,580] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,594] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,612] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,623] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,636] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,645] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,659] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,667] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,681] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,689] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,703] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,717] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,725] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,739] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,748] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,761] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,775] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,791] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,798] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,808] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,821] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,839] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,856] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,871] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,886] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,896] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,909] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,923] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,939] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,954] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,962] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:49,972] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,047] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,058] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,074] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,082] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,095] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,104] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,114] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,122] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,130] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,137] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,145] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,156] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,165] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,172] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,179] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,190] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,199] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,211] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,219] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,228] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,241] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,253] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,262] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,269] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,283] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,293] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,300] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,309] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,318] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,325] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,336] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,349] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,357] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,367] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,376] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,384] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,393] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,403] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,413] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,422] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,433] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,442] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,456] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,471] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,480] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,489] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,498] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,507] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,521] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,537] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,545] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,562] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,582] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,602] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,621] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,631] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,641] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,649] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,657] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,665] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,672] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,687] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,696] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,705] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,722] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,733] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,753] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,764] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,783] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,794] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,804] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,820] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,830] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,841] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,851] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,863] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,874] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,884] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,900] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,909] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:50,917] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,921] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:50,931] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,934] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:50,940] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,953] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:50,956] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,961] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:50,971] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:50,977] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:50,983] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:50,990] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:50,998] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,007] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,009] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,013] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,021] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,025] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,029] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,038] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,044] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,044] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,056] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,062] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,064] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,074] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,082] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,086] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,094] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,102] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,104] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,104] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,120] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,128] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,129] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,132] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,137] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,152] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,153] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,153] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,154] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,171] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,177] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,177] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,178] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,188] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,197] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,204] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,207] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,207] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,216] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,222] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,228] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,232] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,236] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,245] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,259] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,267] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,269] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,284] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,285] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,286] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,299] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,302] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,302] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,314] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,318] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,322] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,334] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,339] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,339] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,343] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,358] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,366] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,367] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,370] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,374] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,388] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,389] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,392] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,395] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,404] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,412] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,419] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,419] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,421] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,437] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,442] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,444] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,450] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,461] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,467] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,470] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,474] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,475] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,490] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,493] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,493] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,495] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,508] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,523] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,526] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,528] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,530] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,544] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:51,568] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,583] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,598] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,612] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,626] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,638] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,654] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,669] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,686] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,702] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,720] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,736] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,753] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,771] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,795] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,812] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,831] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,851] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,869] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,895] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,915] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,934] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,955] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,972] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:51,987] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:52,005] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:52,026] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:52,047] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:52,068] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:52,088] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:52,099] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:52,115] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:52,124] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:52,131] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:52,150] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:23:52,155] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:52,163] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:52,172] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:52,188] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:52,201] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:52,202] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:52,204] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:52,220] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:52,231] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:52,235] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:52,238] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:52,248] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:52,262] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:52,263] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:52,267] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:52,270] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:52,290] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:52,294] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:52,300] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:52,300] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:52,320] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:52,323] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:52,338] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:52,338] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:52,353] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:52,361] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:52,371] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:52,372] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:23:52,383] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:26:52,325] INFO apps.products ProductViewSet initialized
+[2026-06-14 11:29:23,401] INFO apps.products ProductViewSet initialized
+[2026-06-14 11:29:36,643] INFO apps.products ProductViewSet initialized
+[2026-06-14 11:29:36,643] INFO apps.products ProductViewSet initialized
+[2026-06-14 11:29:36,643] INFO apps.products ProductViewSet initialized
+[2026-06-14 11:29:37,260] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,263] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,266] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,276] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,280] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,284] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,293] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,294] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,300] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,303] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,305] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,307] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,308] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,309] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,317] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,322] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,324] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,334] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,337] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,338] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,340] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,346] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,346] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,350] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,350] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,356] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,365] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,366] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,370] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,382] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,384] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,385] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,383] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,397] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,400] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,402] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,403] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,410] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,415] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,415] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,416] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,428] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,428] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,428] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,429] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,437] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,438] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,440] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,446] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,450] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,454] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,455] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,456] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,455] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,465] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,468] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,472] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,474] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,477] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,479] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,488] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,489] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,490] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,492] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,496] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,499] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,504] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,508] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,510] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,517] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,518] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,527] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,529] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,532] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,534] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,535] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,537] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,538] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,546] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,548] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,554] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,554] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,555] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,565] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,566] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,569] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,570] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,574] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,574] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,578] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,574] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,584] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,585] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,590] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,596] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,598] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,597] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,599] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,606] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:29:37,612] INFO apps.products Returning paginated product list with caching
+[2026-06-14 11:30:24,181] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,206] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,225] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,238] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,252] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,266] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,285] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,298] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,312] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,329] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,350] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,363] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,375] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,390] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,399] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,407] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,414] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,429] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,438] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,448] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,455] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,469] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,477] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,489] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,498] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,514] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,523] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,531] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,538] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,552] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,560] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,568] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,575] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,582] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,591] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,602] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,610] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,673] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,689] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,699] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,715] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,779] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,796] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,805] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,816] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,828] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,837] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,846] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,853] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,867] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,876] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,889] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,898] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,906] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,922] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,969] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,983] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,992] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:24,999] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,013] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,026] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,034] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,043] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,051] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,066] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,082] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,090] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,099] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,107] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,123] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,132] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,152] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,165] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,173] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,181] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,189] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,202] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,211] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,220] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,230] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,244] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,258] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,271] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,284] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,297] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,305] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,312] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,320] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,327] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,341] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,350] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,358] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,371] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,384] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,392] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,402] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,415] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,428] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,439] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:30:25,449] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:19,081] INFO apps.products ProductViewSet initialized
+[2026-06-14 11:50:29,714] INFO apps.products ProductViewSet initialized
+[2026-06-14 11:50:29,715] INFO apps.products ProductViewSet initialized
+[2026-06-14 11:50:29,715] INFO apps.products ProductViewSet initialized
+[2026-06-14 11:50:30,378] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,398] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,415] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,431] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,450] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,469] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,482] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,510] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,546] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,585] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,598] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,613] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,626] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,635] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,653] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,664] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,683] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,693] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,702] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,717] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,736] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,746] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,757] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,764] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,775] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,784] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,800] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,809] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,817] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,827] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,836] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,844] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,854] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,862] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,869] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,882] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,890] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,900] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,908] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,919] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,933] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,941] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,948] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,958] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,966] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,978] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:30,995] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,005] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,016] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,033] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,049] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,059] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,075] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,084] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,097] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,106] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,117] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,131] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,140] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,150] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,163] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,171] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,181] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,194] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,207] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,215] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,222] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,231] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,238] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,251] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,260] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,271] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,286] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,294] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,302] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,319] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,329] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,344] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,358] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,365] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,373] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,387] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,395] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,408] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,416] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,427] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,442] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,453] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,468] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,477] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,492] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,510] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,527] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,537] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,544] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,559] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,567] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,580] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,590] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:50:31,597] INFO apps.products Stock updated for product: 2
+[2026-06-14 11:52:39,382] INFO apps.products ProductViewSet initialized
+[2026-06-14 12:01:03,649] INFO apps.products ProductViewSet initialized
+[2026-06-14 12:12:29,593] INFO apps.products ProductViewSet initialized
+[2026-06-14 12:12:29,593] INFO apps.products ProductViewSet initialized
+[2026-06-14 12:12:29,593] INFO apps.products ProductViewSet initialized
+[2026-06-14 12:12:30,227] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,245] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,260] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,277] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,295] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,312] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,327] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,342] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,356] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,371] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,386] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,400] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,419] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,436] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,446] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,485] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,514] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,529] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,542] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,568] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,583] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,596] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,612] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,623] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,635] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,646] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,656] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,665] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,673] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,688] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,697] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,705] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,713] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,730] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,749] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,762] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,778] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,789] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,807] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,827] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,833] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,849] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,866] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,875] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,893] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,905] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,921] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,939] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,955] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,972] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,981] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,991] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:30,999] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,011] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,019] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,031] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,039] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,051] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,059] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,070] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,079] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,086] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,093] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,107] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,123] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,136] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,144] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,154] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,167] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,182] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,197] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,207] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,216] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,223] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,233] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,246] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,254] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,268] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,276] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,290] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,298] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,307] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,316] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,323] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,331] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,338] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,350] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,365] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,379] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,392] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,405] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,414] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,423] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,435] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,449] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,463] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,477] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,489] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,501] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:12:31,513] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:13:49,266] INFO apps.products ProductViewSet initialized
+[2026-06-14 12:25:09,695] INFO apps.products ProductViewSet initialized
+[2026-06-14 12:25:21,690] INFO apps.products ProductViewSet initialized
+[2026-06-14 12:25:21,690] INFO apps.products ProductViewSet initialized
+[2026-06-14 12:25:21,691] INFO apps.products ProductViewSet initialized
+[2026-06-14 12:25:22,333] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,347] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,361] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,375] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,390] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,404] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,418] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,436] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,471] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,484] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,501] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,516] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,526] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,541] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,551] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,568] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,578] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,594] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,613] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,621] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,636] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,646] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,661] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,676] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,690] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,706] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,715] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,730] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,738] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,749] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,757] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,765] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,775] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,782] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,795] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,803] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,814] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,822] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,837] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,848] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,863] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,877] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,886] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,897] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,908] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,926] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,937] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,944] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,952] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,970] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:22,988] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,005] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,023] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,040] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,050] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,060] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,074] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,088] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,102] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,112] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,124] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,132] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,141] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,148] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,156] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,170] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,177] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,185] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,196] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,205] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,213] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,228] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,241] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,256] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,266] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,280] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,288] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,301] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,312] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,320] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,334] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,342] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,354] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,369] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,382] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,397] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,405] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,417] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,429] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,442] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,457] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,471] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,484] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,497] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,511] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,524] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,538] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,550] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,561] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:25:23,571] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:32:18,005] INFO apps.products ProductViewSet initialized
+[2026-06-14 12:32:26,999] INFO apps.products ProductViewSet initialized
+[2026-06-14 12:32:26,999] INFO apps.products ProductViewSet initialized
+[2026-06-14 12:32:26,999] INFO apps.products ProductViewSet initialized
+[2026-06-14 12:33:45,288] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,313] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,328] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,341] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,356] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,371] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,387] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,402] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,417] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,436] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,462] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,481] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,498] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,506] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,521] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,539] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,555] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,571] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,578] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,587] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,600] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,613] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,625] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,639] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,649] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,658] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,667] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,677] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,684] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,697] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,705] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,712] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,718] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,731] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,741] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,751] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,758] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,768] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,776] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,784] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,799] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,808] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,819] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,828] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,838] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,849] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,863] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,873] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,883] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,897] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,912] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,926] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,939] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,953] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:45,966] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,038] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,051] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,064] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,078] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,091] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,104] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,116] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,126] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,137] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,144] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,151] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,160] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,169] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,183] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,197] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,212] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,220] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,230] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,241] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,257] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,266] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,277] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,290] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,298] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,356] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,367] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,381] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,389] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,401] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,413] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,420] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,432] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,445] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,453] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,461] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,476] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,490] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,551] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,560] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,571] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,583] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,598] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,610] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,622] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:33:46,632] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:01,926] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:01,947] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:01,960] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:01,973] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:01,989] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:01,999] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,015] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,032] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,044] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,055] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,068] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,083] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,093] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,104] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,113] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,123] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,137] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,154] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,166] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,176] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,184] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,199] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,209] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,224] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,233] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,250] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,260] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,268] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,278] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,295] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,311] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,322] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,341] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,350] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,366] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,383] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,392] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,408] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,417] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,432] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,446] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,457] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,465] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,477] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,484] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,496] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,505] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,521] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,532] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,544] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,559] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,568] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,581] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,596] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,610] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,620] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,627] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,639] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,647] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,661] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,671] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,681] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,690] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,699] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,709] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,718] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,727] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,737] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,745] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,755] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,764] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,773] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,782] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,793] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,806] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,821] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,830] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,840] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,850] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,858] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,868] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,882] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,891] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,902] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,910] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,919] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,929] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,937] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,946] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,958] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,970] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,977] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:02,991] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:03,010] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:03,028] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:03,046] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:03,059] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:03,071] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:03,082] INFO apps.products Stock updated for product: 2
+[2026-06-14 12:36:03,090] INFO apps.products Stock updated for product: 2

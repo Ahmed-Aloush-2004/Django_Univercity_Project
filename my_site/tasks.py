@@ -1,6 +1,7 @@
 import io
 import csv
 import logging
+import os
 
 import matplotlib
 matplotlib.use('Agg')
@@ -17,12 +18,13 @@ from apps.orders.models import Order, OrderItem
 from apps.products.models import Product
 
 logger = logging.getLogger(__name__)
+EMAIL_HOST_USER     = os.getenv('EMAIL_USER','ahmed09887766554@gmail.com')
 
 # ------------------------------------------------------------------ #
 #  Requirement 3 — Asynchronous Queue                                  #
 # ------------------------------------------------------------------ #
 
-@shared_task(bind=True, max_retries=3, default_retry_delay=60)
+@shared_task(bind=True, max_retries=3, default_retry_delay=60,rate_limit='10/m')
 def send_order_confirmation_email(self, order_id, customer_email, customer_name, total_price):
     """
     Asynchronous task: sends an order-confirmation email after the DB transaction commits.
@@ -46,7 +48,8 @@ def send_order_confirmation_email(self, order_id, customer_email, customer_name,
         send_mail(
             subject,
             message,
-            settings.EMAIL_HOST_USER,
+            # settings.EMAIL_HOST_USER,
+            EMAIL_HOST_USER,
             [customer_email],
             fail_silently=False,
         )

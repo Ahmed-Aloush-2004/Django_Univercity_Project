@@ -1,0 +1,16 @@
+global:
+  scrape_interval: 5s 
+
+scrape_configs:
+  # 1. Your Django Application (Software Metrics)
+  - job_name: 'django_cluster'
+    static_configs:
+      - targets: 
+        - 'host.docker.internal:8001'
+        - 'host.docker.internal:8002'
+        - 'host.docker.internal:8003'
+
+  # 2. Your Local Machine (Hardware Metrics)
+  - job_name: 'windows_machine'
+    static_configs:
+      - targets: ['host.docker.internal:9182']

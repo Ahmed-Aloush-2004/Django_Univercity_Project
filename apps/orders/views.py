@@ -7,6 +7,10 @@ from .serializers import OrderSerializer
 from .services import OrderService
 from rest_framework.throttling import UserRateThrottle
 from django.db import DatabaseError
+import logging
+
+logger = logging.getLogger("apps.orders")
+
 
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all().prefetch_related('items__product')

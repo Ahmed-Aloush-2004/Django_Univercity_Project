@@ -4,6 +4,7 @@ from datetime import timedelta
 from dotenv import load_dotenv
 from celery.schedules import crontab
 
+
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -13,11 +14,139 @@ DEBUG = os.getenv('DEBUG') == 'True'
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
+
+
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+
+sentry_sdk.init(
+    dsn=os.getenv('SENTRY_DSN'),
+    integrations=[
+        DjangoIntegration(),
+    ],
+    traces_sample_rate=1.0,
+    send_default_pii=True,
+)
+
+
+
+
+LOG_DIR = os.path.join(BASE_DIR, "logs")
+
+os.makedirs(LOG_DIR, exist_ok=True)
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+
+    "formatters": {
+        "verbose": {
+            "format": (
+                "[{asctime}] "
+                "{levelname} "
+                "{name} "
+                "{message}"
+            ),
+            "style": "{",
+        },
+    },
+
+    "handlers": {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'performance.log', # الملف الذي سيحوي السجلات
+        },
+        "products_file": {
+            "class": "logging.FileHandler",
+            "filename": os.path.join(LOG_DIR, "products.log"),
+            "formatter": "verbose",
+        },
+        "middleware_file": {
+            "class": "logging.FileHandler",
+            "filename": os.path.join(LOG_DIR, "middleware.log"),
+            "formatter": "verbose",
+        },
+
+        "orders_file": {
+            "class": "logging.FileHandler",
+            "filename": os.path.join(LOG_DIR, "orders.log"),
+            "formatter": "verbose",
+        },
+
+        "carts_file": {
+            "class": "logging.FileHandler",
+            "filename": os.path.join(LOG_DIR, "carts.log"),
+            "formatter": "verbose",
+        },
+
+        "users_file": {
+            "class": "logging.FileHandler",
+            "filename": os.path.join(LOG_DIR, "users.log"),
+            "formatter": "verbose",
+        },
+
+        "errors_file": {
+            "class": "logging.FileHandler",
+            "filename": os.path.join(LOG_DIR, "errors.log"),
+            "formatter": "verbose",
+            "level": "ERROR",
+        },
+    },
+
+    "loggers": {
+        
+        'performance_logger': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        
+        "apps.products": {
+            "handlers": ["products_file", "errors_file"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+        
+        "apps.middleware": {
+            "handlers": ["middleware_file", "errors_file"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+
+        "apps.orders": {
+            "handlers": ["orders_file", "errors_file"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+
+        "apps.carts": {
+            "handlers": ["carts_file", "errors_file"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+
+        "apps.users": {
+            "handlers": ["users_file", "errors_file"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+    },
+}
+
+
 # ------------------------------------------------------------------ #
 #  Installed apps                                                      #
 # ------------------------------------------------------------------ #
 
 INSTALLED_APPS = [
+    'django_prometheus',
+    
+    'health_check',
+
+    
+    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,6 +170,9 @@ INSTALLED_APPS = [
 # ------------------------------------------------------------------ #
 
 MIDDLEWARE = [
+
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -48,12 +180,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # Requirement 2: caps simultaneous requests at MAX_CONCURRENT_REQUESTS (50)
-    'my_site.middlewares.CapacityControlMiddleware',
-    # Catches unhandled exceptions and returns a structured JSON 500 response
+
+    'my_site.middlewares.CapacityControlMiddleware',  # Requirement 2: concurrent request limiter
+
+    # Optional later
     'my_site.middlewares.GlobalExceptionHandlerMiddleware',
-    # Requirement 10: per-second request-rate counter (stored in Redis)
-    'my_site.middlewares.RequestRateMonitorMiddleware',
+    # 'my_site.middlewares.RequestRateMonitorMiddleware',
+    'my_site.middlewares.RequestMonitoringMiddleware',
+
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
 ROOT_URLCONF = 'my_site.urls'
@@ -157,8 +292,8 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.UserRateThrottle',
     ],
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '100/day',
-        'user': '1000/day',
+        'anon': '100000000/day',
+        'user': '100000000/day',
     },
 }
 
@@ -174,12 +309,15 @@ SIMPLE_JWT = {
 #  Email                                                               #
 # ------------------------------------------------------------------ #
 
-EMAIL_BACKEND       = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND       = 'django.core.mail.backends.smtp.EmailBackend'
+# settings.py
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST          = 'smtp.gmail.com'
 EMAIL_PORT          = 587
 EMAIL_USE_TLS       = True
-EMAIL_HOST_USER     = os.getenv('EMAIL_USER',     'your_email@gmail.com')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD', 'your_app_password')
+EMAIL_HOST_USER     = os.getenv('EMAIL_HOST_USER',     'your_email@gmail.com')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', 'your_app_password')
 DEFAULT_FROM_EMAIL  = EMAIL_HOST_USER
 
 # ------------------------------------------------------------------ #

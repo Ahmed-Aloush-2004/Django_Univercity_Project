@@ -5,6 +5,11 @@ from .serializers import CartSerializer
 from .services import CartService
 from .models import Cart, CartItem
 from django.core.exceptions import ValidationError
+import logging
+
+logger = logging.getLogger("apps.carts")
+
+
 
 class CartDetailView(APIView):
     permission_classes = [permissions.IsAuthenticated]
