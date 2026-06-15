@@ -1,4 +1,4 @@
-
+#تهيئة وتكوين أداة Celery
 
 import os
 from celery import Celery

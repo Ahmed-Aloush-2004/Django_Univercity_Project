@@ -68,17 +68,16 @@ def generate_full_weekly_report():
     email.send()
 
     return f"Full Updated Report Sent for {top_products_count} top products."
+
 """
 ============================================================
 """
 
 def _generate_inventory_csv():
-    """تابع مساعد: مخصص حصرياً لتوليد تقرير المخزون الحالي"""
     product_output = io.StringIO()
     product_writer = csv.writer(product_output)
     product_writer.writerow(['ID', 'Product Name', 'Current Stock', 'Price', 'Version', 'Created At'])
     
-    # استخدام iterator مع ترتيب ثابت لضمان سلامة جلب البيانات الحجمية
     all_products = Product.objects.all().order_by('id').iterator(chunk_size=500)
     for prod in all_products:
         product_writer.writerow([
@@ -91,12 +90,10 @@ def _generate_inventory_csv():
 """
 
 def _generate_sales_csv(start_date, end_date):
-    """تابع مساعد: مخصص لمعالجة المبيعات وحساب الأرباح وحل مشكلة الـ N+1"""
     order_output = io.StringIO()
     order_writer = csv.writer(order_output)
     order_writer.writerow(['Order ID', 'Customer', 'Product', 'Quantity', 'Status', 'Order Total Price', 'Date'])
     
-    # 💡 [الإصلاح]: حذفنا الـ iterator هنا ليعمل الـ prefetch_related بشكل صحيح ويمنع الـ N+1 Query
     orders = Order.objects.filter(
         created_at__range=(start_date, end_date)
     ).prefetch_related('items__product').order_by('-id')

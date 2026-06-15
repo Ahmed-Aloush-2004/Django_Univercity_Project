@@ -3,18 +3,17 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.hashers import make_password
 from .models import User
 import logging
-
+from decimal import Decimal
+from django.db.models import F
 logger = logging.getLogger("apps.users")
-
-
 
 class AuthService:
     @staticmethod
     def register_user(data):
         """Handle user registration with hashed password."""
-        data['password'] = make_password(data['password'])
-        user = User.objects.create(**data)
-        logger.info(f"User registered: {user.email}")
+        password = data.pop('password', None)
+        user = User.objects.create_user(password=password, **data)
+        logger.info(f"User registered successfully: {user.email}")
         return user
 
     @staticmethod
@@ -47,3 +46,13 @@ class AuthService:
         """Update password safely."""
         user.set_password(new_password)
         user.save()
+    
+    @staticmethod
+    def deposit_wallet(user, amount: Decimal):
+        if amount <= 0:
+            raise ValueError("يجب أن يكون مبلغ الشحن أكبر من الصفر.")
+        
+        User.objects.filter(id=user.id).update(wallet_balance=F('wallet_balance') + amount)
+        
+        user.refresh_from_db()
+        return user

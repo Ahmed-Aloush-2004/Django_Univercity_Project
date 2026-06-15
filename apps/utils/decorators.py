@@ -1,6 +1,4 @@
 
-
-
 import time
 import logging
 from functools import wraps
@@ -15,7 +13,6 @@ def monitor_performance(func):
         end_time = time.time()
         execution_time = end_time - start_time
         
-        # تسجيل اسم الدالة وزمن التنفيذ في الملف
         logger.info(f"Function {func.__name__} executed in {execution_time:.4f} seconds")
         return result
     return wrapper

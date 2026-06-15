@@ -33,34 +33,11 @@ class OrderSerializer(serializers.ModelSerializer):
     """
     ============================================================
     """
-    def create(self, validated_data):
-        products_data = validated_data.pop('products')  
-        customer_name = self.context['request'].user.username
-        order_price = validated_data.get('order_price')
+class UpdateOrderItemsSerializer(serializers.Serializer):
+    products = serializers.ListField(child=serializers.DictField(), required=True)
+    order_price = serializers.DecimalField(max_digits=10, decimal_places=2, required=True)
 
-        return OrderService.create_order_with_stock(
-            customer_name,
-            products_data,
-            order_price
-        )
-    """
-    ============================================================
-    """ 
-
-    def update(self, instance, validated_data):
-        products_data = validated_data.pop('products', None)
-        new_order_price = validated_data.get('order_price', instance.order_price)
-
-        if products_data is not None:
-            OrderService.update_order_items(
-                order_id=instance.id, 
-                customer_name=instance.customer_name,
-                new_products_data=products_data, 
-                new_order_price=new_order_price
-            )
-        
-        instance.refresh_from_db()
-        return instance
-    """
-    ============================================================
-    """
+    def validate_products(self, value):
+        if len(value) > 50:
+            raise serializers.ValidationError("لا يمكن إضافة أكثر من 50 منتج.")
+        return value

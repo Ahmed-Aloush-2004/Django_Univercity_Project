@@ -35,10 +35,7 @@ urlpatterns = [
     path('api/users/', include('apps.users.urls')),    
     path('api/cart/', include('apps.carts.urls')),
     
-    # Prometheus metrics endpoint
-    path('prometheus/', include('django_prometheus.urls')),   
-    path('', include('django_prometheus.urls')),
-   
+    path('prometheus/', include('django_prometheus.urls')),      
     path('sentry-debug/', trigger_error),
     
     path('health/', HealthCheckView.as_view(

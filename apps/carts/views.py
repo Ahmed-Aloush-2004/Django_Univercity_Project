@@ -23,6 +23,7 @@ class CartDetailView(APIView):
         serializer = CartSerializer(cart)
         logger.info("Cart fetched for user=%s", request.user.username)
         return Response(serializer.data)
+    
 """
 ============================================================
 """

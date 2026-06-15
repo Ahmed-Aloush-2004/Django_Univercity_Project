@@ -1,11 +1,7 @@
 # my_site/system_metrics.py
-
 import os
 import psutil
-
 process = psutil.Process(os.getpid())
-
-
 def get_process_metrics():
     return {
         "cpu_percent": process.cpu_percent(),

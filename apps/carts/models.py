@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from ..products.models import Product # Assuming Product is in the same app or adjust import
+from ..products.models import Product 
 
 class Cart(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='cart')

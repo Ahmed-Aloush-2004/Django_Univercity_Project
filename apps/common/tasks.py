@@ -26,17 +26,6 @@ EMAIL_HOST_USER     = os.getenv('EMAIL_USER','ahmed09887766554@gmail.com')
 
 @shared_task(bind=True, max_retries=3, default_retry_delay=60,rate_limit='10/m')
 def send_order_confirmation_email(self, order_id, customer_email, customer_name, total_price):
-    """
-    Asynchronous task: sends an order-confirmation email after the DB transaction commits.
-
-    Why asynchronous?
-      The HTTP response is returned to the user immediately after the DB commit.
-      Email delivery (SMTP round-trip, possible retries) happens in the background
-      via a Celery worker, so the user is never kept waiting for the mail server.
-
-    Reliability: bind=True + max_retries=3 means the task automatically retries
-    up to 3 times (with a 60-second delay) if the SMTP server is temporarily unavailable.
-    """
     subject = f'Order confirmation #{order_id}'
     message = (
         f'Hello {customer_name},\n\n'
@@ -70,25 +59,13 @@ BATCH_SIZE = 500  # number of rows processed per chunk
 
 @shared_task(name="apps.orders.tasks.daily_sales_batch_processing")
 def daily_sales_batch_processing():
-    """
-    Batch processing task: processes today's completed orders in chunks of
-    BATCH_SIZE rows rather than loading the entire result-set into memory.
-
-    Why chunked?
-      For a high-volume store, today's orders could be hundreds of thousands
-      of rows. Loading them all at once would exhaust RAM.  Processing in
-      fixed-size batches keeps memory usage flat and allows the DB server
-      to release locks progressively.
-
-    Technique: offset-based pagination over an ordered queryset.
-    """
     today = timezone.now().date()
     logger.info("Starting daily batch processing for %s", today)
 
     base_qs = (
         Order.objects
         .filter(created_at__date=today, status='completed')
-        .order_by('id')          # stable ordering is required for correct pagination
+        .order_by('id')         
     )
 
     total_revenue = 0
@@ -130,14 +107,6 @@ def daily_sales_batch_processing():
 
 @shared_task(name="apps.orders.tasks.generate_weekly_report")
 def generate_weekly_report():
-    """
-    Generates a weekly sales report and emails it to the admin.
-
-    Memory-safe techniques used:
-      - Product inventory: iterator(chunk_size=BATCH_SIZE) streams rows without
-        loading the whole table into memory.
-      - Orders: prefetch_related prevents N+1 queries when iterating items.
-    """
     end_date = timezone.now()
     start_date = end_date - timedelta(days=7)
 
@@ -177,7 +146,6 @@ def _build_inventory_csv() -> io.StringIO:
     writer = csv.writer(buf)
     writer.writerow(['ID', 'Name', 'Stock', 'Price', 'Version', 'Created'])
 
-    # iterator() streams rows in chunks — no full table in memory
     for product in Product.objects.all().order_by('id').iterator(chunk_size=BATCH_SIZE):
         writer.writerow([
             product.id, product.name, product.stock,
@@ -194,7 +162,7 @@ def _build_sales_csv(start_date, end_date):
     orders = (
         Order.objects
         .filter(created_at__range=(start_date, end_date))
-        .prefetch_related('items__product')   # prevents N+1
+        .prefetch_related('items__product')  
         .order_by('id')
     )
 

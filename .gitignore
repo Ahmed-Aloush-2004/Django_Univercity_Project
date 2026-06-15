@@ -9,3 +9,6 @@ venv/
 venv_wsl/
 env/
 media/
+
+celerybeat-schedule*
+*.log

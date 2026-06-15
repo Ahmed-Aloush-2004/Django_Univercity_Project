@@ -17,10 +17,8 @@ DEBUG = os.getenv('DEBUG') == 'True'
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
-
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
-
 
 sentry_sdk.init(
     dsn=os.getenv('SENTRY_DSN'),
@@ -31,187 +29,8 @@ sentry_sdk.init(
     send_default_pii=True,
 )
 
-
-
-
-# LOG_DIR = os.path.join(BASE_DIR, "logs")
-
-# os.makedirs(LOG_DIR, exist_ok=True)
-
-# LOGGING = {
-#     "version": 1,
-#     "disable_existing_loggers": False,
-
-#     "formatters": {
-#         "verbose": {
-#             "format": (
-#                 "[{asctime}] "
-#                 "{levelname} "
-#                 "{name} "
-#                 "{message}"
-#             ),
-#             "style": "{",
-#         },
-#     },
-
-#     "handlers": {
-#         "products_file": {
-#             "class": "logging.FileHandler",
-#             "filename": os.path.join(LOG_DIR, "products.log"),
-#             "formatter": "verbose",
-#         },
-#         "middleware_file": {
-#             "class": "logging.FileHandler",
-#             "filename": os.path.join(LOG_DIR, "middleware.log"),
-#             "formatter": "verbose",
-#         },
-
-#         "orders_file": {
-#             "class": "logging.FileHandler",
-#             "filename": os.path.join(LOG_DIR, "orders.log"),
-#             "formatter": "verbose",
-#         },
-
-#         "carts_file": {
-#             "class": "logging.FileHandler",
-#             "filename": os.path.join(LOG_DIR, "carts.log"),
-#             "formatter": "verbose",
-#         },
-
-#         "users_file": {
-#             "class": "logging.FileHandler",
-#             "filename": os.path.join(LOG_DIR, "users.log"),
-#             "formatter": "verbose",
-#         },
-
-#         "errors_file": {
-#             "class": "logging.FileHandler",
-#             "filename": os.path.join(LOG_DIR, "errors.log"),
-#             "formatter": "verbose",
-#             "level": "ERROR",
-#         },
-#     },
-
-#     "loggers": {
-#         "apps.products": {
-#             "handlers": ["products_file", "errors_file"],
-#             "level": "DEBUG",
-#             "propagate": False,
-#         },
-        
-#         "apps.middleware": {
-#             "handlers": ["middleware_file", "errors_file"],
-#             "level": "DEBUG",
-#             "propagate": False,
-#         },
-
-#         "apps.orders": {
-#             "handlers": ["orders_file", "errors_file"],
-#             "level": "DEBUG",
-#             "propagate": False,
-#         },
-
-#         "apps.carts": {
-#             "handlers": ["carts_file", "errors_file"],
-#             "level": "DEBUG",
-#             "propagate": False,
-#         },
-
-#         "apps.users": {
-#             "handlers": ["users_file", "errors_file"],
-#             "level": "DEBUG",
-#             "propagate": False,
-#         },
-#     },
-# }
-
-
-
-LOG_DIR = os.path.join(BASE_DIR, "logs")
-os.makedirs(LOG_DIR, exist_ok=True)
-
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "formatters": {
-        "verbose": {
-            "format": "[{asctime}] {levelname} {name} {message}",
-            "style": "{",
-        },
-    },
-    "handlers": {
-        # هذا الجزء مسؤول عن الطباعة على الشاشة (الـ Terminal)
-        "console": {
-            "class": "logging.StreamHandler",
-            "formatter": "verbose",
-        },
-        # هذه الأجزاء مسؤولة عن الكتابة داخل الملفات
-        "products_file": {
-            "class": "logging.FileHandler",
-            "filename": os.path.join(LOG_DIR, "products.log"),
-            "formatter": "verbose",
-        },
-        "middleware_file": {
-            "class": "logging.FileHandler",
-            "filename": os.path.join(LOG_DIR, "middleware.log"),
-            "formatter": "verbose",
-        },
-        "orders_file": {
-            "class": "logging.FileHandler",
-            "filename": os.path.join(LOG_DIR, "orders.log"),
-            "formatter": "verbose",
-        },
-        "carts_file": {
-            "class": "logging.FileHandler",
-            "filename": os.path.join(LOG_DIR, "carts.log"),
-            "formatter": "verbose",
-        },
-        "users_file": {
-            "class": "logging.FileHandler",
-            "filename": os.path.join(LOG_DIR, "users.log"),
-            "formatter": "verbose",
-        },
-        "errors_file": {
-            "class": "logging.FileHandler",
-            "filename": os.path.join(LOG_DIR, "errors.log"),
-            "formatter": "verbose",
-            "level": "ERROR",
-        },
-    },
-    "loggers": {
-        "apps.products": {
-            # لاحظ أننا أضفنا "console" هنا لتعمل على الشاشة والملف معاً
-            "handlers": ["console", "products_file", "errors_file"],
-            "level": "DEBUG",
-            "propagate": False,
-        },
-        "apps.middleware": {
-            "handlers": ["console", "middleware_file", "errors_file"],
-            "level": "DEBUG",
-            "propagate": False,
-        },
-        "apps.orders": {
-            "handlers": ["console", "orders_file", "errors_file"],
-            "level": "DEBUG",
-            "propagate": False,
-        },
-        "apps.carts": {
-            "handlers": ["console", "carts_file", "errors_file"],
-            "level": "DEBUG",
-            "propagate": False,
-        },
-        "apps.users": {
-            "handlers": ["console", "users_file", "errors_file"],
-            "level": "DEBUG",
-            "propagate": False,
-        },
-    },
-}
-
-
-
-
-
+from my_site.core.logging_config import get_logging_config
+LOGGING = get_logging_config(BASE_DIR)
 
 
 # ------------------------------------------------------------------ #
@@ -220,27 +39,22 @@ LOGGING = {
 
 INSTALLED_APPS = [
     'django_prometheus',
-    
-    'health_check',
-
-    
-    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Third-party
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'django_celery_results',
-    # Project apps
     'apps.products',
     'apps.orders',
     'apps.users',
     'apps.carts',
+    'health_check',                            
+
 ]
 
 # ------------------------------------------------------------------ #
@@ -258,14 +72,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    'my_site.middlewares.CapacityControlMiddleware',  # Requirement 2: concurrent request limiter
-
-    # Optional later
-    'my_site.middlewares.GlobalExceptionHandlerMiddleware',
-    # 'my_site.middlewares.RequestRateMonitorMiddleware',
-    'my_site.middlewares.RequestMonitoringMiddleware',
-
+    'my_site.core.middlewares.CapacityControlMiddleware', 
+    'my_site.core.middlewares.GlobalExceptionHandlerMiddleware',
+    'my_site.core.middlewares.RequestMonitoringMiddleware',
     'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
@@ -300,9 +109,6 @@ DATABASES = {
         'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'postgres'),
         'HOST':     os.getenv('POSTGRES_HOST',     '127.0.0.1'),
         'PORT':     os.getenv('POSTGRES_PORT',     '5432'),
-        # Requirement 10 (Bottleneck fix): reuse DB connections for up to 60 s.
-        # Before: CONN_MAX_AGE=0 → a new TCP handshake on every request (~5 ms overhead).
-        # After : CONN_MAX_AGE=60 → connection reused → overhead drops to ~0.1 ms.
         'CONN_MAX_AGE': 60,
     }
 }
@@ -319,7 +125,7 @@ CACHES = {
         'LOCATION': os.getenv('REDIS_URL', 'redis://127.0.0.1:6379/1'),
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-            'IGNORE_EXCEPTIONS': True,   # degrade gracefully if Redis is down
+            'IGNORE_EXCEPTIONS': True,   
             'SOCKET_CONNECT_TIMEOUT': 2,
             'SOCKET_TIMEOUT': 2,
         },
@@ -338,13 +144,11 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE          = 'UTC'
 
 CELERY_BEAT_SCHEDULE = {
-    # Requirement 4a: daily sales batch — runs every day at midnight.
-    # Task lives in my_site/tasks.py → module path: my_site.tasks
+  
     'daily-batch-sales': {
         'task': 'my_site.tasks.daily_sales_batch_processing',
         'schedule': crontab(hour=0, minute=0),
     },
-    # Requirement 4b: weekly full report — runs every Monday at midnight.
     'weekly-full-report': {
         'task': 'my_site.tasks.generate_weekly_report',
         'schedule': crontab(day_of_week=1, hour=0, minute=0),
@@ -364,7 +168,6 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
-    # Requirement 2: per-user and per-IP rate throttle (second capacity layer)
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.AnonRateThrottle',
         'rest_framework.throttling.UserRateThrottle',
@@ -387,10 +190,8 @@ SIMPLE_JWT = {
 #  Email                                                               #
 # ------------------------------------------------------------------ #
 
-# EMAIL_BACKEND       = 'django.core.mail.backends.smtp.EmailBackend'
-# settings.py
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST          = 'smtp.gmail.com'
 EMAIL_PORT          = 587
 EMAIL_USE_TLS       = True
