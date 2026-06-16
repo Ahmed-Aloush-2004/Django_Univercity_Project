@@ -22,20 +22,14 @@ class ProductViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         import time
         
-        t0 = time.time()
         page = self.paginate_queryset(self.queryset)
-        print(f"⏱️ [1] Pagination & DB Count took: {time.time() - t0:.4f} seconds")
-        
         if page is not None:
-            t1 = time.time()
             cache_keys = [f"product:{p.id}" for p in page]
             cached_products_dict = cache.get_many(cache_keys) 
-            print(f"⏱️ [2] Redis cache.get_many took: {time.time() - t1:.4f} seconds")
             
             paginated_products = []
             products_to_cache = {}
 
-            t2 = time.time()
             for p in page:
                 key = f"product:{p.id}"
                 if key in cached_products_dict:
@@ -44,12 +38,9 @@ class ProductViewSet(viewsets.ModelViewSet):
                     p_data = ProductSerializer(p).data
                     paginated_products.append(p_data)
                     products_to_cache[key] = p_data
-            print(f"⏱️ [3] Serialization loop took: {time.time() - t2:.4f} seconds")
             
             if products_to_cache:
-                t3 = time.time()
                 cache.set_many(products_to_cache, timeout=900)
-                print(f"⏱️ [4] Redis cache.set_many took: {time.time() - t3:.4f} seconds")
                 
             logger.info("Returning paginated product list with distributed caching")
             return self.get_paginated_response(paginated_products)
@@ -67,7 +58,7 @@ class ProductViewSet(viewsets.ModelViewSet):
 
         if data is None:
             return Response(
-                {"error": "المنتج غير موجود."},
+                {"error": "product not found"},
                 status=status.HTTP_404_NOT_FOUND,
             )
         print(f"Product retrieved: {data['name']} (ID: {product_id})")

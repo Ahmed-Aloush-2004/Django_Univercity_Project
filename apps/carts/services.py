@@ -2,7 +2,7 @@ from .models import Cart, CartItem
 from django.db import models, transaction, IntegrityError
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
-
+from django.core.cache import cache
 import logging
 
 logger = logging.getLogger("apps.carts")

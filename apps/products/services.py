@@ -6,6 +6,11 @@ from django.db.models import F
 from apps.products.models import Product
 from apps.products.serializers import ProductSerializer
 import logging
+from django.db.models import Sum
+from django.utils import timezone
+from datetime import timedelta
+from apps.orders.models import OrderItem
+
 
 PRODUCT_CACHE_TTL = 900  
 
@@ -66,7 +71,6 @@ class ProductService:
         try:
             cache.incr(key)
         except ValueError:
-            # Key does not exist yet — initialize it.
             cache.set(key, 1, timeout=None)
 
     @staticmethod
@@ -86,7 +90,6 @@ class ProductService:
                 ranked.append((product, int(views)))
 
         ranked.sort(key=lambda pair: pair[1], reverse=True)
-
         data = [
             {
                 "id": product.id,
@@ -109,12 +112,6 @@ class ProductService:
             return cached
 
         logger.info("Trending products cache miss — recomputing ranking")
-
-        from django.db.models import Sum
-        from django.utils import timezone
-        from datetime import timedelta
-        from apps.orders.models import OrderItem
-
         since = timezone.now() - timedelta(days=days)
 
         top_items = (
@@ -124,7 +121,6 @@ class ProductService:
             .annotate(total_sold=Sum("quantity"))
             .order_by("-total_sold")[:limit]
         )
-
         data = [
             {
                 "id": item["product_id"],
@@ -134,7 +130,6 @@ class ProductService:
             }
             for item in top_items
         ]
-
         cache.set(TRENDING_CACHE_KEY, data, TRENDING_CACHE_TTL)
         logger.info(f"Trending products computed and cached ({len(data)} items)")
         return data
@@ -205,7 +200,6 @@ class ProductService:
                     ProductService._invalidate(product_id)
                     return True
 
-                # Another thread beat us — back off and retry
                 time.sleep(random.uniform(0.01, 0.05))
 
             except Product.DoesNotExist:

@@ -4,6 +4,7 @@ from datetime import timedelta
 from dotenv import load_dotenv
 from celery.schedules import crontab
 import django.utils.translation
+from my_site.core.logging_config import get_logging_config
 django.utils.translation.ugettext_lazy = django.utils.translation.gettext_lazy
 django.utils.translation.ugettext = django.utils.translation.gettext
 
@@ -29,7 +30,6 @@ sentry_sdk.init(
     send_default_pii=True,
 )
 
-from my_site.core.logging_config import get_logging_config
 LOGGING = get_logging_config(BASE_DIR)
 
 

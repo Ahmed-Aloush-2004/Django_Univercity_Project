@@ -2,26 +2,25 @@ import io
 import csv
 import logging
 import os
-
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-
 from celery import shared_task
 from django.conf import settings
 from django.core.mail import send_mail, EmailMessage
 from django.db.models import Sum
 from django.utils import timezone
 from datetime import timedelta
-
+from apps.utils.decorators import monitor_performance
 from apps.orders.models import Order, OrderItem
 from apps.products.models import Product
-
+from django.core.cache import cache
 logger = logging.getLogger(__name__)
 EMAIL_HOST_USER     = os.getenv('EMAIL_USER','ahmed09887766554@gmail.com')
 
+
 # ------------------------------------------------------------------ #
-#  Requirement 3 — Asynchronous Queue                                  #
+###################################                                 #
 # ------------------------------------------------------------------ #
 
 @shared_task(bind=True, max_retries=3, default_retry_delay=60,rate_limit='10/m')
@@ -34,14 +33,17 @@ def send_order_confirmation_email(self, order_id, customer_email, customer_name,
         f'Thank you for shopping with us.'
     )
     try:
-        send_mail(
-            subject,
-            message,
-            # settings.EMAIL_HOST_USER,
-            EMAIL_HOST_USER,
-            [customer_email],
+        sent_count = send_mail(
+            subject=subject,
+            message=message,
+            from_email=settings.EMAIL_HOST_USER, # توحيد الإعدادات
+            recipient_list=[customer_email],
             fail_silently=False,
         )
+        
+        if sent_count == 0:
+            raise Exception("Mail server accepted 0 emails.")
+            
         logger.info("Confirmation email sent to %s for order #%d", customer_email, order_id)
         return f"Email sent to {customer_email} for order #{order_id}"
 
@@ -50,97 +52,113 @@ def send_order_confirmation_email(self, order_id, customer_email, customer_name,
         raise self.retry(exc=exc)
 
 
+
 # ------------------------------------------------------------------ #
-#  Requirement 4 — Batch Processing                                    #
+###################################                                 #
 # ------------------------------------------------------------------ #
 
-BATCH_SIZE = 500  # number of rows processed per chunk
-
-
+BATCH_SIZE = 500  
 @shared_task(name="apps.orders.tasks.daily_sales_batch_processing")
+@monitor_performance  
 def daily_sales_batch_processing():
-    today = timezone.now().date()
-    logger.info("Starting daily batch processing for %s", today)
+    
+    try:
+        end_date = timezone.now()
+        start_date = end_date - timedelta(days=1) # نطاق التقرير هو آخر 24 ساعة
+        
+        logger.info("Starting daily report generation for %s", start_date.date())
 
-    base_qs = (
-        Order.objects
-        .filter(created_at__date=today, status='completed')
-        .order_by('id')         
-    )
+        product_csv = _build_inventory_csv()
+        orders_csv, revenue, items_sold = _build_sales_csv(start_date, end_date)
+        chart_png, chart_count = _build_top_products_chart(start_date, end_date)
 
-    total_revenue = 0
-    total_orders = 0
-    offset = 0
-
-    while True:
-        batch = list(base_qs[offset: offset + BATCH_SIZE])
-
-        if not batch:
-            break
-
-        for order in batch:
-            total_revenue += order.order_price
-            total_orders += 1
-
-        logger.info(
-            "Processed batch: orders %d–%d (running total: %d orders, $%.2f revenue)",
-            offset + 1,
-            offset + len(batch),
-            total_orders,
-            total_revenue,
+        summary = (
+            f"Daily Store Report\n"
+            f"-------------------\n"
+            f"Date   : {start_date.date()}\n"
+            f"Revenue: ${revenue}\n"
+            f"Units sold: {items_sold}\n"
+            f"Products in stock: {Product.objects.count()}\n"
         )
 
-        offset += BATCH_SIZE
+        email = EmailMessage(
+            subject=f"Daily Report — {start_date.date()}",
+            body=summary,
+            from_email=settings.EMAIL_HOST_USER,
+            to=[settings.EMAIL_HOST_USER], 
+        )
+        email.attach('inventory_daily.csv', product_csv.getvalue(), 'text/csv')
+        email.attach('sales_daily.csv', orders_csv.getvalue(), 'text/csv')
+        email.attach('top_products_daily.png', chart_png.getvalue(), 'image/png')
+        email.send()
 
-    logger.info(
-        "Daily batch processing complete for %s: %d orders, $%.2f total revenue.",
-        today,
-        total_orders,
-        total_revenue,
-    )
-    return {
-        "date": str(today),
-        "total_orders": total_orders,
-        "total_revenue": float(total_revenue),
-    }
+        product_csv.close()
+        orders_csv.close()
+        chart_png.close()
+
+        logger.info("Daily report sent successfully. Revenue: $%.2f", revenue)
+        return f"Daily report sent. Revenue: ${revenue}"
+
+    finally:
+        cache.delete("daily_report_is_running")
+        logger.info("Daily report lock released.")
+
+
+
+# ------------------------------------------------------------------ #
+###################################                                 #
+# ------------------------------------------------------------------ #
 
 
 @shared_task(name="apps.orders.tasks.generate_weekly_report")
+@monitor_performance  
 def generate_weekly_report():
-    end_date = timezone.now()
-    start_date = end_date - timedelta(days=7)
+    try:
+        end_date = timezone.now()
+        start_date = end_date - timedelta(days=7)
 
-    product_csv = _build_inventory_csv()
-    orders_csv, revenue, items_sold = _build_sales_csv(start_date, end_date)
-    chart_png, chart_count = _build_top_products_chart(start_date, end_date)
+        logger.info("Starting weekly report generation for period starting %s", start_date.date())
 
-    summary = (
-        f"Weekly Store Report\n"
-        f"-------------------\n"
-        f"Period : {start_date.date()} → {end_date.date()}\n"
-        f"Revenue: ${revenue}\n"
-        f"Units sold: {items_sold}\n"
-        f"Products in stock: {Product.objects.count()}\n"
-    )
+        product_csv = _build_inventory_csv()
+        orders_csv, revenue, items_sold = _build_sales_csv(start_date, end_date)
+        chart_png, chart_count = _build_top_products_chart(start_date, end_date)
 
-    email = EmailMessage(
-        subject=f"Weekly report — {start_date.date()}",
-        body=summary,
-        from_email=settings.EMAIL_HOST_USER,
-        to=[settings.EMAIL_HOST_USER],
-    )
-    email.attach('inventory.csv', product_csv.getvalue(), 'text/csv')
-    email.attach('sales.csv', orders_csv.getvalue(), 'text/csv')
-    email.attach('top_products.png', chart_png.getvalue(), 'image/png')
-    email.send()
+        summary = (
+            f"Weekly Store Report\n"
+            f"-------------------\n"
+            f"Period : {start_date.date()} → {end_date.date()}\n"
+            f"Revenue: ${revenue}\n"
+            f"Units sold: {items_sold}\n"
+            f"Products in stock: {Product.objects.count()}\n"
+        )
 
-    return f"Weekly report sent. Top-{chart_count} products chart included."
+        email = EmailMessage(
+            subject=f"Weekly report — {start_date.date()}",
+            body=summary,
+            from_email=settings.EMAIL_HOST_USER,
+            to=[settings.EMAIL_HOST_USER], 
+        )
+        email.attach('inventory.csv', product_csv.getvalue(), 'text/csv')
+        email.attach('sales.csv', orders_csv.getvalue(), 'text/csv')
+        email.attach('top_products.png', chart_png.getvalue(), 'image/png')
+        email.send()
+
+        product_csv.close()
+        orders_csv.close()
+        chart_png.close()
+
+        return f"Weekly report sent. Top-{chart_count} products chart included."
+
+    finally:
+        cache.delete("weekly_report_is_running")
+        logger.info("Weekly report lock released.")
 
 
 # ------------------------------------------------------------------ #
-#  Private helpers for weekly report                                   #
+###################################                                 #
 # ------------------------------------------------------------------ #
 
+@monitor_performance 
 def _build_inventory_csv() -> io.StringIO:
     buf = io.StringIO()
     writer = csv.writer(buf)
@@ -154,6 +172,11 @@ def _build_inventory_csv() -> io.StringIO:
     return buf
 
 
+# ------------------------------------------------------------------ #
+###################################                                 #
+# ------------------------------------------------------------------ #
+
+@monitor_performance
 def _build_sales_csv(start_date, end_date):
     buf = io.StringIO()
     writer = csv.writer(buf)
@@ -162,14 +185,13 @@ def _build_sales_csv(start_date, end_date):
     orders = (
         Order.objects
         .filter(created_at__range=(start_date, end_date))
-        .prefetch_related('items__product')  
+        .prefetch_related('items__product')
         .order_by('id')
     )
 
     revenue = 0
     items_sold = 0
-
-    for order in orders:
+    for order in orders.iterator(chunk_size=BATCH_SIZE):
         for item in order.items.all():
             writer.writerow([
                 order.id, order.customer_name, item.product.name,
@@ -183,7 +205,11 @@ def _build_sales_csv(start_date, end_date):
 
     return buf, revenue, items_sold
 
+# ------------------------------------------------------------------ #
+###################################                                 #
+# ------------------------------------------------------------------ #
 
+@monitor_performance  
 def _build_top_products_chart(start_date, end_date):
     top = (
         OrderItem.objects
@@ -213,7 +239,7 @@ def _build_top_products_chart(start_date, end_date):
 
     buf = io.BytesIO()
     plt.savefig(buf, format='png', bbox_inches='tight')
-    plt.close(fig)
+    plt.close(fig)  
     buf.seek(0)
 
     return buf, len(names)

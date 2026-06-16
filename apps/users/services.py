@@ -50,9 +50,7 @@ class AuthService:
     @staticmethod
     def deposit_wallet(user, amount: Decimal):
         if amount <= 0:
-            raise ValueError("يجب أن يكون مبلغ الشحن أكبر من الصفر.")
-        
+            raise ValueError("it has to be more than 0 ")
         User.objects.filter(id=user.id).update(wallet_balance=F('wallet_balance') + amount)
-        
         user.refresh_from_db()
         return user

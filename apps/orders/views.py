@@ -50,19 +50,21 @@ class OrderViewSet(viewsets.ModelViewSet):
     """
 
     def create(self, request, *args, **kwargs):
-        
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        
         products_data = serializer.validated_data.get('products') 
         order_price = serializer.validated_data.get('order_price')
         customer_name = request.user.username  
         strategy = request.query_params.get('strategy', 'pessimistic')
+        
         if strategy not in ['atomic', 'optimistic', 'pessimistic']:
             logger.warning("Order create rejected: unsupported strategy '%s'", strategy)
             return Response(
-                {"error": "الاستراتيجية المطلوبة غير مدعومة. اختر: atomic, optimistic, أو pessimistic."}, 
+                {"error": "The requested strategy is not supported. Choose from: 'atomic', 'optimistic', or 'pessimistic'."}, 
                 status=status.HTTP_400_BAD_REQUEST
             )
+            
         try:
             order = OrderService.create_order_with_stock(
                 customer_name=customer_name,
@@ -76,10 +78,13 @@ class OrderViewSet(viewsets.ModelViewSet):
         except ValueError as e:
             logger.warning("Order create failed for user=%s: %s", customer_name, e)
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            
         except DatabaseError as e:
             logger.error("Order create DB conflict for user=%s: %s", customer_name, e)
-            return Response({"error": "فشلت العملية بسبب ضغط متزامن، يرجى المحاولة مجدداً."}, status=status.HTTP_409_CONFLICT)
-        
+            return Response(
+                {"error": "The operation failed due to a concurrency conflict. Please try again."}, 
+                status=status.HTTP_409_CONFLICT
+            )
     """
     ============================================================
     """
@@ -109,31 +114,38 @@ class OrderViewSet(viewsets.ModelViewSet):
         except ValueError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except DatabaseError as e:
-            return Response({"error": "تعذر تعديل الطلب بسبب تعارض متزامن. أعد المحاولة."}, status=status.HTTP_409_CONFLICT)
+            return Response(
+                {"error": "Unable to update the order due to a concurrency conflict. Please try again."}, 
+                status=status.HTTP_409_CONFLICT
+            )
     """
     ============================================================
     """
     @action(detail=True, methods=['patch'])
     def update_status(self, request, pk=None):
         order_obj = self.get_object()
-        
         serializer = OrderSerializer(order_obj, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         new_status = serializer.validated_data.get('status')
 
         if not new_status:
-            return Response({"error": "Status field is required"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "Status field is required."}, status=status.HTTP_400_BAD_REQUEST)
             
         if not request.user.is_staff and new_status != 'cancelled':
-            return Response({"error": "كمستخدم عادي، يمكنك فقط إلغاء الطلب."}, status=status.HTTP_403_FORBIDDEN)
-            
+            return Response(
+                {"error": "As a regular user, you are only allowed to cancel the order."}, 
+                status=status.HTTP_403_FORBIDDEN
+            )   
         try:
             order = OrderService.update_order_status(order_obj.id, new_status)
-            return Response(OrderSerializer(order).data) # 🔥 استخدام السيريالايزر الصحيح للرد
+            return Response(OrderSerializer(order).data) 
         except ValueError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)    
         except DatabaseError as e:
-            return Response({"error": "خطأ في تحديث الحالة تزامناً مع عمليات أخرى."}, status=status.HTTP_409_CONFLICT)
+            return Response(
+                {"error": "Failed to update status due to a concurrent conflict with other operations. Please try again."}, 
+                status=status.HTTP_409_CONFLICT
+            )
     """
     ============================================================
     """
@@ -142,7 +154,7 @@ class OrderViewSet(viewsets.ModelViewSet):
         if not request.user.is_staff and not request.user.is_superuser:
             logger.warning("Forbidden sales-stats attempt by user=%s", request.user.username)
             return Response(
-                {"error": "هذه البيانات متاحة للمشرفين فقط."},
+                {"error": "Just for admins "},
                 status=status.HTTP_403_FORBIDDEN,
             )
         data = OrderService.get_sales_stats()

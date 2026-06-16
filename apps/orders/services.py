@@ -9,6 +9,7 @@ from apps.users.models import User
 from apps.orders.models import Order, OrderItem
 from apps.common.tasks import send_order_confirmation_email
 import logging
+from apps.utils.decorators import monitor_performance
 import time
 logger = logging.getLogger("apps.orders")
 
@@ -117,170 +118,183 @@ class OrderService:
     =============================إنشاء طلب جديد===============================
     """
     @staticmethod
+    @monitor_performance
     def create_order_with_stock(customer_name: str, products_data: list, order_price: float, stock_strategy: str = 'pessimistic') -> Order:
         if stock_strategy not in ('atomic', 'optimistic', 'pessimistic'):
             raise ValueError("stock_strategy must be 'atomic', 'optimistic', or 'pessimistic'.")
 
         logger.info("Creating order for user=%s items=%d strategy=%s", customer_name, len(products_data), stock_strategy)
 
-        sorted_items = sorted(products_data, key=lambda x: x['id'])
-        product_ids = [item['id'] for item in sorted_items]
+        # Redis lock to prevent double-clicking
+        lock_key = f"checkout_lock_user_{customer_name}"
 
-        MAX_RETRIES = 3
-        RETRY_DELAY = 0.1  
+        with cache.lock(lock_key, timeout=30, blocking_timeout=10):
+            
+            sorted_items = sorted(products_data, key=lambda x: x['id'])
+            product_ids = [item['id'] for item in sorted_items]
 
-        for attempt in range(MAX_RETRIES):
-            try:
-                with transaction.atomic():
-                    
-                    if stock_strategy == 'pessimistic':
-                        products_inside_db = list(Product.objects.select_for_update().filter(id__in=product_ids).order_by('id'))
-                        
-                        user = User.objects.select_for_update().filter(username=customer_name).first()
-                    else:
-                        user = User.objects.select_for_update().filter(username=customer_name).first()
+            MAX_RETRIES = 3
+            RETRY_DELAY = 0.1  
 
-                    if not user:
-                        raise ValueError("User not found.")
+            for attempt in range(MAX_RETRIES):
+                try:
+                    with transaction.atomic():
+                        if stock_strategy == 'pessimistic':
+                            products_inside_db = list(Product.objects.select_for_update().filter(id__in=product_ids).order_by('id'))
+                            user = User.objects.select_for_update().filter(username=customer_name).first()
+                        else:
+                            user = User.objects.select_for_update().filter(username=customer_name).first()
+                        if not user:
+                            raise ValueError("User not found.")
 
-                    total = OrderService._calculate_total_price(sorted_items)
-                    OrderService._deduct_wallet(user, order_price, total)
+                        total = OrderService._calculate_total_price(sorted_items)
+                        OrderService._deduct_wallet(user, order_price, total)
 
-                    order = Order.objects.create(customer_name=customer_name, order_price=total)
+                        order = Order.objects.create(customer_name=customer_name, order_price=total)
 
-                    for item in sorted_items:
-                        if stock_strategy == 'atomic':
-                         
-                            success = ProductService.update_stock_Atomic(item['id'], item['quantity'], update_type='decrease')
-                            if not success:
-                                raise ValueError(f"المنتج ذو الرقم {item['id']} نفد من المخزن أو الكمية غير كافية.")
-                            product = Product.objects.get(id=item['id'])
+                        for item in sorted_items:
+                            if stock_strategy == 'atomic':
+                                success = ProductService.update_stock_Atomic(item['id'], item['quantity'], update_type='decrease')
+                                if not success:
+                                    raise ValueError(f"Product ID {item['id']} is out of stock or insufficient quantity.")
+                                product = Product.objects.get(id=item['id'])
 
-                        elif stock_strategy == 'optimistic':
-                          
-                            ProductService.update_stock_optimistic(item['id'], item['quantity'])
-                            product = Product.objects.get(id=item['id'])
+                            elif stock_strategy == 'optimistic':
+                                ProductService.update_stock_optimistic(item['id'], item['quantity'])
+                                product = Product.objects.get(id=item['id'])
 
-                        else: 
-                            product = ProductService.update_stock_pessimistic(item['id'], item['quantity'])
+                            else: 
+                                product = ProductService.update_stock_pessimistic(item['id'], item['quantity'])
 
-                        OrderItem.objects.create(order=order, product=product, quantity=item['quantity'])
+                            OrderItem.objects.create(order=order, product=product, quantity=item['quantity'])
 
-                    Cart.objects.filter(user=user).delete()
+                        Cart.objects.filter(user=user).delete()
 
-                    if user.email:
-                        transaction.on_commit(
-                            lambda: send_order_confirmation_email.delay(
-                                order_id=order.id,
-                                customer_email=user.email,
-                                customer_name=user.username,
-                                total_price=float(order.order_price),
+                        if user.email:
+                            transaction.on_commit(
+                                lambda: send_order_confirmation_email.delay(
+                                    order_id=order.id,
+                                    customer_email=user.email,
+                                    customer_name=user.username,
+                                    total_price=float(order.order_price),
+                                )
                             )
-                        )
+                        logger.info("Order #%d created successfully on attempt %d", order.id, attempt + 1)
+                        return order 
 
-                    logger.info("Order #%d created successfully on attempt %d", order.id, attempt + 1)
-                    return order 
-
-            except (DatabaseError, ValueError) as e:
-                if isinstance(e, ValueError) and "نفد من المخزن" in str(e):
-                    raise e
-                
-                logger.warning("Attempt %d failed due to concurrency/database conflict: %s. Retrying...", attempt + 1, e)
-                
-                if attempt < MAX_RETRIES - 1:
-                    time.sleep(RETRY_DELAY)  
-                    logger.error("All retries exhausted for user=%s. Order creation failed.", customer_name)
-                    raise DatabaseError("فشلت العملية بسبب ضغط شديد ومتزامن على السيرفر، يرجى إعادة المحاولة.")
-    
+                except (DatabaseError, ValueError) as e:
+                    if isinstance(e, ValueError) and "out of stock" in str(e):
+                        raise e
+                    
+                    logger.warning("Attempt %d failed due to concurrency/database conflict: %s. Retrying...", attempt + 1, e)
+                    
+                    if attempt < MAX_RETRIES - 1:
+                        time.sleep(RETRY_DELAY)  
+                    else:
+                        logger.error("All retries exhausted for user=%s. Order creation failed.", customer_name)
+                        raise DatabaseError("The operation failed due to heavy concurrent server load. Please try again.")
+                    
     """
     ============================تعديل محتويات طلب معلق================================
     """
     @staticmethod
-    @transaction.atomic
-    def update_order_items(order_id: int, customer_name: str, new_products_data: list, new_order_price: float) -> Order:
-        order = get_object_or_404(Order.objects.select_for_update(), id=order_id)
-
-        if order.status != 'pending':
-            raise ValueError("Only pending orders can be updated.")
-
-        user = User.objects.select_for_update().filter(username=customer_name).first()
-        if not user:
-            raise ValueError("User not found.")
-
-        old_order_price = order.order_price
-        sorted_new = sorted(new_products_data, key=lambda x: x['id'])
-        new_ids = {item['id'] for item in sorted_new}
+    @monitor_performance
+    def update_order_items(
+        order_id: int,
+        customer_name: str,
+        new_products_data: list,
+        new_order_price: float,
+    ) -> Order:
         
-        # 🔥 حل مشكلة الـ N+1 Query: جلب المنتجات دفعة واحدة
-        products_map = {p.id: p for p in Product.objects.filter(id__in=new_ids)}
-        existing_map = {item.product_id: item for item in order.items.all()}
+        lock_key = f"order_update_lock_{order_id}"
         
-        total = 0
-        for item_data in sorted_new:
-            p_id = item_data['id']
-            new_qty = item_data['quantity']
-            
-            product = products_map.get(p_id)
-            if not product:
-                raise ValueError(f"Product {p_id} not found.")
+        with cache.lock(lock_key, timeout=20, blocking_timeout=5):
+            with transaction.atomic():
+                
+                order = get_object_or_404(Order.objects.select_for_update(), id=order_id)
+                if order.status != 'pending':
+                    raise ValueError("Only pending orders can be updated.")
 
-            if p_id in existing_map:
-                OrderService._adjust_item_stock(existing_map[p_id], new_qty)
-            else:
-                OrderService._add_item(order, product, new_qty)
+                user = User.objects.select_for_update().filter(username=customer_name).first()
+                if not user:
+                    raise ValueError("User not found.")
 
-            total += product.price * new_qty
+                sorted_new = sorted(new_products_data, key=lambda x: x['id'])
+                new_ids = {item['id'] for item in sorted_new}
+                
+                products_map = {p.id: p for p in Product.objects.filter(id__in=new_ids)}
+                existing_map = {item.product_id: item for item in order.items.all()}
+                
+                total = 0
 
-        for p_id in sorted(existing_map.keys()):
-            if p_id not in new_ids:
-                OrderService._remove_item(existing_map[p_id])
+                for item_data in sorted_new:
+                    p_id = item_data['id']
+                    new_qty = item_data['quantity']
+                    
+                    product = products_map.get(p_id)
+                    if not product:
+                        raise ValueError(f"Product ID {p_id} not found.")
 
-        if float(new_order_price) != float(total):
-            raise ValueError("Price mismatch with server calculated total.")
+                    if p_id in existing_map:
+                        OrderService._adjust_item_stock(existing_map[p_id], new_qty)
+                    else:
+                        OrderService._add_item(order, product, new_qty)
+                        
+                    total += product.price * new_qty
 
-        price_delta = total - old_order_price
+                for p_id in sorted(existing_map.keys()):
+                    if p_id not in new_ids:
+                        OrderService._remove_item(existing_map[p_id])
 
-        if price_delta > 0:
-            rows_updated = User.objects.filter(id=user.id, wallet_balance__gte=price_delta).update(wallet_balance=F('wallet_balance') - price_delta)
-            if rows_updated == 0:
-                raise ValueError("Insufficient wallet balance.")
-        elif price_delta < 0:
-            User.objects.filter(id=user.id).update(wallet_balance=F('wallet_balance') + abs(price_delta))
+                if float(new_order_price) != float(total):
+                    raise ValueError("Price mismatch with server calculated total.")
 
-        order.order_price = total
-        order.save()
-        return order
+                OrderService._deduct_wallet(user, new_order_price, total)
+                order.order_price = total
+                order.save()
+                logger.info("Order #%d updated successfully.", order.id)
+                return order
     """
     ==========================تعديل حالة الطلب وإلغاءه ==================================
     """
     @staticmethod
-    @transaction.atomic
+    @monitor_performance
     def update_order_status(order_id: int, new_status: str) -> Order:
-        order = get_object_or_404(Order.objects.select_for_update(), id=order_id)
-        valid = [choice[0] for choice in Order.STATUS_CHOICES]
-        if new_status not in valid:
-            raise ValueError("Invalid status.")
-
-        if new_status == order.status:
-            return order
-
-        old_status = order.status
-
-        if new_status == 'cancelled' and old_status != 'cancelled':
-            for item in order.items.select_related('product').all():
-                ProductService.update_stock_Atomic(item.product_id, item.quantity, update_type='increase')
-            
-            User.objects.filter(username=order.customer_name).update(wallet_balance=F('wallet_balance') + order.order_price)
-            logger.info("Refunded %.2f to user %s due to order cancellation", float(order.order_price), order.customer_name)
-
-        order.status = new_status
-        order.save()
+        lock_key = f"order_status_lock_{order_id}"
         
-        if 'completed' in (old_status, new_status):
-            ProductService.invalidate_trending_cache()
-            cache.delete(SALES_STATS_CACHE_KEY)
+        with cache.lock(lock_key, timeout=15, blocking_timeout=5):
+            with transaction.atomic():
+                
+                order = get_object_or_404(Order.objects.select_for_update(), id=order_id)
+                
+                valid = [choice[0] for choice in Order.STATUS_CHOICES]
+                if new_status not in valid:
+                    raise ValueError("Invalid status.")
+                    
+                if new_status == order.status:
+                    return order
 
-        return order
+                old_status = order.status
+
+                if new_status == 'cancelled' and old_status != 'cancelled':
+                    for item in order.items.select_related('product').all():
+                        ProductService.update_stock_Atomic(
+                            item.product_id, item.quantity, update_type='increase'
+                        )
+                    
+                    User.objects.filter(username=order.customer_name).update(
+                        wallet_balance=F('wallet_balance') + order.order_price
+                    )
+                    logger.info("Refunded %.2f to user %s due to order cancellation.", float(order.order_price), order.customer_name)
+
+                order.status = new_status
+                order.save()
+
+                if 'completed' in (old_status, new_status):
+                    ProductService.invalidate_trending_cache()
+                    cache.delete(SALES_STATS_CACHE_KEY)
+
+                return order
     
     """
     ==========================لوحة الإحصائيات المالية==================================

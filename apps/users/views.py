@@ -4,6 +4,7 @@ from rest_framework import status, permissions
 from .services import AuthService
 from .serializers import UserSerializer
 import logging
+from decimal import Decimal, InvalidOperation 
 
 logger = logging.getLogger("apps.users")
 
@@ -34,13 +35,10 @@ class LoginView(APIView):
         if tokens:
             logger.info("User logged in: %s", email)
             
-            # 🎯 1. جلب كائن المستخدم من قاعدة البيانات عبر الـ email
             user_obj = User.objects.get(email=email)
             
-            # 🎯 2. تحويل بيانات المستخدم إلى JSON (ستتضمن المحفظة تلقائياً)
             user_data = UserSerializer(user_obj).context
             
-            # 🎯 3. دمج التوكنات مع بيانات المستخدم والمحفظة في استجابة واحدة
             response_data = {
                 "user": UserSerializer(user_obj).data,
                 "tokens": tokens
@@ -82,24 +80,12 @@ class ResetPassword(APIView):
             logger.error("Password reset error for user=%s: %s", request.user.email, e)
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status, permissions
-from decimal import Decimal, InvalidOperation 
-import logging
-
-logger = logging.getLogger("apps.users")
-
 class DepositWalletView(APIView):
     permission_classes = [permissions.IsAuthenticated]
-
     def post(self, request):
         amount = request.data.get('amount')
-        
         if amount is None:
-            return Response({"error": "حقل amount مطلوب."}, status=status.HTTP_400_BAD_REQUEST)
-        
+            return Response({"error": " amount is required."}, status=status.HTTP_400_BAD_REQUEST)
         try:
             amount_decimal = Decimal(str(amount))
             
@@ -107,12 +93,12 @@ class DepositWalletView(APIView):
             
             logger.info("User %s topped up wallet by %s", user.email, amount_decimal)
             return Response({
-                "message": "تم شحن المحفظة بنجاح.",
+                "message": "The wallet has been successfully charged.",
                 "current_balance": float(user.wallet_balance)
             }, status=status.HTTP_200_OK)
             
         except (ValueError, InvalidOperation):
-            return Response({"error": "يرجى إدخال مبلغ مالي صحيح (رقمي)."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "not valid"}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             logger.error("Wallet deposit error for user=%s: %s", request.user.email, e, exc_info=True)
-            return Response({"error": f"حدث خطأ داخلي: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({"error": f"An error occurred while processing your request. Please try again later {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
