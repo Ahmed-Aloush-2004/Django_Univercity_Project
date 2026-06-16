@@ -29,7 +29,6 @@ class CartService:
             current_quantity = item.quantity
             new_quantity = current_quantity + qty
             
-            # القفل التفاؤلي
             updated = CartItem.objects.filter(
                 id=item.id, 
                 quantity=current_quantity

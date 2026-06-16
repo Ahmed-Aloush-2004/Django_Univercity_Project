@@ -124,8 +124,6 @@ class OrderService:
             raise ValueError("stock_strategy must be 'atomic', 'optimistic', or 'pessimistic'.")
 
         logger.info("Creating order for user=%s items=%d strategy=%s", customer_name, len(products_data), stock_strategy)
-
-        # Redis lock to prevent double-clicking
         lock_key = f"checkout_lock_user_{customer_name}"
 
         with cache.lock(lock_key, timeout=30, blocking_timeout=10):
