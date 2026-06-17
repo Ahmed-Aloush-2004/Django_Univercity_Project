@@ -24,6 +24,8 @@ from rest_framework_simplejwt.views import (
 )
 from health_check.views import HealthCheckView
 
+from apps.reports.views import GenerateDailyReportAPIView, GenerateWeeklyReportAPIView
+
 
 def trigger_error(request):
     division_by_zero = 1 / 0
@@ -34,6 +36,10 @@ urlpatterns = [
     path('api/orders/', include('apps.orders.urls')), 
     path('api/users/', include('apps.users.urls')),    
     path('api/cart/', include('apps.carts.urls')),
+    
+    path('api/reports/daily/', GenerateDailyReportAPIView.as_view(), name='trigger-daily-report'),
+    path('api/reports/weekly/', GenerateWeeklyReportAPIView.as_view(), name='trigger-weekly-report'),
+
     
     path('prometheus/', include('django_prometheus.urls')),      
     path('sentry-debug/', trigger_error),

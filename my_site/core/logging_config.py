@@ -5,7 +5,7 @@ def get_logging_config(base_dir):
     LOG_DIR = os.path.join(base_dir, "logs")
     os.makedirs(LOG_DIR, exist_ok=True)
 
-    APPS = ["products", "middleware", "orders", "carts", "users"]
+    APPS = ["products", "middleware", "orders", "carts", "users","performance_decorator"]
 
     handlers = {
         "console": {

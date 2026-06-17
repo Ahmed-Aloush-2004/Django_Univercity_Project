@@ -3,7 +3,7 @@ import time
 import logging
 from functools import wraps
 
-logger = logging.getLogger('performance_logger')
+logger = logging.getLogger('apps.performance_decorator')
 
 def monitor_performance(func):
     @wraps(func)

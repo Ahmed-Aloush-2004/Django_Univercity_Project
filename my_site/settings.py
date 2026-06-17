@@ -53,7 +53,9 @@ INSTALLED_APPS = [
     'apps.orders',
     'apps.users',
     'apps.carts',
-    'health_check',                            
+    'health_check',  
+    
+                              
 
 ]
 
@@ -146,11 +148,11 @@ CELERY_TIMEZONE          = 'UTC'
 CELERY_BEAT_SCHEDULE = {
   
     'daily-batch-sales': {
-        'task': 'my_site.tasks.daily_sales_batch_processing',
+        'task': 'apps.common.tasks.daily_sales_batch_processing',
         'schedule': crontab(hour=0, minute=0),
     },
     'weekly-full-report': {
-        'task': 'my_site.tasks.generate_weekly_report',
+        'task': 'apps.common.tasks.generate_weekly_report',
         'schedule': crontab(day_of_week=1, hour=0, minute=0),
     },
 }

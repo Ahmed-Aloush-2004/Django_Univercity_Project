@@ -72,47 +72,6 @@ class GlobalExceptionHandlerMiddleware:
 
 
 
-# class RequestMonitoringMiddleware:
-#     SLOW_REQUEST_THRESHOLD_MS = 500
-#     def __init__(self, get_response):
-#         self.get_response = get_response
-
-#     def __call__(self, request):
-
-#         start_time = time.perf_counter()
-#         response = self.get_response(request)
-#         duration_ms = (time.perf_counter() - start_time) * 1000
-#         cpu_percent = psutil.cpu_percent(interval=None)
-#         memory_mb = (
-#             process.memory_info().rss
-#             / 1024
-#             / 1024
-#         )
-#         with _count_lock:
-#             active_requests = _active_count
-
-#         logger.info(
-#             "REQUEST | %s %s | STATUS=%d | "
-#             "TIME=%.2fms | CPU=%.2f%% | RAM=%.2fMB | ACTIVE=%d",
-#             request.method,
-#             request.path,
-#             response.status_code,
-#             duration_ms,
-#             cpu_percent,
-#             memory_mb,
-#             active_requests,
-#         )
-
-#         if duration_ms > self.SLOW_REQUEST_THRESHOLD_MS:
-#             logger.warning(
-#                 "SLOW REQUEST | %s %s | %.2fms",
-#                 request.method,
-#                 request.path,
-#                 duration_ms,
-#             )
-
-#         return response
-
 import time
 import logging
 from django.http import JsonResponse
