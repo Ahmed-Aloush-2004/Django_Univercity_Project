@@ -1,34 +1,31 @@
+
 import time
 import random
+import logging
+from datetime import timedelta
 from django.core.cache import cache
 from django.db import DatabaseError, transaction
-from django.db.models import F
+from django.db.models import F, Sum
+from django.utils import timezone
+
 from apps.products.models import Product
 from apps.products.serializers import ProductSerializer
-import logging
-from django.db.models import Sum
-from django.utils import timezone
-from datetime import timedelta
 from apps.orders.models import OrderItem
 
-
-PRODUCT_CACHE_TTL = 900  
-
+PRODUCT_CACHE_TTL = 900 
 TRENDING_CACHE_KEY = "products:trending"
-TRENDING_CACHE_TTL = 600         
-
+TRENDING_CACHE_TTL = 600 
 MOST_VIEWED_CACHE_KEY = "products:most_viewed"
-MOST_VIEWED_CACHE_TTL = 300      
-VIEW_COUNT_KEY_PREFIX = "product:views:"  
+MOST_VIEWED_CACHE_TTL = 300 
+VIEW_COUNT_KEY_PREFIX = "product:views:" 
 
 logger = logging.getLogger("apps.products")
 
 class ProductService:
-    
-    # ------------------------------------------------------------------ #
-    #  Cache helpers                                                       #
-    # ------------------------------------------------------------------ #
 
+    # ------------------------------------------------------------------ #
+    # Cache helpers
+    # ------------------------------------------------------------------ #
     @staticmethod
     def _cache_key(product_id: int) -> str:
         return f"product:{product_id}"
@@ -41,32 +38,60 @@ class ProductService:
     def invalidate_trending_cache() -> None:
         cache.delete(TRENDING_CACHE_KEY)
 
-
     @staticmethod
     def get_product_by_id(product_id: int):
-        """Return serialized product data; served from Redis when available."""
+        """Return serialized product data; served from Redis with Cache Stampede protection."""
         key = ProductService._cache_key(product_id)
-        logger.info(f"Fetching product: {product_id}")
+        lock_key = f"{key}:lock"
+        
+        # 1. محاولة جلب المنتج من الكاش مباشرة
         cached = cache.get(key)
         if cached is not None:
             return cached
-        try:
-            product = Product.objects.get(id=product_id)
-            data = ProductSerializer(product).data
-            cache.set(key, data, PRODUCT_CACHE_TTL)
-            logger.info(f"Product fetched and cached: {product_id}")
-            return data
-        except Product.DoesNotExist:
-            logger.warning(f"Product not found: {product_id}")
-            return None
+
+        logger.info(f"Cache miss for product: {product_id}. Attempting to acquire lock.")
+
+        # 2. حماية الكاش: الريكويست الأول فقط يحصل على القفل (True)
+        # تم وضع timeout لـ 10 ثوانٍ لحماية النظام من الـ Deadlock في حال حدوث عطل غير متوقع للريكويست الأول
+        lock_acquired = cache.add(lock_key, "locked", timeout=10)
+
+        if lock_acquired:
+            try:
+                # الريكويست الفائز يذهب للداتابيز
+                product = Product.objects.get(id=product_id)
+                data = ProductSerializer(product).data
+                cache.set(key, data, PRODUCT_CACHE_TTL)
+                logger.info(f"Product fetched from DB and cached: {product_id}")
+                return data
+            except Product.DoesNotExist:
+                logger.warning(f"Product not found: {product_id}")
+                cache.set(key, None, 60) # كاش سلبي مؤقت لمنع ضرب الداتابيز بـ ID غير موجود
+                return None
+            finally:
+                # فك القفل فوراً بعد الانتهاء لكي تستمر العمليات الأخرى بسلاسة
+                cache.delete(lock_key)
+        else:
+            # الطلبات الـ 99 الأخرى تنتظر هنا وتستعلم من الكاش كل 100 ملي ثانية
+            logger.info(f"Waiting for lock to be released for product: {product_id}")
+            for _ in range(50):  # محاولة الانتظار بحد أقصى 5 ثوانٍ
+                time.sleep(0.1)
+                cached = cache.get(key)
+                if cached is not None:
+                    return cached
+            
+            # حماية احتياطية في حال تخطي وقت الانتظار
+            logger.warning(f"Lock timeout for product {product_id}, falling back to DB directly.")
+            try:
+                product = Product.objects.get(id=product_id)
+                return ProductSerializer(product).data
+            except Product.DoesNotExist:
+                return None
 
     # ------------------------------------------------------------------ #
-    #  Requirement 6b — Most-viewed products (atomic Redis counters)       #
+    # Requirement 6b — Most-viewed products (atomic Redis counters)
     # ------------------------------------------------------------------ #
-
     @staticmethod
     def track_product_view(product_id: int) -> None:
-       
         key = f"{VIEW_COUNT_KEY_PREFIX}{product_id}"
         try:
             cache.incr(key)
@@ -82,7 +107,6 @@ class ProductService:
             return cached
 
         logger.info("Most-viewed products cache miss — recomputing ranking")
-
         ranked = []
         for product in Product.objects.all().only("id", "name", "price"):
             views = cache.get(f"{VIEW_COUNT_KEY_PREFIX}{product.id}") or 0
@@ -134,7 +158,6 @@ class ProductService:
         logger.info(f"Trending products computed and cached ({len(data)} items)")
         return data
 
-
     @staticmethod
     def create_product(data: dict) -> Product:
         product = Product.objects.create(**data)
@@ -144,9 +167,8 @@ class ProductService:
         return product
 
     # ------------------------------------------------------------------ #
-    #  Strategy 1 — Atomic F-expression update (Race Condition proof)     #
+    # Strategy 1 — Atomic F-expression update (Race Condition proof)
     # ------------------------------------------------------------------ #
-
     @staticmethod
     def update_stock_Atomic(product_id: int, quantity: int, update_type: str = 'decrease') -> bool:
         if update_type not in ('decrease', 'increase'):
@@ -155,7 +177,6 @@ class ProductService:
         qs = Product.objects.filter(id=product_id)
 
         if update_type == 'decrease':
-
             qs = qs.filter(stock__gte=quantity)
             rows = qs.update(stock=F('stock') - quantity)
         else:
@@ -171,12 +192,10 @@ class ProductService:
         return True
 
     # ------------------------------------------------------------------ #
-    #  Strategy 2 — Optimistic Locking (version field)                    #
+    # Strategy 2 — Optimistic Locking (version field)
     # ------------------------------------------------------------------ #
-
     @staticmethod
-    def update_stock_optimistic(product_id: int, quantity: int, max_retries: int = 3) -> bool:
-        
+    def update_stock_optimistic(product_id: int, quantity: int, max_retries: int = 3) -> bool:  
         for attempt in range(max_retries):
             try:
                 product = Product.objects.get(id=product_id)
@@ -188,11 +207,9 @@ class ProductService:
                 new_stock = product.stock - quantity
 
                 updated_count = Product.objects.filter(
-                    id=product_id,
-                    version=current_version         
+                    id=product_id, version=current_version  
                 ).update(
-                    stock=new_stock,
-                    version=current_version + 1     
+                    stock=new_stock, version=current_version + 1  
                 )
 
                 if updated_count > 0:
@@ -201,7 +218,6 @@ class ProductService:
                     return True
 
                 time.sleep(random.uniform(0.01, 0.05))
-
             except Product.DoesNotExist:
                 logger.warning(f"Product not found: {product_id}")
                 raise DatabaseError("Product not found")
@@ -211,9 +227,8 @@ class ProductService:
         )
 
     # ------------------------------------------------------------------ #
-    #  Strategy 3 — Pessimistic Locking (SELECT FOR UPDATE)               #
+    # Strategy 3 — Pessimistic Locking (SELECT FOR UPDATE)
     # ------------------------------------------------------------------ #
-
     @staticmethod
     @transaction.atomic
     def update_stock_pessimistic(product_id: int, quantity: int) -> Product:
@@ -229,7 +244,6 @@ class ProductService:
             logger.info(f"Stock updated for product: {product_id}")
             ProductService._invalidate(product_id)
             return product
-
         except Product.DoesNotExist:
             logger.warning(f"Product not found: {product_id}")
             raise DatabaseError("Product not found")
