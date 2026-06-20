@@ -98,35 +98,99 @@ class ProductService:
         except ValueError:
             cache.set(key, 1, timeout=None)
 
+
     @staticmethod
     def get_most_viewed_products(limit: int = 10):
+        # 1. التحقق من الكاش النهائي أولاً
         cached = cache.get(MOST_VIEWED_CACHE_KEY)
         logger.info(f"Checking cache for most-viewed products: {cached is not None}")
         if cached is not None:
             logger.info("Most-viewed products served from cache")
             return cached
 
-        logger.info("Most-viewed products cache miss — recomputing ranking")
+        logger.info("Most-viewed products cache miss — computing using Redis keys")
+        
+        # 2. جلب جميع مفاتيح المشاهدات من Redis
+        # ملاحظة: تتطلب هذه الميزة أن تكون حزمة django-redis هي المستخدمة في إعدادات الكاش
+        view_keys = cache.keys(f"{VIEW_COUNT_KEY_PREFIX}*")
+        
+        if not view_keys:
+            return [] # لا توجد أي مشاهدات مسجلة بعد
+
+        # 3. جلب قيم جميع المشاهدات دفعة واحدة (Batch Get) لتقليل الاتصال بـ Redis
+        views_data = cache.get_many(view_keys)
+
+        # 4. استخراج الـ IDs وعدد المشاهدات، ثم الترتيب في بايثون
         ranked = []
-        for product in Product.objects.all().only("id", "name", "price"):
-            views = cache.get(f"{VIEW_COUNT_KEY_PREFIX}{product.id}") or 0
+        for key, views in views_data.items():
             if views:
-                ranked.append((product, int(views)))
+                try:
+                    # استخراج الـ ID من نهاية المفتاح (مثال: product:views:15 -> 15)
+                    product_id = int(key.split(":")[-1])
+                    ranked.append((product_id, int(views)))
+                except ValueError:
+                    continue
 
+        # ترتيب المنتجات تنازلياً حسب عدد المشاهدات، وأخذ العدد المطلوب (limit)
         ranked.sort(key=lambda pair: pair[1], reverse=True)
-        data = [
-            {
-                "id": product.id,
-                "name": product.name,
-                "price": str(product.price),
-                "views": views,
-            }
-            for product, views in ranked[:limit]
-        ]
+        top_items = ranked[:limit]
 
+        # استخراج الـ IDs للمنتجات الأعلى مشاهدة فقط
+        top_ids = [item[0] for item in top_items]
+
+        # 5. استعلام قاعدة البيانات لجلب المنتجات المحددة فقط
+        products_qs = Product.objects.filter(id__in=top_ids).only("id", "name", "price")
+        
+        # تحويل النتيجة إلى قاموس (Dictionary) لسهولة ربط المنتج بعدد مشاهداته
+        # ولأن استعلام __in لا يضمن ترتيب النتائج كما جاءت من Redis
+        products_dict = {p.id: p for p in products_qs}
+
+        # 6. بناء البيانات النهائية بنفس الترتيب التنازلي للمشاهدات
+        data = []
+        for product_id, views in top_items:
+            product = products_dict.get(product_id)
+            if product:
+                data.append({
+                    "id": product.id,
+                    "name": product.name,
+                    "price": str(product.price),
+                    "views": views,
+                })
+
+        # 7. تخزين النتيجة النهائية في الكاش
         cache.set(MOST_VIEWED_CACHE_KEY, data, MOST_VIEWED_CACHE_TTL)
         logger.info(f"Most-viewed products computed and cached ({len(data)} items)")
         return data
+
+    # @staticmethod
+    # def get_most_viewed_products(limit: int = 10):
+    #     cached = cache.get(MOST_VIEWED_CACHE_KEY)
+    #     logger.info(f"Checking cache for most-viewed products: {cached is not None}")
+    #     if cached is not None:
+    #         logger.info("Most-viewed products served from cache")
+    #         return cached
+
+    #     logger.info("Most-viewed products cache miss — recomputing ranking")
+    #     ranked = []
+    #     for product in Product.objects.all().only("id", "name", "price"):
+    #         views = cache.get(f"{VIEW_COUNT_KEY_PREFIX}{product.id}") or 0
+    #         if views:
+    #             ranked.append((product, int(views)))
+
+    #     ranked.sort(key=lambda pair: pair[1], reverse=True)
+    #     data = [
+    #         {
+    #             "id": product.id,
+    #             "name": product.name,
+    #             "price": str(product.price),
+    #             "views": views,
+    #         }
+    #         for product, views in ranked[:limit]
+    #     ]
+
+    #     cache.set(MOST_VIEWED_CACHE_KEY, data, MOST_VIEWED_CACHE_TTL)
+    #     logger.info(f"Most-viewed products computed and cached ({len(data)} items)")
+    #     return data
 
     @staticmethod
     def get_trending_products(limit: int = 10, days: int = 7):

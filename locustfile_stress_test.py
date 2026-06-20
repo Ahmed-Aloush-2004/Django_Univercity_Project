@@ -115,68 +115,60 @@ def on_test_stop(environment, **kwargs):
     print("=" * 60 + "\n")
 
 
-# # ─── SCENARIO A — Product Reads (cached endpoints) ────────────────────────────
-# # Purpose : Prove caching works under 100 concurrent readers.
-# # Req 9   : 100 users, 0 crashes, 0 data loss.
-# # Req 10  : Compare cached vs uncached response times.
+# ─── SCENARIO A — Product Reads (cached endpoints) ────────────────────────────
+# Purpose : Prove caching works under 100 concurrent readers.
+# Req 9   : 100 users, 0 crashes, 0 data loss.
+# Req 10  : Compare cached vs uncached response times.
 
-# class ScenarioA_ProductReads(HttpUser):
-#     """
-#     100 concurrent product reads.
-#     Mix of cached (trending / most_viewed) and direct DB reads
-#     to generate the before/after benchmark for Requirement 10.
-#     """
-#     wait_time = between(0.5, 1.5)
+class ScenarioA_ProductReads(HttpUser):
+    """
+    100 concurrent product reads.
+    Mix of cached (trending / most_viewed) and direct DB reads
+    to generate the before/after benchmark for Requirement 10.
+    """
+    wait_time = between(0.5, 1.5)
 
-#     def on_start(self):
-#         self.client.headers.update(AUTH_HEADERS)
+    def on_start(self):
+        self.client.headers.update(AUTH_HEADERS)
 
-#     # ── Cached endpoints (should be fast after first hit) ──────────────────
-#     @task(3)
-#     def get_products_list_cached(self):
-#         """
-#         Main product list — expected to be Redis-cached.
-#         Tag: [cached] so the event hook tracks it for Req 10.
-#         """
-#         self.client.get(
-#             "/api/products/",
-#             name="GET /api/products/ [cached]"
-#         )
+    # ── Cached endpoints (should be fast after first hit) ──────────────────
+    @task(3)
+    def get_products_list_cached(self):
+        """
+        Main product list — expected to be Redis-cached.
+        Tag: [cached] so the event hook tracks it for Req 10.
+        """
+        self.client.get(
+            "/api/products/",
+            name="GET /api/products/ [cached]"
+        )
 
-#     @task(2)
-#     def get_trending_products(self):
-#         self.client.get(
-#             "/api/products/trending/",
-#             name="GET /api/products/trending/ [cached]"
-#         )
+    @task(2)
+    def get_trending_products(self):
+        self.client.get(
+            "/api/products/trending/",
+            name="GET /api/products/trending/ [cached]"
+        )
 
-#     @task(2)
-#     def get_most_viewed_products(self):
-#         self.client.get(
-#             "/api/products/most_viewed/",
-#             name="GET /api/products/most_viewed/ [cached]"
-#         )
+    @task(2)
+    def get_most_viewed_products(self):
+        self.client.get(
+            "/api/products/most_viewed/",
+            name="GET /api/products/most_viewed/ [cached]"
+        )
 
-#     # @task(1)
-#     # def get_sales_stats_dashboard(self):
-#     #     """Sales stats — cached, used for Req 10 dashboard benchmark."""
-#     #     self.client.get(
-#     #         "/api/products/sales_stats/",
-#     #         name="GET /api/products/sales_stats/ [cached]"
-#     #     )
-
-#     # ── Direct DB read — intentionally uncached for Req 10 comparison ──────
-#     @task(2)
-#     def get_product_by_id(self):
-#         """
-#         Single product by ID — bypasses list cache.
-#         Use p95 here as the 'before caching' baseline for Req 10.
-#         """
-#         pid = random.choice(PRODUCT_IDS)
-#         self.client.get(
-#             f"/api/products/{pid}/",
-#             name="GET /api/products/:id/ [DB direct]"
-#         )
+    # ── Direct DB read — intentionally uncached for Req 10 comparison ──────
+    @task(2)
+    def get_product_by_id(self):
+        """
+        Single product by ID — bypasses list cache.
+        Use p95 here as the 'before caching' baseline for Req 10.
+        """
+        pid = random.choice(PRODUCT_IDS)
+        self.client.get(
+            f"/api/products/{pid}/",
+            name="GET /api/products/:id/ [DB direct]"
+        )
 
 
 # # ─── SCENARIO B — Concurrent Order Creates (Atomic / select_for_update) ───────
@@ -337,29 +329,29 @@ def on_test_stop(environment, **kwargs):
 #     #     )
 
 
-# ─── SCENARIO E — Authentication Endpoints ────────────────────────────────────
-# Included for completeness; disable if token-based auth is sufficient.
+# # ─── SCENARIO E — Authentication Endpoints ────────────────────────────────────
+# # Included for completeness; disable if token-based auth is sufficient.
 
-class ScenarioE_AuthEndpoints(HttpUser):
-    """
-    Tests login/register under load.
-    Keep users low (10–20) — this hits the DB directly every time.
-    """
-    wait_time = between(1, 3)
+# class ScenarioE_AuthEndpoints(HttpUser):
+#     """
+#     Tests login/register under load.
+#     Keep users low (10–20) — this hits the DB directly every time.
+#     """
+#     wait_time = between(1, 3)
 
-    @task
-    def user_login(self):
-        payload = {
-            "email": "ahmedalloushgpt@gmail.com",
-            "password": "NewStrongPassword456"
-        }
-        with self.client.post(
-            "/api/users/login/",
-            json=payload,
-            name="POST /api/users/login/",
-            catch_response=True
-        ) as resp:
-            if resp.status_code in (200, 400, 401):
-                resp.success()
-            else:
-                resp.failure(f"Login failed: {resp.status_code}")
+#     @task
+#     def user_login(self):
+#         payload = {
+#             "email": "ahmedalloushgpt@gmail.com",
+#             "password": "NewStrongPassword456"
+#         }
+#         with self.client.post(
+#             "/api/users/login/",
+#             json=payload,
+#             name="POST /api/users/login/",
+#             catch_response=True
+#         ) as resp:
+#             if resp.status_code in (200, 400, 401):
+#                 resp.success()
+#             else:
+#                 resp.failure(f"Login failed: {resp.status_code}")
