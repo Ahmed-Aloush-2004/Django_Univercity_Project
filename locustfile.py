@@ -1,49 +1,49 @@
 from locust import HttpUser, task, between
 
 # User Defined Variables from JMeter
-TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgxNzc0NTY5LCJpYXQiOjE3ODE2ODgxNjksImp0aSI6ImI2NzU2YjZlOWMzMjQ3Zjg4Yzg3MTQ4MTgzZTlhZmQ3IiwidXNlcl9pZCI6IjEifQ.R2HNfpXWy0jg2nvSepXyifLinfIJ6Z4nSqp1h05Dfyw"
+TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgxOTkyNDQ3LCJpYXQiOjE3ODE5MDYwNDcsImp0aSI6ImIzOGRiZjRmMTRiYjQyODVhNTI5YmEyMTFjYTkzODUzIiwidXNlcl9pZCI6IjIifQ.zkFfL2gPGoiYKfXN6ZcFAHTonuzh0AJO3y4-feCVsuY"
 
-class ScenarioA_ProductReads(HttpUser):
-    """Scenario A — 100 concurrent product reads"""
-    wait_time = between(1, 2) # Ramp-up buffer
+# class ScenarioA_ProductReads(HttpUser):
+#     """Scenario A — 100 concurrent product reads"""
+#     wait_time = between(1, 2) # Ramp-up buffer
     
+#     def on_start(self):
+#         # Set default headers for all requests in this scenario
+#         self.client.headers.update({
+#             "Authorization": f"Bearer {TOKEN}"
+#         })
+
+    # @task
+    # def get_products(self):
+    #     self.client.get("/api/products/", name="GET /api/products/ (cached)")
+
+    # @task
+    # def get_product_by_id(self):
+    #     self.client.get("/api/products/2/", name="GET /api/products/id")
+
+    # @task
+    # def get_trending_products(self):
+    #     self.client.get("/api/products/trending/", name="GET /api/products/trending")
+
+    # @task
+    # def get_most_viewed_products(self):
+    #     self.client.get("/api/products/most_viewed/", name="GET /api/products/most_viewed")
+
+
+class ScenarioB_OrderCreatesAtomic(HttpUser):
+    """Scenario B — 100 concurrent order creates (Atomic strategy) - Disabled in JMX"""
+    wait_time = between(1, 2)
+
     def on_start(self):
-        # Set default headers for all requests in this scenario
         self.client.headers.update({
-            "Authorization": f"Bearer {TOKEN}"
+            "Authorization": f"Bearer {TOKEN}",
+            "Content-Type": "application/json"
         })
 
     @task
-    def get_products(self):
-        self.client.get("/api/products/", name="GET /api/products/ (cached)")
-
-    @task
-    def get_product_by_id(self):
-        self.client.get("/api/products/2/", name="GET /api/products/id")
-
-    @task
-    def get_trending_products(self):
-        self.client.get("/api/products/trending/", name="GET /api/products/trending")
-
-    @task
-    def get_most_viewed_products(self):
-        self.client.get("/api/products/most_viewed/", name="GET /api/products/most_viewed")
-
-
-# class ScenarioB_OrderCreatesAtomic(HttpUser):
-#     """Scenario B — 100 concurrent order creates (Atomic strategy) - Disabled in JMX"""
-#     wait_time = between(1, 2)
-
-#     def on_start(self):
-#         self.client.headers.update({
-#             "Authorization": f"Bearer {TOKEN}",
-#             "Content-Type": "application/json"
-#         })
-
-#     @task
-#     def create_order_atomic(self):
-#         payload = {"products": [{"id": 2, "quantity": 1}], "order_price": 200.00}
-#         self.client.post("/api/orders/?strategy=atomic", json=payload, name="POST /api/orders/?strategy=atomic")
+    def create_order_atomic(self):
+        payload = {"products": [{"id": 3159, "quantity": 1}], "order_price": 2.00}
+        self.client.post("/api/orders/", json=payload, name="POST /api/orders/?strategy=atomic")
 
 
 # class ScenarioC_OrderCreatesPessimistic(HttpUser):

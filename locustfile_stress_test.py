@@ -255,86 +255,86 @@ def on_test_stop(environment, **kwargs):
 #                 )
 
 
-# # ─── SCENARIO D — Mixed Full Load (Req 9 primary scenario) ───────────────────
-# # Purpose : Simulate realistic 100-user traffic mix.
-# # Req 9   : The main proof — system stable under 100 concurrent users,
-# #           mix of reads AND writes, no crash, no data loss.
+# ─── SCENARIO D — Mixed Full Load (Req 9 primary scenario) ───────────────────
+# Purpose : Simulate realistic 100-user traffic mix.
+# Req 9   : The main proof — system stable under 100 concurrent users,
+#           mix of reads AND writes, no crash, no data loss.
 
-# class ScenarioD_MixedFullLoad(HttpUser):
-#     """
-#     Realistic mixed workload — 70% reads, 30% writes.
-#     This is the scenario to present for Requirement 9 as it mirrors
-#     real e-commerce traffic patterns.
+class ScenarioD_MixedFullLoad(HttpUser):
+    """
+    Realistic mixed workload — 70% reads, 30% writes.
+    This is the scenario to present for Requirement 9 as it mirrors
+    real e-commerce traffic patterns.
 
-#     Run with --users 100 --spawn-rate 10 --run-time 120s
-#     Pass criteria: error rate < 1%, no HTTP 500s, no connection refused.
-#     """
-#     wait_time = between(0.5, 2)
+    Run with --users 100 --spawn-rate 10 --run-time 120s
+    Pass criteria: error rate < 1%, no HTTP 500s, no connection refused.
+    """
+    wait_time = between(0.5, 2)
 
-#     def on_start(self):
-#         self.client.headers.update(AUTH_HEADERS)
+    def on_start(self):
+        self.client.headers.update(AUTH_HEADERS)
 
-#     # ── Reads (weight 7 out of 10 tasks) ───────────────────────────────────
-#     @task(3)
-#     def read_product_list(self):
-#         self.client.get(
-#             "/api/products/",
-#             name="GET /api/products/ [cached]"
-#         )
+    # ── Reads (weight 7 out of 10 tasks) ───────────────────────────────────
+    @task(3)
+    def read_product_list(self):
+        self.client.get(
+            "/api/products/",
+            name="GET /api/products/ [cached]"
+        )
 
-#     @task(2)
-#     def read_trending(self):
-#         self.client.get(
-#             "/api/products/trending/",
-#             name="GET /api/products/trending/ [cached]"
-#         )
+    @task(2)
+    def read_trending(self):
+        self.client.get(
+            "/api/products/trending/",
+            name="GET /api/products/trending/ [cached]"
+        )
 
-#     @task(1)
-#     def read_most_viewed(self):
-#         self.client.get(
-#             "/api/products/most_viewed/",
-#             name="GET /api/products/most_viewed/ [cached]"
-#         )
+    @task(1)
+    def read_most_viewed(self):
+        self.client.get(
+            "/api/products/most_viewed/",
+            name="GET /api/products/most_viewed/ [cached]"
+        )
 
-#     @task(1)
-#     def read_product_detail(self):
-#         pid = random.choice(PRODUCT_IDS)
-#         self.client.get(
-#             f"/api/products/{pid}/",
-#             name="GET /api/products/:id/ [DB direct]"
-#         )
+    @task(1)
+    def read_product_detail(self):
+        pid = random.choice(PRODUCT_IDS)
+        self.client.get(
+            f"/api/products/{pid}/",
+            name="GET /api/products/:id/ [DB direct]"
+        )
 
-#     # ── Writes (weight 3 out of 10 tasks) ──────────────────────────────────
-#     @task(2)
-#     def create_order_mixed(self):
-#         """
-#         Alternates randomly between atomic and pessimistic to stress
-#         both locking strategies simultaneously.
-#         """
-#         strategy = random.choice(["atomic", "pessimistic"])
-#         payload = {
-#             "products": [{"id": random.choice(PRODUCT_IDS), "quantity": 1}],
-#             "order_price": round(random.uniform(50, 500), 2)
-#         }
-#         with self.client.post(
-#             f"/api/orders/?strategy={strategy}",
-#             json=payload,
-#             name=f"POST /api/orders/ [{strategy}]",
-#             catch_response=True
-#         ) as resp:
-#             if resp.status_code in (200, 201, 409, 400):
-#                 resp.success()
-#             else:
-#                 resp.failure(
-#                     f"Unexpected {resp.status_code}: {resp.text[:200]}"
-#                 )
+    # ── Writes (weight 3 out of 10 tasks) ──────────────────────────────────
+    @task(2)
+    def create_order_mixed(self):
+        """
+        Alternates randomly between atomic and pessimistic to stress
+        both locking strategies simultaneously.
+        """
+        strategy = random.choice(["atomic", "pessimistic"])
+        payload = {
+            "products": [{"id": random.choice(PRODUCT_IDS), "quantity": 1}],
+            "order_price": round(random.uniform(50, 500), 2)
+        }
+        with self.client.post(
+            f"/api/orders/?strategy={strategy}",
+            json=payload,
+            name=f"POST /api/orders/ [{strategy}]",
+            catch_response=True
+        ) as resp:
+            if resp.status_code in (200, 201, 409, 400):
+                resp.success()
+            else:
+                resp.failure(
+                    f"Unexpected {resp.status_code}: {resp.text[:200]}"
+                )
 
-#     # @task(1)
-#     # def read_sales_stats(self):
-#     #     self.client.get(
-#     #         "/api/products/sales_stats/",
-#     #         name="GET /api/products/sales_stats/ [cached]"
-#     #     )
+    # @task(1)
+    # def read_sales_stats(self):
+    #     self.client.get(
+    #         "/api/products/sales_stats/",
+    #         name="GET /api/products/sales_stats/ [cached]"
+    #     )
 
 
 # ─── SCENARIO E — Authentication Endpoints ────────────────────────────────────

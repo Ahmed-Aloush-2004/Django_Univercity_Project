@@ -64,7 +64,6 @@ class OrderViewSet(viewsets.ModelViewSet):
                 {"error": "The requested strategy is not supported. Choose from: 'atomic', 'optimistic', or 'pessimistic'."}, 
                 status=status.HTTP_400_BAD_REQUEST
             )
-            
         try:
             order = OrderService.create_order_with_stock(
                 customer_name=customer_name,

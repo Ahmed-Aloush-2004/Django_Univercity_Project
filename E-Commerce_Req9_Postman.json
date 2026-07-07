@@ -1,0 +1,185 @@
+{
+  "info": {
+    "name": "E-Commerce Stress Test — Req 9",
+    "description": "Converted from JMeter Test Plan.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": "127.0.0.1",
+      "type": "string"
+    },
+    {
+      "key": "PORT",
+      "value": "30",
+      "type": "string"
+    },
+    {
+      "key": "TOKEN",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Scenario A — 100 concurrent product reads",
+      "item": [
+        {
+          "name": "GET /api/products/",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{TOKEN}}" }
+            ],
+            "url": "http://{{BASE_URL}}:{{PORT}}/api/products/"
+          }
+        },
+        {
+          "name": "GET /api/products/id",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{TOKEN}}" }
+            ],
+            "url": "http://{{BASE_URL}}:{{PORT}}/api/products/2/"
+          }
+        },
+        {
+          "name": "GET /api/products/trending",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{TOKEN}}" }
+            ],
+            "url": "http://{{BASE_URL}}:{{PORT}}/api/products/trending/"
+          }
+        },
+        {
+          "name": "GET /api/products/most_viewed",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{TOKEN}}" }
+            ],
+            "url": "http://{{BASE_URL}}:{{PORT}}/api/products/most_viewed/"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Scenario B & C — Order creates",
+      "item": [
+        {
+          "name": "POST /api/orders/?strategy=atomic",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{TOKEN}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"products\": [{\"id\": 2, \"quantity\": 1}], \"order_price\": 200.00}"
+            },
+            "url": "http://{{BASE_URL}}:{{PORT}}/api/orders/?strategy=atomic"
+          }
+        },
+        {
+          "name": "POST /api/orders/?strategy=pessimistic",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{TOKEN}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"products\": [{\"id\": 2, \"quantity\": 1}], \"order_price\": 200.00}"
+            },
+            "url": "http://{{BASE_URL}}:{{PORT}}/api/orders/?strategy=pessimistic"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users Group",
+      "item": [
+        {
+          "name": "Admin Login (Port 8000)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\"email\": \"nouran@gmail.com\",\n    \"password\": \"12345\"\n}"
+            },
+            "url": "http://{{BASE_URL}}:8000/api/users/login/"
+          }
+        },
+        {
+          "name": "Sign Up (Port 8000)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\"email\": \"ahmedalloushgpt@gmail.com\",\n    \"password\": \"passPassword456\",\n    \"username\":\"ahmedalloush2004\"\n}"
+            },
+            "url": "http://{{BASE_URL}}:8000/api/users/register/"
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\"email\": \"ahmedalloushgpt@gmail.com\",\n    \"password\": \"NewStrongPassword456\"\n}"
+            },
+            "url": "http://{{BASE_URL}}:{{PORT}}/api/users/login/"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Generate Reports",
+      "item": [
+        {
+          "name": "Generate Daily Report",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{TOKEN}}" }
+            ],
+            "url": "http://{{BASE_URL}}:{{PORT}}/api/reports/daily/"
+          }
+        },
+        {
+          "name": "Generate Weekly Report",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{TOKEN}}" }
+            ],
+            "url": "http://{{BASE_URL}}:{{PORT}}/api/reports/weekly/"
+          }
+        }
+      ]
+    }
+  ]
+}
